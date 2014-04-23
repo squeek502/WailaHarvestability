@@ -1,5 +1,6 @@
 package squeek.wailaharvestlevels;
 
+import squeek.wailaharvestlevels.helpers.ToolHelper;
 import squeek.wailaharvestlevels.proxy.ProxyIguanaTweaks;
 import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.Mod;
@@ -34,5 +35,7 @@ public class ModWailaHarvestLevels
 			hasIguanaTweaks = true;
 			ProxyIguanaTweaks.init();
 		}
+		
+		ToolHelper.init();
 	}
 }

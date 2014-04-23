@@ -1,0 +1,14 @@
+# tools
+harvestlevels.toolclass.pickaxe=Pickaxe
+harvestlevels.toolclass.shovel=Shovel
+harvestlevels.toolclass.axe=Axe
+
+# options
+option.harvestlevels.harvestlevel=Harvest level
+option.harvestlevels.effectivetool=Effective tool
+option.harvestlevels.currentlyharvestable=Currently harvestable
+option.harvestlevels.oresonly=Only ores
+option.harvestlevels.sneakingonly=Only while sneaking
+option.harvestlevels.minimal=Minimal layout
+option.harvestlevels.unharvestableonly=Unharvestable only
+option.harvestlevels.toolrequiredonly=Tool required only

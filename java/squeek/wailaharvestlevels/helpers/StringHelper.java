@@ -1,6 +1,7 @@
 package squeek.wailaharvestlevels.helpers;
 
 import java.util.HashMap;
+import java.util.List;
 import squeek.wailaharvestlevels.ModWailaHarvestLevels;
 import squeek.wailaharvestlevels.proxy.ProxyIguanaTweaks;
 import net.minecraft.util.StatCollector;
@@ -53,5 +54,15 @@ public class StringHelper
 				localized = unlocalized;
 		}
 		return localized;
+	}
+
+	public static String concatenateStringList(List<String> strings, String separator) {
+		StringBuilder sb = new StringBuilder();
+		String sep = "";
+		for(String s: strings) {
+			sb.append(sep).append(s);
+			sep = separator;
+		}
+		return sb.toString();
 	}
 }
