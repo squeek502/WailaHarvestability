@@ -8,6 +8,7 @@ import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLInterModComms;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
+import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -19,6 +20,13 @@ public class ModWailaHarvestLevels
 	
 	public static boolean hasIguanaTweaks;
 
+	@SideOnly(Side.CLIENT)
+	@EventHandler
+	public void preInit(FMLPreInitializationEvent event)
+	{
+		Config.init(event.getSuggestedConfigurationFile());
+	}
+	
 	@SideOnly(Side.CLIENT)
 	@EventHandler
 	public void init(FMLInitializationEvent event)

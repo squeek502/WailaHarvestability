@@ -1,7 +1,9 @@
 package squeek.wailaharvestlevels;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import squeek.wailaharvestlevels.helpers.BlockHelper;
 import squeek.wailaharvestlevels.helpers.ColorHelper;
 import squeek.wailaharvestlevels.helpers.StringHelper;
@@ -10,10 +12,12 @@ import mcp.mobius.waila.api.IWailaConfigHandler;
 import mcp.mobius.waila.api.IWailaDataAccessor;
 import mcp.mobius.waila.api.IWailaDataProvider;
 import mcp.mobius.waila.api.IWailaRegistrar;
+import mcp.mobius.waila.api.impl.ConfigHandler;
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.StatCollector;
+import net.minecraftforge.common.ForgeHooks;
 import net.minecraftforge.oredict.OreDictionary;
 
 public class WailaHandler implements IWailaDataProvider
@@ -33,15 +37,13 @@ public class WailaHandler implements IWailaDataProvider
 	@Override
 	public List<String> getWailaBody(ItemStack itemStack, List<String> toolTip, IWailaDataAccessor accessor, IWailaConfigHandler config)
 	{
-		if (config.getConfig("harvestlevels.sneakingonly", false) && !accessor.getPlayer().isSneaking())
-			return toolTip;
-		
 		if (config.getConfig("harvestlevels.toolrequiredonly") && accessor.getBlock().blockMaterial.isToolNotRequired())
 			return toolTip;
 		
-		boolean showHarvestLevel = config.getConfig("harvestlevels.harvestlevel");
-		boolean showEffectiveTool = config.getConfig("harvestlevels.effectivetool");
-		boolean showCurrentlyHarvestable = config.getConfig("harvestlevels.currentlyharvestable");
+		boolean isSneaking = accessor.getPlayer().isSneaking();		
+		boolean showHarvestLevel = config.getConfig("harvestlevels.harvestlevel") && (!config.getConfig("harvestlevels.harvestlevel.sneakingonly") || isSneaking);
+		boolean showEffectiveTool = config.getConfig("harvestlevels.effectivetool") && (!config.getConfig("harvestlevels.effectivetool.sneakingonly") || isSneaking);
+		boolean showCurrentlyHarvestable = config.getConfig("harvestlevels.currentlyharvestable") && (!config.getConfig("harvestlevels.currentlyharvestable.sneakingonly") || isSneaking);
 		boolean showOresOnly = config.getConfig("harvestlevels.oresonly", false);
 		boolean minimalLayout = config.getConfig("harvestlevels.minimal", false);
 		boolean hideWhileHarvestable = config.getConfig("harvestlevels.unharvestableonly", false);
@@ -78,16 +80,18 @@ public class WailaHandler implements IWailaDataProvider
 			boolean canHarvest = false;
 			boolean isEffective = false;
 			boolean isAboveMinHarvestLevel = false;
+			boolean isHoldingTinkersTool = false;
 			
 			ItemStack itemHeld = accessor.getPlayer().getHeldItem();
 			if (itemHeld != null)
 			{
+				isHoldingTinkersTool = ToolHelper.hasToolTag(itemHeld);
 				canHarvest = ToolHelper.canToolHarvestBlock(itemHeld, accessor.getBlock(), accessor.getMetadata());
 				isAboveMinHarvestLevel = (showCurrentlyHarvestable || showHarvestLevel) && ToolHelper.canToolHarvestLevel(itemHeld, accessor.getBlock(), accessor.getMetadata(), harvestLevel);
 				isEffective = showEffectiveTool && ToolHelper.isToolEffectiveAgainst(itemHeld, accessor.getBlock(), accessor.getMetadata(), effectiveTool);
 			}
 			
-			boolean isCurrentlyHarvestable = canHarvest && isAboveMinHarvestLevel;
+			boolean isCurrentlyHarvestable = (canHarvest && isAboveMinHarvestLevel) || (!isHoldingTinkersTool && ForgeHooks.canHarvestBlock(accessor.getBlock(), accessor.getPlayer(), accessor.getMetadata()));
 			
 			if (hideWhileHarvestable && isCurrentlyHarvestable)
 				return toolTip;
@@ -114,7 +118,7 @@ public class WailaHandler implements IWailaDataProvider
 	        	
 	        	if (!stringParts.isEmpty())
 	        	{
-	        		toolTip.add(StringHelper.concatenateStringList(stringParts, EnumChatFormatting.RESET + " : "));
+	        		toolTip.add(StringHelper.concatenateStringList(stringParts, EnumChatFormatting.RESET + Config.MINIMAL_SEPARATOR_STRING));
 	        	}
 			}
 		}
@@ -128,17 +132,32 @@ public class WailaHandler implements IWailaDataProvider
 		return toolTip;
 	}
 
+	public static HashMap<String, Boolean> configOptions = new HashMap<String, Boolean>();
+	static
+	{
+		configOptions.put("harvestlevels.harvestlevel", true);
+		configOptions.put("harvestlevels.harvestlevel.sneakingonly", false);
+		configOptions.put("harvestlevels.effectivetool", true);
+		configOptions.put("harvestlevels.effectivetool.sneakingonly", false);
+		configOptions.put("harvestlevels.currentlyharvestable", true);
+		configOptions.put("harvestlevels.currentlyharvestable.sneakingonly", false);
+		configOptions.put("harvestlevels.oresonly", false);
+		configOptions.put("harvestlevels.minimal", false);
+		configOptions.put("harvestlevels.unharvestableonly", false);
+		configOptions.put("harvestlevels.toolrequiredonly", true);
+	}
+
 	public static void callbackRegister(IWailaRegistrar registrar)
 	{
 		WailaHandler instance = new WailaHandler();
-		registrar.addConfig("HarvestLevels", "harvestlevels.harvestlevel", "option.harvestlevels.harvestlevel");
-		registrar.addConfig("HarvestLevels", "harvestlevels.effectivetool", "option.harvestlevels.effectivetool");
-		registrar.addConfig("HarvestLevels", "harvestlevels.currentlyharvestable", "option.harvestlevels.currentlyharvestable");
-		registrar.addConfig("HarvestLevels", "harvestlevels.oresonly", "option.harvestlevels.oresonly");
-		registrar.addConfig("HarvestLevels", "harvestlevels.sneakingonly", "option.harvestlevels.sneakingonly");
-		registrar.addConfig("HarvestLevels", "harvestlevels.minimal", "option.harvestlevels.minimal");
-		registrar.addConfig("HarvestLevels", "harvestlevels.unharvestableonly", "option.harvestlevels.unharvestableonly");
-		registrar.addConfig("HarvestLevels", "harvestlevels.toolrequiredonly", "option.harvestlevels.toolrequiredonly");
+		
+		for (Map.Entry<String, Boolean> entry : configOptions.entrySet())
+		{
+			// hacky way to set default values to anything but true
+			ConfigHandler.instance().getConfig(entry.getKey(), entry.getValue());
+			registrar.addConfig("HarvestLevels", entry.getKey(), "option."+entry.getKey());
+		}
+		
 		registrar.registerBodyProvider(instance, Block.class);
 	}
 }
