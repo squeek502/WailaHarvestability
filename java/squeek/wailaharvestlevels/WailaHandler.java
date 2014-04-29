@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 import squeek.wailaharvestlevels.helpers.BlockHelper;
 import squeek.wailaharvestlevels.helpers.ColorHelper;
+import squeek.wailaharvestlevels.helpers.OreHelper;
 import squeek.wailaharvestlevels.helpers.StringHelper;
 import squeek.wailaharvestlevels.helpers.ToolHelper;
 import mcp.mobius.waila.api.IWailaConfigHandler;
@@ -18,7 +19,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.StatCollector;
 import net.minecraftforge.common.ForgeHooks;
-import net.minecraftforge.oredict.OreDictionary;
 
 public class WailaHandler implements IWailaDataProvider
 {
@@ -50,8 +50,7 @@ public class WailaHandler implements IWailaDataProvider
 		
 		if (showHarvestLevel || showEffectiveTool || showCurrentlyHarvestable)
 		{
-			int oreID = -1;
-			if (showOresOnly && ((oreID = OreDictionary.getOreID(itemStack)) == -1 || !OreDictionary.getOreName(oreID).startsWith("ore")))
+			if (showOresOnly && !OreHelper.isItemAnOre(itemStack))
 			{
 				return toolTip;
 			}

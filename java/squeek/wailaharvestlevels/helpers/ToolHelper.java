@@ -1,7 +1,9 @@
 package squeek.wailaharvestlevels.helpers;
 
+import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import cpw.mods.fml.common.Loader;
 import net.minecraft.block.Block;
@@ -12,14 +14,30 @@ import net.minecraftforge.common.ForgeHooks;
 
 public class ToolHelper
 {
+	// tinkers construct
 	private static Class<?> HarvestTool = null;
 	private static Class<?> DualHarvestTool = null;
 	private static Method getHarvestType = null;
 	private static Method getSecondHarvestType = null;
 	public static boolean tinkersConstructLoaded = false;
 	
+	// forge
+    static HashMap<Item, List<Object>> toolClasses = null;
+	
+	@SuppressWarnings({"unchecked"})
 	public static void init()
 	{
+		try
+		{
+			Field toolClassesField = ForgeHooks.class.getDeclaredField("toolClasses");
+			toolClassesField.setAccessible(true);
+			toolClasses = (HashMap<Item, List<Object>>)(toolClassesField.get(null));
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+		
 		if (Loader.isModLoaded("TConstruct"))
 		{
 			try
@@ -66,6 +84,17 @@ public class ToolHelper
 		return toolTag.getInteger("HarvestLevel2");
 	}
 	
+	public static String getToolClassOf(Item tool)
+	{
+        List<Object> toolClass = toolClasses.get(tool);
+        return toolClass != null ? (String) toolClass.get(0) : null;
+	}
+	
+	public static String getToolClassOf(ItemStack tool)
+	{
+        return getToolClassOf(tool.getItem());
+	}
+	
 	public static boolean isToolEffectiveAgainst(ItemStack tool, Block block, int metadata, String effectiveToolClass)
 	{
 		if (tinkersConstructLoaded && HarvestTool.isInstance(tool.getItem()))
@@ -97,7 +126,7 @@ public class ToolHelper
 			
 			return harvestTypes.contains(effectiveToolClass);
 		}
-		return ForgeHooks.isToolEffective(tool, block, metadata);
+		return ForgeHooks.isToolEffective(tool, block, metadata) || effectiveToolClass == getToolClassOf(tool);
 	}
 
 	public static boolean canToolHarvestLevel(ItemStack tool, Block block, int metadata, int harvestLevel)
@@ -116,7 +145,7 @@ public class ToolHelper
 	
 	public static boolean canToolHarvestBlock(ItemStack tool, Block block, int metadata)
 	{
-		return tool.canHarvestBlock(block);
+		return tool.canHarvestBlock(block) || ForgeHooks.canToolHarvestBlock(block, metadata, tool);
 	}
 
 }
