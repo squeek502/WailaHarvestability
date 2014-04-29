@@ -99,7 +99,7 @@ public class WailaHandler implements IWailaDataProvider
 			if (!minimalLayout)
 			{
 				if (showCurrentlyHarvestable)
-					toolTip.add(ColorHelper.getBooleanColor(isCurrentlyHarvestable) + (isCurrentlyHarvestable ? "\u2714" : "\u2718") + EnumChatFormatting.RESET + " Currently Harvestable");
+					toolTip.add(ColorHelper.getBooleanColor(isCurrentlyHarvestable) + (isCurrentlyHarvestable ? Config.CURRENTLY_HARVESTABLE_STRING : Config.NOT_CURRENTLY_HARVESTABLE_STRING) + EnumChatFormatting.RESET + " Currently Harvestable");
 	        	if (harvestLevel != -1 && showEffectiveTool)
 	        		toolTip.add("Effective Tool : " + ColorHelper.getBooleanColor(isEffective && canHarvest, isEffective && !canHarvest) + StatCollector.translateToLocal("harvestlevels.toolclass." + effectiveTool));
 	        	if (harvestLevel >= 1 && showHarvestLevel)
@@ -110,7 +110,7 @@ public class WailaHandler implements IWailaDataProvider
 				List<String> stringParts = new ArrayList<String>();
 				
 				if (showCurrentlyHarvestable)
-					stringParts.add(ColorHelper.getBooleanColor(isCurrentlyHarvestable) + (isCurrentlyHarvestable ? "\u2714" : "\u2718"));
+					stringParts.add(ColorHelper.getBooleanColor(isCurrentlyHarvestable) + (isCurrentlyHarvestable ? Config.CURRENTLY_HARVESTABLE_STRING : Config.NOT_CURRENTLY_HARVESTABLE_STRING));
 	        	if (harvestLevel != -1 && showEffectiveTool)
 	        		stringParts.add(ColorHelper.getBooleanColor(isEffective && canHarvest, isEffective && !canHarvest) + StatCollector.translateToLocal("harvestlevels.toolclass." + effectiveTool));
 	        	if (harvestLevel >= 1 && showHarvestLevel)
