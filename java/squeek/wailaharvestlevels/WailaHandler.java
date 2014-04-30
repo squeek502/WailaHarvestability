@@ -85,7 +85,7 @@ public class WailaHandler implements IWailaDataProvider
 			if (itemHeld != null)
 			{
 				isHoldingTinkersTool = ToolHelper.hasToolTag(itemHeld);
-				canHarvest = ToolHelper.canToolHarvestBlock(itemHeld, accessor.getBlock(), accessor.getMetadata());
+				canHarvest = ToolHelper.canToolHarvestBlock(itemHeld, accessor.getBlock(), accessor.getMetadata()) || (!isHoldingTinkersTool && accessor.getBlock().canHarvestBlock(accessor.getPlayer(), accessor.getMetadata()));
 				isAboveMinHarvestLevel = (showCurrentlyHarvestable || showHarvestLevel) && ToolHelper.canToolHarvestLevel(itemHeld, accessor.getBlock(), accessor.getMetadata(), harvestLevel);
 				isEffective = showEffectiveTool && ToolHelper.isToolEffectiveAgainst(itemHeld, accessor.getBlock(), accessor.getMetadata(), effectiveTool);
 			}
@@ -95,31 +95,22 @@ public class WailaHandler implements IWailaDataProvider
 			if (hideWhileHarvestable && isCurrentlyHarvestable)
 				return toolTip;
 	        
-			if (!minimalLayout)
-			{
-				if (showCurrentlyHarvestable)
-					toolTip.add(ColorHelper.getBooleanColor(isCurrentlyHarvestable) + (isCurrentlyHarvestable ? Config.CURRENTLY_HARVESTABLE_STRING : Config.NOT_CURRENTLY_HARVESTABLE_STRING) + EnumChatFormatting.RESET + " Currently Harvestable");
-	        	if (harvestLevel != -1 && showEffectiveTool)
-	        		toolTip.add("Effective Tool : " + ColorHelper.getBooleanColor(isEffective && canHarvest, isEffective && !canHarvest) + StatCollector.translateToLocal("harvestlevels.toolclass." + effectiveTool));
-	        	if (harvestLevel >= 1 && showHarvestLevel)
-	        		toolTip.add("Harvest Level : " + ColorHelper.getBooleanColor(isAboveMinHarvestLevel && canHarvest) + StringHelper.getHarvestLevelName(harvestLevel));
-			}
-			else
-			{
-				List<String> stringParts = new ArrayList<String>();
-				
-				if (showCurrentlyHarvestable)
-					stringParts.add(ColorHelper.getBooleanColor(isCurrentlyHarvestable) + (isCurrentlyHarvestable ? Config.CURRENTLY_HARVESTABLE_STRING : Config.NOT_CURRENTLY_HARVESTABLE_STRING));
-	        	if (harvestLevel != -1 && showEffectiveTool)
-	        		stringParts.add(ColorHelper.getBooleanColor(isEffective && canHarvest, isEffective && !canHarvest) + StatCollector.translateToLocal("harvestlevels.toolclass." + effectiveTool));
-	        	if (harvestLevel >= 1 && showHarvestLevel)
-	        		stringParts.add(ColorHelper.getBooleanColor(isAboveMinHarvestLevel && canHarvest) + StringHelper.getHarvestLevelName(harvestLevel));
-	        	
-	        	if (!stringParts.isEmpty())
-	        	{
-	        		toolTip.add(StringHelper.concatenateStringList(stringParts, EnumChatFormatting.RESET + Config.MINIMAL_SEPARATOR_STRING));
-	        	}
-			}
+			List<String> stringParts = new ArrayList<String>();
+			
+			if (showCurrentlyHarvestable)
+				stringParts.add(ColorHelper.getBooleanColor(isCurrentlyHarvestable) + (isCurrentlyHarvestable ? Config.CURRENTLY_HARVESTABLE_STRING : Config.NOT_CURRENTLY_HARVESTABLE_STRING) + (!minimalLayout ?  EnumChatFormatting.RESET + " Currently Harvestable" : ""));
+        	if (harvestLevel != -1 && showEffectiveTool)
+        		stringParts.add((!minimalLayout ? "Effective Tool : " : "") + ColorHelper.getBooleanColor(isEffective && (!isHoldingTinkersTool || canHarvest), isHoldingTinkersTool && isEffective && !canHarvest) + StatCollector.translateToLocal("harvestlevels.toolclass." + effectiveTool));
+        	if (harvestLevel >= 1 && showHarvestLevel)
+        		stringParts.add((!minimalLayout ? "Harvest Level : " : "") + ColorHelper.getBooleanColor(isAboveMinHarvestLevel && canHarvest) + StringHelper.getHarvestLevelName(harvestLevel));
+        	
+        	if (!stringParts.isEmpty())
+        	{
+        		if (minimalLayout)
+        			toolTip.add(StringHelper.concatenateStringList(stringParts, EnumChatFormatting.RESET + Config.MINIMAL_SEPARATOR_STRING));
+        		else
+        			toolTip.addAll(stringParts);
+        	}
 		}
         
 		return toolTip;
@@ -135,10 +126,10 @@ public class WailaHandler implements IWailaDataProvider
 	static
 	{
 		configOptions.put("harvestlevels.harvestlevel", true);
-		configOptions.put("harvestlevels.harvestlevel.sneakingonly", false);
 		configOptions.put("harvestlevels.effectivetool", true);
-		configOptions.put("harvestlevels.effectivetool.sneakingonly", false);
 		configOptions.put("harvestlevels.currentlyharvestable", true);
+		configOptions.put("harvestlevels.harvestlevel.sneakingonly", false);
+		configOptions.put("harvestlevels.effectivetool.sneakingonly", false);
 		configOptions.put("harvestlevels.currentlyharvestable.sneakingonly", false);
 		configOptions.put("harvestlevels.oresonly", false);
 		configOptions.put("harvestlevels.minimal", false);

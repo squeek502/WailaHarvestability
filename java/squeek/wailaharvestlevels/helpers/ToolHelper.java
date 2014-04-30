@@ -126,7 +126,8 @@ public class ToolHelper
 			
 			return harvestTypes.contains(effectiveToolClass);
 		}
-		return ForgeHooks.isToolEffective(tool, block, metadata) || effectiveToolClass == getToolClassOf(tool);
+		String toolClass = null;
+		return ForgeHooks.isToolEffective(tool, block, metadata) || ((toolClass = getToolClassOf(tool)) != null ? toolClass == effectiveToolClass : tool.getStrVsBlock(block) > 1.5f);
 	}
 
 	public static boolean canToolHarvestLevel(ItemStack tool, Block block, int metadata, int harvestLevel)
@@ -145,7 +146,7 @@ public class ToolHelper
 	
 	public static boolean canToolHarvestBlock(ItemStack tool, Block block, int metadata)
 	{
-		return tool.canHarvestBlock(block) || ForgeHooks.canToolHarvestBlock(block, metadata, tool);
+		return block.blockMaterial.isToolNotRequired() || tool.canHarvestBlock(block);
 	}
 
 }
