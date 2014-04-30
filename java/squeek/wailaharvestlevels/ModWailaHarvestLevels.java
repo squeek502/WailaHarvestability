@@ -12,12 +12,9 @@ import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-@Mod(modid = ModWailaHarvestLevels.MODID, version = ModWailaHarvestLevels.VERSION, dependencies = "after:TConstruct;after:ExtraTiC;after:TSteelworks;after:Mariculture")
+@Mod(modid = ModInfo.MODID, version = ModInfo.VERSION, dependencies = "after:TConstruct;after:ExtraTiC;after:TSteelworks;after:Mariculture")
 public class ModWailaHarvestLevels
 {
-	public static final String MODID = "WailaHarvestLevels";
-	public static final String VERSION = "${version}";
-	
 	public static boolean hasIguanaTweaks;
 
 	@SideOnly(Side.CLIENT)
