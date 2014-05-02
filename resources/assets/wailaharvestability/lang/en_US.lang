@@ -1,16 +1,16 @@
 # tools
-harvestlevels.toolclass.pickaxe=Pickaxe
-harvestlevels.toolclass.shovel=Shovel
-harvestlevels.toolclass.axe=Axe
+harvestability.toolclass.pickaxe=Pickaxe
+harvestability.toolclass.shovel=Shovel
+harvestability.toolclass.axe=Axe
 
 # options
-option.harvestlevels.harvestlevel=Harvest level
-option.harvestlevels.effectivetool=Effective tool
-option.harvestlevels.currentlyharvestable=Currently harvestable
-option.harvestlevels.oresonly=Ores only
-option.harvestlevels.harvestlevel.sneakingonly=Sneak only: Harvest level
-option.harvestlevels.effectivetool.sneakingonly=Sneak only: Effective tool
-option.harvestlevels.currentlyharvestable.sneakingonly=Sneak only: Harvestable
-option.harvestlevels.minimal=Minimal mode
-option.harvestlevels.unharvestableonly=Unharvestable only
-option.harvestlevels.toolrequiredonly=Tool required only
+option.harvestability.harvestlevel=Harvest level
+option.harvestability.effectivetool=Effective tool
+option.harvestability.currentlyharvestable=Currently harvestable
+option.harvestability.oresonly=Ores only
+option.harvestability.harvestlevel.sneakingonly=Sneak only: Harvest level
+option.harvestability.effectivetool.sneakingonly=Sneak only: Effective tool
+option.harvestability.currentlyharvestable.sneakingonly=Sneak only: Harvestable
+option.harvestability.minimal=Minimal mode
+option.harvestability.unharvestableonly=Unharvestable only
+option.harvestability.toolrequiredonly=Tool required only
