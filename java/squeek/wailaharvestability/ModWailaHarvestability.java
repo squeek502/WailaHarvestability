@@ -23,7 +23,7 @@ public class ModWailaHarvestability
 	{
 		Config.init(event.getSuggestedConfigurationFile());
 	}
-	
+
 	@SideOnly(Side.CLIENT)
 	@EventHandler
 	public void init(FMLInitializationEvent event)
@@ -40,7 +40,7 @@ public class ModWailaHarvestability
 			hasIguanaTweaks = true;
 			ProxyIguanaTweaks.init();
 		}
-		
+
 		ToolHelper.init();
 	}
 }

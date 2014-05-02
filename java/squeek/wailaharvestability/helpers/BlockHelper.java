@@ -13,10 +13,10 @@ public class BlockHelper
 		for (String toolClass : toolClasses)
 		{
 			harvestLevels[i] = MinecraftForge.getBlockHarvestLevel(block, metadata, toolClass);
-			
+
 			if (harvestLevels[i] != -1)
 				hasEffectiveTools = true;
-			
+
 			i++;
 		}
 		return hasEffectiveTools;

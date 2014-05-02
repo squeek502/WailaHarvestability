@@ -6,7 +6,7 @@ public class ProxyIguanaTweaks
 {
 	private static Class<?> IguanaTweaksTConstruct = null;
 	private static Method proxyGetHarvestLevelName;
-	
+
 	public static void init()
 	{
 		try
@@ -19,11 +19,11 @@ public class ProxyIguanaTweaks
 			e.printStackTrace();
 		}
 	}
-	
+
 	public static String getHarvestLevelName(int num)
 	{
 		String harvestLevelName = "<Unknown>";
-		
+
 		try
 		{
 			harvestLevelName = (String) proxyGetHarvestLevelName.invoke(IguanaTweaksTConstruct, num);
@@ -32,7 +32,7 @@ public class ProxyIguanaTweaks
 		{
 			e.printStackTrace();
 		}
-		
+
 		return harvestLevelName;
 	}
 }

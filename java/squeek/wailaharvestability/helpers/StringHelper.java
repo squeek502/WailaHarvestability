@@ -17,7 +17,7 @@ public class StringHelper
 	{
 		if (ModWailaHarvestability.hasIguanaTweaks)
 			return ProxyIguanaTweaks.getHarvestLevelName(num);
-		
+
 		String unlocalized = "gui.partcrafter.mining" + (num + 1);
 		String localized = StringHelper.getLocalizedString(unlocalized);
 		if (!unlocalized.equals(localized))
@@ -45,7 +45,7 @@ public class StringHelper
 	{
 		if (unlocalized.equals("gui.partcrafter.mining6"))
 			return localizationAlternatives.get(unlocalized);
-			
+
 		String localized = StatCollector.translateToLocal(unlocalized);
 		if (localized.equals(unlocalized))
 		{
@@ -61,13 +61,14 @@ public class StringHelper
 	{
 		StringBuilder sb = new StringBuilder();
 		String sep = "";
-		for(String s: strings) {
+		for (String s : strings)
+		{
 			sb.append(sep).append(s);
 			sep = separator;
 		}
 		return sb.toString();
 	}
-	
+
 	public static String stripFormatting(String str)
 	{
 		return EnumChatFormatting.func_110646_a(str);

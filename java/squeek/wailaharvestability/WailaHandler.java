@@ -39,29 +39,29 @@ public class WailaHandler implements IWailaDataProvider
 	{
 		if (config.getConfig("harvestability.toolrequiredonly") && accessor.getBlock().blockMaterial.isToolNotRequired())
 			return toolTip;
-		
-		boolean isSneaking = accessor.getPlayer().isSneaking();		
+
+		boolean isSneaking = accessor.getPlayer().isSneaking();
 		boolean showHarvestLevel = config.getConfig("harvestability.harvestlevel") && (!config.getConfig("harvestability.harvestlevel.sneakingonly") || isSneaking);
 		boolean showEffectiveTool = config.getConfig("harvestability.effectivetool") && (!config.getConfig("harvestability.effectivetool.sneakingonly") || isSneaking);
 		boolean showCurrentlyHarvestable = config.getConfig("harvestability.currentlyharvestable") && (!config.getConfig("harvestability.currentlyharvestable.sneakingonly") || isSneaking);
 		boolean showOresOnly = config.getConfig("harvestability.oresonly", false);
 		boolean minimalLayout = config.getConfig("harvestability.minimal", false);
 		boolean hideWhileHarvestable = config.getConfig("harvestability.unharvestableonly", false);
-		
+
 		if (showHarvestLevel || showEffectiveTool || showCurrentlyHarvestable)
 		{
 			if (showOresOnly && !OreHelper.isItemAnOre(itemStack))
 			{
 				return toolTip;
 			}
-			
-			String toolClasses[] = new String[] { "pickaxe", "shovel", "axe" };
+
+			String toolClasses[] = new String[]{"pickaxe", "shovel", "axe"};
 			int harvestLevels[] = new int[toolClasses.length];
 			boolean blockHasEffectiveTools = BlockHelper.getHarvestLevelsOf(accessor.getBlock(), accessor.getMetadata(), toolClasses, harvestLevels);
-			
+
 			if (!blockHasEffectiveTools)
 				return toolTip;
-			
+
 			int harvestLevel = -1;
 			String effectiveTool = "";
 			int i = 0;
@@ -75,12 +75,12 @@ public class WailaHandler implements IWailaDataProvider
 				}
 				i++;
 			}
-			
+
 			boolean canHarvest = false;
 			boolean isEffective = false;
 			boolean isAboveMinHarvestLevel = false;
 			boolean isHoldingTinkersTool = false;
-			
+
 			ItemStack itemHeld = accessor.getPlayer().getHeldItem();
 			if (itemHeld != null)
 			{
@@ -89,30 +89,30 @@ public class WailaHandler implements IWailaDataProvider
 				isAboveMinHarvestLevel = (showCurrentlyHarvestable || showHarvestLevel) && ToolHelper.canToolHarvestLevel(itemHeld, accessor.getBlock(), accessor.getMetadata(), harvestLevel);
 				isEffective = showEffectiveTool && ToolHelper.isToolEffectiveAgainst(itemHeld, accessor.getBlock(), accessor.getMetadata(), effectiveTool);
 			}
-			
+
 			boolean isCurrentlyHarvestable = (canHarvest && isAboveMinHarvestLevel) || (!isHoldingTinkersTool && ForgeHooks.canHarvestBlock(accessor.getBlock(), accessor.getPlayer(), accessor.getMetadata()));
-			
+
 			if (hideWhileHarvestable && isCurrentlyHarvestable)
 				return toolTip;
-	        
+
 			List<String> stringParts = new ArrayList<String>();
-			
+
 			if (showCurrentlyHarvestable)
-				stringParts.add(ColorHelper.getBooleanColor(isCurrentlyHarvestable) + (isCurrentlyHarvestable ? Config.CURRENTLY_HARVESTABLE_STRING : Config.NOT_CURRENTLY_HARVESTABLE_STRING) + (!minimalLayout ?  EnumChatFormatting.RESET + " Currently Harvestable" : ""));
-        	if (harvestLevel != -1 && showEffectiveTool)
-        		stringParts.add((!minimalLayout ? "Effective Tool : " : "") + ColorHelper.getBooleanColor(isEffective && (!isHoldingTinkersTool || canHarvest), isHoldingTinkersTool && isEffective && !canHarvest) + StatCollector.translateToLocal("harvestability.toolclass." + effectiveTool));
-        	if (harvestLevel >= 1 && showHarvestLevel)
-        		stringParts.add((!minimalLayout ? "Harvest Level : " : "") + ColorHelper.getBooleanColor(isAboveMinHarvestLevel && canHarvest) + StringHelper.stripFormatting(StringHelper.getHarvestLevelName(harvestLevel)));
-        	
-        	if (!stringParts.isEmpty())
-        	{
-        		if (minimalLayout)
-        			toolTip.add(StringHelper.concatenateStringList(stringParts, EnumChatFormatting.RESET + Config.MINIMAL_SEPARATOR_STRING));
-        		else
-        			toolTip.addAll(stringParts);
-        	}
+				stringParts.add(ColorHelper.getBooleanColor(isCurrentlyHarvestable) + (isCurrentlyHarvestable ? Config.CURRENTLY_HARVESTABLE_STRING : Config.NOT_CURRENTLY_HARVESTABLE_STRING) + (!minimalLayout ? EnumChatFormatting.RESET + " Currently Harvestable" : ""));
+			if (harvestLevel != -1 && showEffectiveTool)
+				stringParts.add((!minimalLayout ? "Effective Tool : " : "") + ColorHelper.getBooleanColor(isEffective && (!isHoldingTinkersTool || canHarvest), isHoldingTinkersTool && isEffective && !canHarvest) + StatCollector.translateToLocal("harvestability.toolclass." + effectiveTool));
+			if (harvestLevel >= 1 && showHarvestLevel)
+				stringParts.add((!minimalLayout ? "Harvest Level : " : "") + ColorHelper.getBooleanColor(isAboveMinHarvestLevel && canHarvest) + StringHelper.stripFormatting(StringHelper.getHarvestLevelName(harvestLevel)));
+
+			if (!stringParts.isEmpty())
+			{
+				if (minimalLayout)
+					toolTip.add(StringHelper.concatenateStringList(stringParts, EnumChatFormatting.RESET + Config.MINIMAL_SEPARATOR_STRING));
+				else
+					toolTip.addAll(stringParts);
+			}
 		}
-        
+
 		return toolTip;
 	}
 
@@ -140,14 +140,14 @@ public class WailaHandler implements IWailaDataProvider
 	public static void callbackRegister(IWailaRegistrar registrar)
 	{
 		WailaHandler instance = new WailaHandler();
-		
+
 		for (Map.Entry<String, Boolean> entry : configOptions.entrySet())
 		{
 			// hacky way to set default values to anything but true
 			ConfigHandler.instance().getConfig(entry.getKey(), entry.getValue());
-			registrar.addConfig("Harvestability", entry.getKey(), "option."+entry.getKey());
+			registrar.addConfig("Harvestability", entry.getKey(), "option." + entry.getKey());
 		}
-		
+
 		registrar.registerBodyProvider(instance, Block.class);
 	}
 }

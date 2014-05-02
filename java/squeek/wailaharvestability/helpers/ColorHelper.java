@@ -13,7 +13,7 @@ public class ColorHelper
 		EnumChatFormatting.GREEN,
 		EnumChatFormatting.AQUA
 	};
-	
+
 	private static final EnumChatFormatting booleanColorRange[] = {
 		EnumChatFormatting.DARK_RED,
 		EnumChatFormatting.RED,
@@ -38,7 +38,7 @@ public class ColorHelper
 	{
 		return getBooleanColor(val, false);
 	}
-	
+
 	public static String getBooleanColor(boolean val, boolean modified)
 	{
 		return booleanColorRange[(val ? 2 : 0) + (modified ? 1 : 0)].toString();
