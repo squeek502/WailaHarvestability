@@ -102,7 +102,7 @@ public class WailaHandler implements IWailaDataProvider
         	if (harvestLevel != -1 && showEffectiveTool)
         		stringParts.add((!minimalLayout ? "Effective Tool : " : "") + ColorHelper.getBooleanColor(isEffective && (!isHoldingTinkersTool || canHarvest), isHoldingTinkersTool && isEffective && !canHarvest) + StatCollector.translateToLocal("harvestability.toolclass." + effectiveTool));
         	if (harvestLevel >= 1 && showHarvestLevel)
-        		stringParts.add((!minimalLayout ? "Harvest Level : " : "") + ColorHelper.getBooleanColor(isAboveMinHarvestLevel && canHarvest) + StringHelper.getHarvestLevelName(harvestLevel));
+        		stringParts.add((!minimalLayout ? "Harvest Level : " : "") + ColorHelper.getBooleanColor(isAboveMinHarvestLevel && canHarvest) + StringHelper.stripFormatting(StringHelper.getHarvestLevelName(harvestLevel)));
         	
         	if (!stringParts.isEmpty())
         	{

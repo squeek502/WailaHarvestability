@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import squeek.wailaharvestability.ModWailaHarvestability;
 import squeek.wailaharvestability.proxy.ProxyIguanaTweaks;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.StatCollector;
 
 public class StringHelper
@@ -56,7 +57,8 @@ public class StringHelper
 		return localized;
 	}
 
-	public static String concatenateStringList(List<String> strings, String separator) {
+	public static String concatenateStringList(List<String> strings, String separator)
+	{
 		StringBuilder sb = new StringBuilder();
 		String sep = "";
 		for(String s: strings) {
@@ -64,5 +66,10 @@ public class StringHelper
 			sep = separator;
 		}
 		return sb.toString();
+	}
+	
+	public static String stripFormatting(String str)
+	{
+		return EnumChatFormatting.func_110646_a(str);
 	}
 }
