@@ -1,8 +1,8 @@
 [
 {
-  "modid": "WailaHarvestLevels",
-  "name": "Waila Harvest Levels",
-  "description": "An add-on for Waila that adds information about the required harvest level and effective tools for harvestable blocks.",
+  "modid": "WailaHarvestability",
+  "name": "Waila Harvestability",
+  "description": "An add-on for Waila that adds information about the harvestability of what you are looking at",
   "version": "${version}",
   "mcversion": "${mcversion}",
   "url": "",

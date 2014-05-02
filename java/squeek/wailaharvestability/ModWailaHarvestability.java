@@ -1,7 +1,7 @@
-package squeek.wailaharvestlevels;
+package squeek.wailaharvestability;
 
-import squeek.wailaharvestlevels.helpers.ToolHelper;
-import squeek.wailaharvestlevels.proxy.ProxyIguanaTweaks;
+import squeek.wailaharvestability.helpers.ToolHelper;
+import squeek.wailaharvestability.proxy.ProxyIguanaTweaks;
 import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
@@ -13,7 +13,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 @Mod(modid = ModInfo.MODID, version = ModInfo.VERSION, dependencies = "after:TConstruct;after:ExtraTiC;after:TSteelworks;after:Mariculture")
-public class ModWailaHarvestLevels
+public class ModWailaHarvestability
 {
 	public static boolean hasIguanaTweaks;
 
@@ -28,7 +28,7 @@ public class ModWailaHarvestLevels
 	@EventHandler
 	public void init(FMLInitializationEvent event)
 	{
-		FMLInterModComms.sendMessage("Waila", "register", "squeek.wailaharvestlevels.WailaHandler.callbackRegister");
+		FMLInterModComms.sendMessage("Waila", "register", "squeek.wailaharvestability.WailaHandler.callbackRegister");
 	}
 
 	@SideOnly(Side.CLIENT)

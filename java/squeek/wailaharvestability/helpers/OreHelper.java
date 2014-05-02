@@ -1,4 +1,4 @@
-package squeek.wailaharvestlevels.helpers;
+package squeek.wailaharvestability.helpers;
 
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemStack;

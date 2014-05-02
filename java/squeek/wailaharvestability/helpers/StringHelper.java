@@ -1,9 +1,9 @@
-package squeek.wailaharvestlevels.helpers;
+package squeek.wailaharvestability.helpers;
 
 import java.util.HashMap;
 import java.util.List;
-import squeek.wailaharvestlevels.ModWailaHarvestLevels;
-import squeek.wailaharvestlevels.proxy.ProxyIguanaTweaks;
+import squeek.wailaharvestability.ModWailaHarvestability;
+import squeek.wailaharvestability.proxy.ProxyIguanaTweaks;
 import net.minecraft.util.StatCollector;
 
 public class StringHelper
@@ -14,7 +14,7 @@ public class StringHelper
 	// Taken from tconstruct.client.gui.ToolStationGui
 	public static String getHarvestLevelName(int num)
 	{
-		if (ModWailaHarvestLevels.hasIguanaTweaks)
+		if (ModWailaHarvestability.hasIguanaTweaks)
 			return ProxyIguanaTweaks.getHarvestLevelName(num);
 		
 		String unlocalized = "gui.partcrafter.mining" + (num + 1);

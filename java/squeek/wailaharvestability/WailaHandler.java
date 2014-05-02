@@ -1,14 +1,14 @@
-package squeek.wailaharvestlevels;
+package squeek.wailaharvestability;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import squeek.wailaharvestlevels.helpers.BlockHelper;
-import squeek.wailaharvestlevels.helpers.ColorHelper;
-import squeek.wailaharvestlevels.helpers.OreHelper;
-import squeek.wailaharvestlevels.helpers.StringHelper;
-import squeek.wailaharvestlevels.helpers.ToolHelper;
+import squeek.wailaharvestability.helpers.BlockHelper;
+import squeek.wailaharvestability.helpers.ColorHelper;
+import squeek.wailaharvestability.helpers.OreHelper;
+import squeek.wailaharvestability.helpers.StringHelper;
+import squeek.wailaharvestability.helpers.ToolHelper;
 import mcp.mobius.waila.api.IWailaConfigHandler;
 import mcp.mobius.waila.api.IWailaDataAccessor;
 import mcp.mobius.waila.api.IWailaDataProvider;

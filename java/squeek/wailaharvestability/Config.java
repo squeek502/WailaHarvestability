@@ -1,4 +1,4 @@
-package squeek.wailaharvestlevels;
+package squeek.wailaharvestability;
 
 import java.io.File;
 import net.minecraftforge.common.Configuration;

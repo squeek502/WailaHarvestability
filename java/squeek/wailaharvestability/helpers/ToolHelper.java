@@ -1,4 +1,4 @@
-package squeek.wailaharvestlevels.helpers;
+package squeek.wailaharvestability.helpers;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;

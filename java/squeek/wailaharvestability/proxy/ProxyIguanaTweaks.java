@@ -1,4 +1,4 @@
-package squeek.wailaharvestlevels.proxy;
+package squeek.wailaharvestability.proxy;
 
 import java.lang.reflect.Method;
 
