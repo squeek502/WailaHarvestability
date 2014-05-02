@@ -98,11 +98,11 @@ public class WailaHandler implements IWailaDataProvider
 			List<String> stringParts = new ArrayList<String>();
 
 			if (showCurrentlyHarvestable)
-				stringParts.add(ColorHelper.getBooleanColor(isCurrentlyHarvestable) + (isCurrentlyHarvestable ? Config.CURRENTLY_HARVESTABLE_STRING : Config.NOT_CURRENTLY_HARVESTABLE_STRING) + (!minimalLayout ? EnumChatFormatting.RESET + " Currently Harvestable" : ""));
+				stringParts.add(ColorHelper.getBooleanColor(isCurrentlyHarvestable) + (isCurrentlyHarvestable ? Config.CURRENTLY_HARVESTABLE_STRING : Config.NOT_CURRENTLY_HARVESTABLE_STRING) + (!minimalLayout ? EnumChatFormatting.RESET + StatCollector.translateToLocal("wailaharvestability.currentlyharvestable") : ""));
 			if (harvestLevel != -1 && showEffectiveTool)
-				stringParts.add((!minimalLayout ? "Effective Tool : " : "") + ColorHelper.getBooleanColor(isEffective && (!isHoldingTinkersTool || canHarvest), isHoldingTinkersTool && isEffective && !canHarvest) + StatCollector.translateToLocal("harvestability.toolclass." + effectiveTool));
+				stringParts.add((!minimalLayout ? StatCollector.translateToLocal("wailaharvestability.effectivetool") : "") + ColorHelper.getBooleanColor(isEffective && (!isHoldingTinkersTool || canHarvest), isHoldingTinkersTool && isEffective && !canHarvest) + StatCollector.translateToLocal("wailaharvestability.toolclass." + effectiveTool));
 			if (harvestLevel >= 1 && showHarvestLevel)
-				stringParts.add((!minimalLayout ? "Harvest Level : " : "") + ColorHelper.getBooleanColor(isAboveMinHarvestLevel && canHarvest) + StringHelper.stripFormatting(StringHelper.getHarvestLevelName(harvestLevel)));
+				stringParts.add((!minimalLayout ? StatCollector.translateToLocal("wailaharvestability.harvestlevel") : "") + ColorHelper.getBooleanColor(isAboveMinHarvestLevel && canHarvest) + StringHelper.stripFormatting(StringHelper.getHarvestLevelName(harvestLevel)));
 
 			if (!stringParts.isEmpty())
 			{
