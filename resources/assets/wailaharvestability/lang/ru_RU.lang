@@ -1,0 +1,21 @@
+# tools
+wailaharvestability.toolclass.pickaxe=Кирка
+wailaharvestability.toolclass.shovel=Лопата
+wailaharvestability.toolclass.axe=Топор
+
+# tooltips
+wailaharvestability.effectivetool=Эффективный инструмент : 
+wailaharvestability.harvestlevel=Уровень сбора : 
+wailaharvestability.currentlyharvestable= Сейчас можно собрать
+
+# options
+option.harvestability.harvestlevel=Уровень сбора
+option.harvestability.effectivetool=Эффективный инструмент
+option.harvestability.currentlyharvestable=Сейчас можно собрать
+option.harvestability.oresonly=Только руды
+option.harvestability.harvestlevel.sneakingonly=Только в приседание: Уровень сбора
+option.harvestability.effectivetool.sneakingonly=Только в приседание: Эффективный инструмент
+option.harvestability.currentlyharvestable.sneakingonly=Только в приседание: Сейчас можно собрать
+option.harvestability.minimal=Минимальный режим
+option.harvestability.unharvestableonly=Только несобираемые
+option.harvestability.toolrequiredonly=Только необходимый инструмент
