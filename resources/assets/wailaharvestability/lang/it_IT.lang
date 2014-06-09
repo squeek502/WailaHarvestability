@@ -1,0 +1,21 @@
+# tools
+wailaharvestability.toolclass.pickaxe=Piccone
+wailaharvestability.toolclass.shovel=Pala
+wailaharvestability.toolclass.axe=Ascia
+
+# tooltips
+wailaharvestability.effectivetool=Attrezzo Richiesto : 
+wailaharvestability.harvestlevel=Livello Richiesto : 
+wailaharvestability.currentlyharvestable= Può essere raccolto
+
+# options
+option.harvestability.harvestlevel=Livello Richiesto
+option.harvestability.effectivetool=Attrezzo Richiesto
+option.harvestability.currentlyharvestable=Può essere raccolto
+option.harvestability.oresonly=Solo minerali
+option.harvestability.harvestlevel.sneakingonly=Solo SHIFT: Livello Richiesto
+option.harvestability.effectivetool.sneakingonly=Solo SHIFT: Attrezzo Richiesto
+option.harvestability.currentlyharvestable.sneakingonly=Solo SHIFT: Può essere raccolto
+option.harvestability.minimal=Modo minimo
+option.harvestability.unharvestableonly=Solo quando non raccoglibile
+option.harvestability.toolrequiredonly=Solo quando attrezzo richiesto
