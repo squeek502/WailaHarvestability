@@ -71,6 +71,6 @@ public class StringHelper
 
 	public static String stripFormatting(String str)
 	{
-		return EnumChatFormatting.func_110646_a(str);
+		return EnumChatFormatting.getTextWithoutFormattingCodes(str);
 	}
 }

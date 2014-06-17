@@ -37,7 +37,7 @@ public class WailaHandler implements IWailaDataProvider
 	@Override
 	public List<String> getWailaBody(ItemStack itemStack, List<String> toolTip, IWailaDataAccessor accessor, IWailaConfigHandler config)
 	{
-		if (config.getConfig("harvestability.toolrequiredonly") && accessor.getBlock().blockMaterial.isToolNotRequired())
+		if (config.getConfig("harvestability.toolrequiredonly") && accessor.getBlock().getMaterial().isToolNotRequired())
 			return toolTip;
 
 		boolean isSneaking = accessor.getPlayer().isSneaking();
@@ -55,26 +55,12 @@ public class WailaHandler implements IWailaDataProvider
 				return toolTip;
 			}
 
-			String toolClasses[] = new String[]{"pickaxe", "shovel", "axe"};
-			int harvestLevels[] = new int[toolClasses.length];
-			boolean blockHasEffectiveTools = BlockHelper.getHarvestLevelsOf(accessor.getBlock(), accessor.getMetadata(), toolClasses, harvestLevels);
+			int harvestLevel = accessor.getBlock().getHarvestLevel(accessor.getMetadata());
+			String effectiveTool = accessor.getBlock().getHarvestTool(accessor.getMetadata());
+			boolean blockHasEffectiveTools = harvestLevel >= 0 && effectiveTool != null;
 
 			if (!blockHasEffectiveTools)
 				return toolTip;
-
-			int harvestLevel = -1;
-			String effectiveTool = "";
-			int i = 0;
-			for (String toolClass : toolClasses)
-			{
-				if (harvestLevels[i] >= 0)
-				{
-					harvestLevel = harvestLevels[i];
-					effectiveTool = toolClass;
-					break;
-				}
-				i++;
-			}
 
 			boolean canHarvest = false;
 			boolean isEffective = false;

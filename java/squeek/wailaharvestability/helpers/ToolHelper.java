@@ -5,6 +5,7 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Set;
 import cpw.mods.fml.common.Loader;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
@@ -21,23 +22,9 @@ public class ToolHelper
 	private static Method getSecondHarvestType = null;
 	public static boolean tinkersConstructLoaded = false;
 
-	// forge
-	static HashMap<Item, List<Object>> toolClasses = null;
-
 	@SuppressWarnings({"unchecked"})
 	public static void init()
 	{
-		try
-		{
-			Field toolClassesField = ForgeHooks.class.getDeclaredField("toolClasses");
-			toolClassesField.setAccessible(true);
-			toolClasses = (HashMap<Item, List<Object>>) (toolClassesField.get(null));
-		}
-		catch (Exception e)
-		{
-			e.printStackTrace();
-		}
-
 		if (Loader.isModLoaded("TConstruct"))
 		{
 			try
@@ -50,11 +37,7 @@ public class ToolHelper
 				getSecondHarvestType.setAccessible(true);
 				tinkersConstructLoaded = true;
 			}
-			catch (ClassNotFoundException e)
-			{
-				return;
-			}
-			catch (NoSuchMethodException e)
+			catch (Exception e)
 			{
 				return;
 			}
@@ -84,15 +67,19 @@ public class ToolHelper
 		return toolTag.getInteger("HarvestLevel2");
 	}
 
-	public static String getToolClassOf(Item tool)
+	public static Set<String> getToolClassesOf(ItemStack tool)
 	{
-		List<Object> toolClass = toolClasses.get(tool);
-		return toolClass != null ? (String) toolClass.get(0) : null;
+		return tool.getItem().getToolClasses(tool);
 	}
-
-	public static String getToolClassOf(ItemStack tool)
+	
+	public static boolean isToolOfClass(ItemStack tool, String toolClass)
 	{
-		return getToolClassOf(tool.getItem());
+		return getToolClassesOf(tool).contains(toolClass);
+	}
+	
+	public static boolean toolHasAnyToolClass(ItemStack tool)
+	{
+		return !getToolClassesOf(tool).isEmpty();
 	}
 
 	public static boolean isToolEffectiveAgainst(ItemStack tool, Block block, int metadata, String effectiveToolClass)
@@ -126,8 +113,7 @@ public class ToolHelper
 
 			return harvestTypes.contains(effectiveToolClass);
 		}
-		String toolClass = null;
-		return ForgeHooks.isToolEffective(tool, block, metadata) || ((toolClass = getToolClassOf(tool)) != null ? toolClass == effectiveToolClass : tool.getStrVsBlock(block) > 1.5f);
+		return ForgeHooks.isToolEffective(tool, block, metadata) || (toolHasAnyToolClass(tool) ? isToolOfClass(tool, effectiveToolClass) : tool.func_150997_a(block) > 1.5f); // func_150997_a = getStrVsBlock
 	}
 
 	public static boolean canToolHarvestLevel(ItemStack tool, Block block, int metadata, int harvestLevel)
@@ -146,7 +132,7 @@ public class ToolHelper
 
 	public static boolean canToolHarvestBlock(ItemStack tool, Block block, int metadata)
 	{
-		return block.blockMaterial.isToolNotRequired() || tool.canHarvestBlock(block);
+		return block.getMaterial().isToolNotRequired() || tool.func_150998_b(block); // func_150998_b = canHarvestBlock
 	}
 
 }

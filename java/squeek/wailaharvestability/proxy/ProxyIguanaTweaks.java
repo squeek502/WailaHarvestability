@@ -43,6 +43,6 @@ public class ProxyIguanaTweaks
 	
 	public static boolean isGravelOre(Block block)
 	{
-		return oreGravel != null && oreGravel.blockID == block.blockID;
+		return oreGravel != null && Block.isEqualTo(oreGravel, block);
 	}
 }
