@@ -44,11 +44,12 @@ public class WailaHandler implements IWailaDataProvider
 		// for disguised blocks
 		if (itemStack.getItem() instanceof ItemBlock)
 		{
-			block = Block.blocksList[itemStack.itemID];
+			block = Block.getBlockFromItem(itemStack.getItem());
 			meta = itemStack.getItemDamage();
 		}
 		
-		if (config.getConfig("harvestability.toolrequiredonly") && block.getMaterial().isToolNotRequired())			return toolTip;
+		if (config.getConfig("harvestability.toolrequiredonly") && block.getMaterial().isToolNotRequired())
+			return toolTip;
 
 		boolean isSneaking = accessor.getPlayer().isSneaking();
 		boolean showHarvestLevel = config.getConfig("harvestability.harvestlevel") && (!config.getConfig("harvestability.harvestlevel.sneakingonly") || isSneaking);
