@@ -15,6 +15,7 @@ import mcp.mobius.waila.api.IWailaDataProvider;
 import mcp.mobius.waila.api.IWailaRegistrar;
 import mcp.mobius.waila.api.impl.ConfigHandler;
 import net.minecraft.block.Block;
+import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.StatCollector;
@@ -37,7 +38,17 @@ public class WailaHandler implements IWailaDataProvider
 	@Override
 	public List<String> getWailaBody(ItemStack itemStack, List<String> toolTip, IWailaDataAccessor accessor, IWailaConfigHandler config)
 	{
-		if (config.getConfig("harvestability.toolrequiredonly") && accessor.getBlock().blockMaterial.isToolNotRequired())
+		Block block = accessor.getBlock();
+		int meta = accessor.getMetadata();
+
+		// for disguised blocks
+		if (itemStack.getItem() instanceof ItemBlock)
+		{
+			block = Block.blocksList[itemStack.itemID];
+			meta = itemStack.getItemDamage();
+		}
+		
+		if (config.getConfig("harvestability.toolrequiredonly") && block.blockMaterial.isToolNotRequired())
 			return toolTip;
 
 		boolean isSneaking = accessor.getPlayer().isSneaking();
@@ -57,7 +68,7 @@ public class WailaHandler implements IWailaDataProvider
 
 			String toolClasses[] = new String[]{"pickaxe", "shovel", "axe"};
 			int harvestLevels[] = new int[toolClasses.length];
-			boolean blockHasEffectiveTools = BlockHelper.getHarvestLevelsOf(accessor.getBlock(), accessor.getMetadata(), toolClasses, harvestLevels);
+			boolean blockHasEffectiveTools = BlockHelper.getHarvestLevelsOf(block, meta, toolClasses, harvestLevels);
 
 			if (!blockHasEffectiveTools)
 				return toolTip;
@@ -85,12 +96,12 @@ public class WailaHandler implements IWailaDataProvider
 			if (itemHeld != null)
 			{
 				isHoldingTinkersTool = ToolHelper.hasToolTag(itemHeld);
-				canHarvest = ToolHelper.canToolHarvestBlock(itemHeld, accessor.getBlock(), accessor.getMetadata()) || (!isHoldingTinkersTool && accessor.getBlock().canHarvestBlock(accessor.getPlayer(), accessor.getMetadata()));
-				isAboveMinHarvestLevel = (showCurrentlyHarvestable || showHarvestLevel) && ToolHelper.canToolHarvestLevel(itemHeld, accessor.getBlock(), accessor.getMetadata(), harvestLevel);
-				isEffective = showEffectiveTool && ToolHelper.isToolEffectiveAgainst(itemHeld, accessor.getBlock(), accessor.getMetadata(), effectiveTool);
+				canHarvest = ToolHelper.canToolHarvestBlock(itemHeld, block, meta) || (!isHoldingTinkersTool && block.canHarvestBlock(accessor.getPlayer(), meta));
+				isAboveMinHarvestLevel = (showCurrentlyHarvestable || showHarvestLevel) && ToolHelper.canToolHarvestLevel(itemHeld, block, meta, harvestLevel);
+				isEffective = showEffectiveTool && ToolHelper.isToolEffectiveAgainst(itemHeld, block, meta, effectiveTool);
 			}
 
-			boolean isCurrentlyHarvestable = (canHarvest && isAboveMinHarvestLevel) || (!isHoldingTinkersTool && ForgeHooks.canHarvestBlock(accessor.getBlock(), accessor.getPlayer(), accessor.getMetadata()));
+			boolean isCurrentlyHarvestable = (canHarvest && isAboveMinHarvestLevel) || (!isHoldingTinkersTool && ForgeHooks.canHarvestBlock(block, accessor.getPlayer(), meta));
 
 			if (hideWhileHarvestable && isCurrentlyHarvestable)
 				return toolTip;
