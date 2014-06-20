@@ -2,6 +2,7 @@
 wailaharvestability.toolclass.pickaxe=Pickaxe
 wailaharvestability.toolclass.shovel=Shovel
 wailaharvestability.toolclass.axe=Axe
+wailaharvestability.toolclass.chisel=Chisel
 
 # tooltips
 wailaharvestability.effectivetool=Effective Tool : 
