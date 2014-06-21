@@ -1,9 +1,7 @@
 package squeek.wailaharvestability.helpers;
 
-import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
 import cpw.mods.fml.common.Loader;
@@ -22,7 +20,6 @@ public class ToolHelper
 	private static Method getSecondHarvestType = null;
 	public static boolean tinkersConstructLoaded = false;
 
-	@SuppressWarnings({"unchecked"})
 	public static void init()
 	{
 		if (Loader.isModLoaded("TConstruct"))

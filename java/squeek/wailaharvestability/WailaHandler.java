@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import squeek.wailaharvestability.helpers.BlockHelper;
 import squeek.wailaharvestability.helpers.ColorHelper;
 import squeek.wailaharvestability.helpers.OreHelper;
 import squeek.wailaharvestability.helpers.StringHelper;
