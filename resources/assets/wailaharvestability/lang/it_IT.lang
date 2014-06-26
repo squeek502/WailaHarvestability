@@ -2,6 +2,7 @@
 wailaharvestability.toolclass.pickaxe=Piccone
 wailaharvestability.toolclass.shovel=Pala
 wailaharvestability.toolclass.axe=Ascia
+wailaharvestability.toolclass.chisel=Cesello
 
 # tooltips
 wailaharvestability.effectivetool=Attrezzo Richiesto : 
