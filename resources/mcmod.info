@@ -7,7 +7,7 @@
   "mcversion": "${mcversion}",
   "url": "",
   "updateUrl": "",
-  "authors": ["squeek"],
+  "authorList": ["squeek"],
   "credits": "",
   "logoFile": "",
   "screenshots": [],
