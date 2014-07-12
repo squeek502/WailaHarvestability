@@ -42,5 +42,7 @@ public class ModWailaHarvestability
 		}
 
 		ToolHelper.init();
+
+		FMLInterModComms.sendRuntimeMessage(ModInfo.MODID, "VersionChecker", "addVersionCheck", "http://www.ryanliptak.com/minecraft/versionchecker/squeek502/WailaHarvestability");
 	}
 }
