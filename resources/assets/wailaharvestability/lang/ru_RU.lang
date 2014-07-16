@@ -2,6 +2,7 @@
 wailaharvestability.toolclass.pickaxe=Кирка
 wailaharvestability.toolclass.shovel=Лопата
 wailaharvestability.toolclass.axe=Топор
+wailaharvestability.toolclass.chisel=н
 
 # tooltips
 wailaharvestability.effectivetool=Эффективный инструмент : 
