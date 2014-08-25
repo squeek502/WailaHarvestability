@@ -3,22 +3,22 @@ wailaharvestability.toolclass.pickaxe=镐
 wailaharvestability.toolclass.shovel=锹
 wailaharvestability.toolclass.axe=斧
 wailaharvestability.toolclass.chisel=凿子
-
+wailaharvestability.toolclass.scoop=勺
+wailaharvestability.toolclass.crowbar=撬棍
 
 # tooltips
-wailaharvestability.effectivetool=采集工具 : 
-wailaharvestability.harvestlevel=开采等级 : 
+wailaharvestability.effectivetool=有效工具 : 
+wailaharvestability.harvestlevel=采集等级 : 
 wailaharvestability.currentlyharvestable= 能否采集
 
-
 # options
-option.harvestability.harvestlevel=开采等级
-option.harvestability.effectivetool=采集工具
+option.harvestability.harvestlevel=采集等级
+option.harvestability.effectivetool=有效工具
 option.harvestability.currentlyharvestable=能否采集
 option.harvestability.oresonly=仅显示矿物
-option.harvestability.harvestlevel.sneakingonly=仅潜行时显示: 开采级别
-option.harvestability.effectivetool.sneakingonly=仅潜行时显示: 采集工具
-option.harvestability.currentlyharvestable.sneakingonly=仅潜行时显示: 能否采集
+option.harvestability.harvestlevel.sneakingonly=仅潜行时显示:采集级别
+option.harvestability.effectivetool.sneakingonly=仅潜行时显示:有效工具
+option.harvestability.currentlyharvestable.sneakingonly=仅潜行时显示:能否采集
 option.harvestability.minimal=缩小模式
 option.harvestability.unharvestableonly=仅显示能否采集
-option.harvestability.toolrequiredonly=仅显示工具需求
+option.harvestability.toolrequiredonly=仅显示所需工具
