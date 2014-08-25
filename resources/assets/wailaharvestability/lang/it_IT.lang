@@ -2,8 +2,9 @@
 wailaharvestability.toolclass.pickaxe=Piccone
 wailaharvestability.toolclass.shovel=Pala
 wailaharvestability.toolclass.axe=Ascia
-wailaharvestability.toolclass.chisel=Cesello
+wailaharvestability.toolclass.chisel=Scalpello
 wailaharvestability.toolclass.scoop=Retino
+wailaharvestability.toolclass.crowbar=Piede di porco
 
 # tooltips
 wailaharvestability.effectivetool=Attrezzo richiesto : 
