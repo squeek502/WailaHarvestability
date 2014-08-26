@@ -3,7 +3,7 @@ Waila Harvestability
 
 An add-on for Waila that adds information about the harvestability of what you are looking at
 
-[Minecraft Forum Thread]()
+[Minecraft Forum Thread](http://www.minecraftforum.net/forums/mapping-and-modding/minecraft-mods/1295067-waila-harvestability-how-can-i-harvest-what-im)
 
 ###Building
 

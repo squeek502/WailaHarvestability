@@ -13,13 +13,19 @@ public class Config
 
 	public static String CURRENTLY_HARVESTABLE_STRING;
 	private static final String CURRENTLY_HARVESTABLE_STRING_NAME = "is.currently.harvestable.string";
-	// for some reason \u2714 was getting translated as ? when compiled with gradle; no clue why but this seems to work
-	private static final String CURRENTLY_HARVESTABLE_STRING_DEFAULT = String.valueOf(Character.toChars(0x2714));
+	private static final String CURRENTLY_HARVESTABLE_STRING_DEFAULT = "\u2714";
 
 	public static String NOT_CURRENTLY_HARVESTABLE_STRING;
 	private static final String NOT_CURRENTLY_HARVESTABLE_STRING_NAME = "not.currently.harvestable.string";
-	// for some reason \u2718 was getting translated as ? when compiled with gradle; no clue why but this seems to work
-	private static final String NOT_CURRENTLY_HARVESTABLE_STRING_DEFAULT = String.valueOf(Character.toChars(0x2718));
+	private static final String NOT_CURRENTLY_HARVESTABLE_STRING_DEFAULT = "\u2718";
+
+	public static String SHEARABILITY_STRING;
+	private static final String SHEARABILITY_STRING_NAME = "shearability.string";
+	private static final String SHEARABILITY_STRING_DEFAULT = "\u2702";
+
+	public static String SILK_TOUCHABILITY_STRING;
+	private static final String SILK_TOUCHABILITY_STRING_NAME = "silk.touchability.string";
+	private static final String SILK_TOUCHABILITY_STRING_DEFAULT = "\u2712";
 
 	private static Configuration config;
 
@@ -32,6 +38,8 @@ public class Config
 		MINIMAL_SEPARATOR_STRING = config.get(CATEGORY_MAIN, MINIMAL_SEPARATOR_STRING_NAME, MINIMAL_SEPARATOR_STRING_DEFAULT).getString();
 		CURRENTLY_HARVESTABLE_STRING = config.get(CATEGORY_MAIN, CURRENTLY_HARVESTABLE_STRING_NAME, CURRENTLY_HARVESTABLE_STRING_DEFAULT).getString();
 		NOT_CURRENTLY_HARVESTABLE_STRING = config.get(CATEGORY_MAIN, NOT_CURRENTLY_HARVESTABLE_STRING_NAME, NOT_CURRENTLY_HARVESTABLE_STRING_DEFAULT).getString();
+		SHEARABILITY_STRING = config.get(CATEGORY_MAIN, SHEARABILITY_STRING_NAME, SHEARABILITY_STRING_DEFAULT).getString();
+		SILK_TOUCHABILITY_STRING = config.get(CATEGORY_MAIN, SILK_TOUCHABILITY_STRING_NAME, SILK_TOUCHABILITY_STRING_DEFAULT).getString();
 
 		save();
 	}

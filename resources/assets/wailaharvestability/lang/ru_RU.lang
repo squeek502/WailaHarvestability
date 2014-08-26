@@ -2,11 +2,14 @@
 wailaharvestability.toolclass.pickaxe=Кирка
 wailaharvestability.toolclass.shovel=Лопата
 wailaharvestability.toolclass.axe=Топор
+wailaharvestability.toolclass.chisel=Стамеска
+wailaharvestability.toolclass.scoop=Сачок
 
 # tooltips
 wailaharvestability.effectivetool=Эффективный инструмент : 
 wailaharvestability.harvestlevel=Уровень сбора : 
 wailaharvestability.currentlyharvestable= Можно собрать
+wailaharvestability.harvestable= Можно собрать
 
 # options
 option.harvestability.harvestlevel=Уровень сбора

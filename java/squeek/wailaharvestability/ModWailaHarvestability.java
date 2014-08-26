@@ -2,6 +2,7 @@ package squeek.wailaharvestability;
 
 import squeek.wailaharvestability.helpers.ToolHelper;
 import squeek.wailaharvestability.proxy.ProxyIguanaTweaks;
+import squeek.wailaharvestability.setup.MissingHarvestInfo;
 import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
@@ -28,6 +29,7 @@ public class ModWailaHarvestability
 	@EventHandler
 	public void init(FMLInitializationEvent event)
 	{
+		MissingHarvestInfo.init();
 		FMLInterModComms.sendMessage("Waila", "register", "squeek.wailaharvestability.WailaHandler.callbackRegister");
 	}
 
