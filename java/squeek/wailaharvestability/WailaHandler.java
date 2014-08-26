@@ -164,7 +164,7 @@ public class WailaHandler implements IWailaDataProvider
 		boolean isSneaking = player.isSneaking();
 		boolean showShearability = config.getConfig("harvestability.shearability") && (!config.getConfig("harvestability.shearability.sneakingonly") || isSneaking);
 		
-		if (showShearability && block instanceof IShearable || block == Block.deadBush)
+		if (showShearability && (block instanceof IShearable || block == Block.deadBush))
 		{
 			ItemStack itemHeld = player.getHeldItem();
 			boolean isHoldingShears = itemHeld != null && itemHeld.getItem() instanceof ItemShears;
@@ -211,9 +211,9 @@ public class WailaHandler implements IWailaDataProvider
 		configOptions.put("harvestability.unharvestableonly", false);
 		configOptions.put("harvestability.toolrequiredonly", true);
 		configOptions.put("harvestability.shearability", true);
-		configOptions.put("harvestability.shearability.sneakingonly", true);
+		configOptions.put("harvestability.shearability.sneakingonly", false);
 		configOptions.put("harvestability.silktouchability", true);
-		configOptions.put("harvestability.silktouchability.sneakingonly", true);
+		configOptions.put("harvestability.silktouchability.sneakingonly", false);
 	}
 
 	public static void callbackRegister(IWailaRegistrar registrar)
