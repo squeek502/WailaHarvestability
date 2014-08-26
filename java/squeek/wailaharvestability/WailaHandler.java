@@ -206,9 +206,9 @@ public class WailaHandler implements IWailaDataProvider
 		configOptions.put("harvestability.unharvestableonly", false);
 		configOptions.put("harvestability.toolrequiredonly", true);
 		configOptions.put("harvestability.shearability", true);
-		configOptions.put("harvestability.shearability.sneakingonly", true);
+		configOptions.put("harvestability.shearability.sneakingonly", false);
 		configOptions.put("harvestability.silktouchability", true);
-		configOptions.put("harvestability.silktouchability.sneakingonly", true);
+		configOptions.put("harvestability.silktouchability.sneakingonly", false);
 	}
 
 	public static void callbackRegister(IWailaRegistrar registrar)
