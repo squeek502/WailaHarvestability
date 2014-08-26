@@ -185,7 +185,7 @@ public class WailaHandler implements IWailaDataProvider
 			if (silkTouchMatters)
 			{
 				boolean hasSilkTouch = EnchantmentHelper.getSilkTouchModifier(player);
-				return ColorHelper.getBooleanColor(hasSilkTouch) + "\u2712";
+				return ColorHelper.getBooleanColor(hasSilkTouch) + Config.SILK_TOUCHABILITY_STRING;
 			}
 		}
 		return "";
