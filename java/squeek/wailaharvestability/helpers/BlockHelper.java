@@ -1,14 +1,13 @@
 package squeek.wailaharvestability.helpers;
 
 import java.util.HashMap;
-import squeek.wailaharvestability.proxy.ProxyIguanaTweaks;
 import net.minecraft.block.Block;
-import net.minecraft.block.material.Material;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemTool;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
+import squeek.wailaharvestability.proxy.ProxyIguanaTweaks;
 
 public class BlockHelper
 {
@@ -20,7 +19,7 @@ public class BlockHelper
 		testTools.put("axe", new ItemStack(Item.axeWood));
 	}
 
-	public static boolean getHarvestLevelsOf(Block block, int metadata, String[] toolClasses, int[] harvestLevels)
+	public static boolean getHarvestLevelsOf(World world, int x, int y, int z, Block block, int metadata, String[] toolClasses, int[] harvestLevels)
 	{
 		int i = 0;
 		boolean hasEffectiveTools = false;
@@ -33,14 +32,7 @@ public class BlockHelper
 				hasEffectiveTools = true;
 			else
 			{
-				float hardness = 0f;
-				try
-				{
-					hardness = block.getBlockHardness(null, 0, 0, 0);
-				}
-				catch (Exception e)
-				{
-				}
+				float hardness = block.getBlockHardness(world, x, y, z);
 				if (hardness > 0f)
 				{
 					ItemStack testTool = testTools.get(toolClass);

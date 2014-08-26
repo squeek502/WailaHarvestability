@@ -5,13 +5,13 @@ wailaharvestability.toolclass.axe=Axe
 wailaharvestability.toolclass.chisel=Chisel
 wailaharvestability.toolclass.scoop=Scoop
 wailaharvestability.toolclass.crowbar=Crowbar
+wailaharvestability.toolclass.sword=Sword
 
 # tooltips
 wailaharvestability.effectivetool=Effective Tool : 
 wailaharvestability.harvestlevel=Harvest Level : 
 wailaharvestability.currentlyharvestable= Currently Harvestable
-wailaharvestability.shearable=Shearable : 
-wailaharvestability.silktouchable=Requires Silk Touch : 
+wailaharvestability.harvestable= Harvestable
 
 # options
 option.harvestability.harvestlevel=Harvest level
@@ -24,3 +24,7 @@ option.harvestability.currentlyharvestable.sneakingonly=Sneak only: Harvestable
 option.harvestability.minimal=Minimal mode
 option.harvestability.unharvestableonly=Unharvestable only
 option.harvestability.toolrequiredonly=Tool required only
+option.harvestability.shearability=Shearability
+option.harvestability.shearability.sneakingonly=Sneak only: Shearability
+option.harvestability.silktouchability=Silk Touchability
+option.harvestability.silktouchability.sneakingonly=Sneak only: Silk Touchability
