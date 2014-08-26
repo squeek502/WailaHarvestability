@@ -8,6 +8,7 @@ wailaharvestability.toolclass.chisel=Meißel
 wailaharvestability.effectivetool=Effektives Werkzeug : 
 wailaharvestability.harvestlevel=Abbau-Level : 
 wailaharvestability.currentlyharvestable= Aktuell abbaubar
+wailaharvestability.harvestable= Abbaubar
 
 # options
 option.harvestability.harvestlevel=Abbau-Level

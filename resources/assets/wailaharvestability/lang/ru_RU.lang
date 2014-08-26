@@ -9,6 +9,7 @@ wailaharvestability.toolclass.scoop=Сачок
 wailaharvestability.effectivetool=Эффективный инструмент : 
 wailaharvestability.harvestlevel=Уровень сбора : 
 wailaharvestability.currentlyharvestable= Можно собрать
+wailaharvestability.harvestable= Можно собрать
 
 # options
 option.harvestability.harvestlevel=Уровень сбора

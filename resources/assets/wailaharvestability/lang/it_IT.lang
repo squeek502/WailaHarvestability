@@ -10,6 +10,7 @@ wailaharvestability.toolclass.crowbar=Piede di porco
 wailaharvestability.effectivetool=Attrezzo richiesto : 
 wailaharvestability.harvestlevel=Livello richiesto : 
 wailaharvestability.currentlyharvestable= Può essere raccolto
+wailaharvestability.harvestable= Può essere raccolto
 
 # options
 option.harvestability.harvestlevel=Livello richiesto

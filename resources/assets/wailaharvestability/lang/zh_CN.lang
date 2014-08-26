@@ -10,6 +10,7 @@ wailaharvestability.toolclass.crowbar=撬棍
 wailaharvestability.effectivetool=有效工具 : 
 wailaharvestability.harvestlevel=采集等级 : 
 wailaharvestability.currentlyharvestable= 能否采集
+wailaharvestability.harvestable= 能否采集
 
 # options
 option.harvestability.harvestlevel=采集等级
