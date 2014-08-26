@@ -1,13 +1,25 @@
 package squeek.wailaharvestability.helpers;
 
-import squeek.wailaharvestability.proxy.ProxyIguanaTweaks;
+import java.util.HashMap;
 import net.minecraft.block.Block;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.ItemTool;
+import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
+import squeek.wailaharvestability.proxy.ProxyIguanaTweaks;
 
 public class BlockHelper
 {
+	private static final HashMap<String, ItemStack> testTools = new HashMap<String, ItemStack>();
+	static
+	{
+		testTools.put("pickaxe", new ItemStack(Item.pickaxeWood));
+		testTools.put("shovel", new ItemStack(Item.shovelWood));
+		testTools.put("axe", new ItemStack(Item.axeWood));
+	}
 
-	public static boolean getHarvestLevelsOf(Block block, int metadata, String[] toolClasses, int[] harvestLevels)
+	public static boolean getHarvestLevelsOf(World world, int x, int y, int z, Block block, int metadata, String[] toolClasses, int[] harvestLevels)
 	{
 		int i = 0;
 		boolean hasEffectiveTools = false;
@@ -18,10 +30,28 @@ public class BlockHelper
 
 			if (harvestLevels[i] != -1)
 				hasEffectiveTools = true;
+			else
+			{
+				float hardness = block.getBlockHardness(world, x, y, z);
+				if (hardness > 0f)
+				{
+					ItemStack testTool = testTools.get(toolClass);
+					if (testTool != null && testTool.getItem() instanceof ItemTool && testTool.getStrVsBlock(block) >= ((ItemTool) testTool.getItem()).efficiencyOnProperMaterial)
+					{
+						harvestLevels[i] = 0;
+						hasEffectiveTools = true;
+					}
+				}
+			}
 
 			i++;
 		}
 		return hasEffectiveTools;
+	}
+	
+	public static boolean isBlockUnbreakable(Block block, World world, int x, int y, int z)
+	{
+		return block.getBlockHardness(world, x, y, z) == -1.0f;
 	}
 
 }
