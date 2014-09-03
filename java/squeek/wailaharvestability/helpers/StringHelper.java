@@ -1,5 +1,6 @@
 package squeek.wailaharvestability.helpers;
 
+import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.List;
 import squeek.wailaharvestability.ModWailaHarvestability;
@@ -10,20 +11,44 @@ import net.minecraft.util.StatCollector;
 public class StringHelper
 {
 
-	//private static DecimalFormat df = new DecimalFormat("##.##");
+	public static Class<?> HarvestLevels = null;
+	public static Method getHarvestLevelName = null;
+	static
+	{
+		try
+		{
+			HarvestLevels = Class.forName("tconstruct.library.util.HarvestLevels");
+			getHarvestLevelName = HarvestLevels.getDeclaredMethod("getHarvestLevelName", int.class);
+		}
+		catch (Exception e)
+		{
+		}
+	}
 
 	// Taken from tconstruct.client.gui.ToolStationGui
 	public static String getHarvestLevelName(int num)
 	{
-		if (ModWailaHarvestability.hasIguanaTweaks)
-			return ProxyIguanaTweaks.getHarvestLevelName(num);
-
-		String unlocalized = "gui.partcrafter.mining" + (num + 1);
-		String localized = StringHelper.getLocalizedString(unlocalized);
-		if (!unlocalized.equals(localized))
-			return localized;
+		if (getHarvestLevelName != null)
+		{
+			try
+			{
+				return (String) getHarvestLevelName.invoke(null, num);
+			}
+			catch (Exception e)
+			{
+			}
+		}
 		else
-			return String.valueOf(num);
+		{
+			if (ModWailaHarvestability.hasIguanaTweaks)
+				return ProxyIguanaTweaks.getHarvestLevelName(num);
+
+			String unlocalized = "gui.partcrafter.mining" + (num + 1);
+			String localized = StringHelper.getLocalizedString(unlocalized);
+			if (!unlocalized.equals(localized))
+				return localized;
+		}
+		return String.valueOf(num);
 	}
 
 	// for TCon version < 1.5.3

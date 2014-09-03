@@ -1,23 +1,18 @@
 package squeek.wailaharvestability.proxy;
 
 import java.lang.reflect.Method;
-import net.minecraft.block.Block;
 
 public class ProxyIguanaTweaks
 {
-	private static Class<?> IguanaTweaksTConstruct = null;
+	private static Class<?> HarvestLevels = null;
 	private static Method proxyGetHarvestLevelName;
-	private static Block oreGravel = null;
 
 	public static void init()
 	{
 		try
 		{
-			IguanaTweaksTConstruct = Class.forName("iguanaman.iguanatweakstconstruct.IguanaTweaksTConstruct");
-			proxyGetHarvestLevelName = IguanaTweaksTConstruct.getDeclaredMethod("getHarvestLevelName", int.class);
-			
-			Class<?> TContent = Class.forName("tconstruct.common.TContent");
-			oreGravel = (Block) TContent.getDeclaredField("oreGravel").get(null);
+			HarvestLevels = Class.forName("iguanaman.iguanatweakstconstruct.util.HarvestLevels");
+			proxyGetHarvestLevelName = HarvestLevels.getDeclaredMethod("getHarvestLevelName", int.class);
 		}
 		catch (Exception e)
 		{
@@ -31,7 +26,7 @@ public class ProxyIguanaTweaks
 
 		try
 		{
-			harvestLevelName = (String) proxyGetHarvestLevelName.invoke(IguanaTweaksTConstruct, num);
+			harvestLevelName = (String) proxyGetHarvestLevelName.invoke(null, num);
 		}
 		catch (Exception e)
 		{
@@ -39,10 +34,5 @@ public class ProxyIguanaTweaks
 		}
 
 		return harvestLevelName;
-	}
-	
-	public static boolean isGravelOre(Block block)
-	{
-		return oreGravel != null && Block.isEqualTo(oreGravel, block);
 	}
 }
