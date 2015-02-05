@@ -48,6 +48,11 @@ task processSourcesCustom(type:Copy){
 	into project.buildDir.getPath()+"/sources/java"
 }
 
+// remove waila api from the build
+task removeWailaAPI(type:Delete) {
+	delete += sourceSets.main.output.classesDir.getPath()+"/mcp"
+}
+
 // delete mcmod.info so that it gets a fresh version copied in every time
 task cleanModInfo(type: Delete) {
 	delete file(sourceSets.main.output.resourcesDir.getPath()+"/mcmod.info")
@@ -58,6 +63,7 @@ processResources.dependsOn cleanModInfo
 compileJava.dependsOn processSourcesCustom
 afterEvaluate { project ->
 	processSourcesCustom.shouldRunAfter(sourceMainJava)
+	compileJava.finalizedBy(removeWailaAPI)
 }
 
 processResources
