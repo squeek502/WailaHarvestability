@@ -28,6 +28,7 @@ import squeek.wailaharvestability.helpers.ColorHelper;
 import squeek.wailaharvestability.helpers.OreHelper;
 import squeek.wailaharvestability.helpers.StringHelper;
 import squeek.wailaharvestability.helpers.ToolHelper;
+import squeek.wailaharvestability.proxy.ProxyCreativeBlocks;
 
 public class WailaHandler implements IWailaDataProvider
 {
@@ -48,6 +49,10 @@ public class WailaHandler implements IWailaDataProvider
 	{
 		Block block = accessor.getBlock();
 		int meta = accessor.getMetadata();
+
+		if (ProxyCreativeBlocks.isCreativeBlock(block, meta))
+			return toolTip;
+
 		EntityPlayer player = accessor.getPlayer();
 
 		// for disguised blocks
