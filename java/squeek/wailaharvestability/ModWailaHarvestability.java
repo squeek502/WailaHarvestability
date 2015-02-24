@@ -13,7 +13,7 @@ import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-@Mod(modid = ModInfo.MODID, version = ModInfo.VERSION, dependencies = "after:TConstruct;after:ExtraTiC;after:TSteelworks;after:Mariculture")
+@Mod(modid = ModInfo.MODID, version = ModInfo.VERSION, dependencies = "after:TConstruct;after:ExtraTiC;after:TSteelworks;after:Mariculture", acceptableRemoteVersions="*")
 public class ModWailaHarvestability
 {
 	public static boolean hasIguanaTweaks;
