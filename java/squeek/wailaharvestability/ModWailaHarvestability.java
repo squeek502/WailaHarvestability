@@ -13,7 +13,7 @@ import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-@Mod(modid = ModInfo.MODID, version = ModInfo.VERSION, dependencies = "after:TConstruct;after:ExtraTiC;after:TSteelworks;after:Mariculture", acceptableRemoteVersions="*")
+@Mod(modid = ModInfo.MODID, version = ModInfo.VERSION, dependencies = "after:TConstruct;after:ExtraTiC;after:TSteelworks;after:Mariculture", acceptableRemoteVersions = "*")
 public class ModWailaHarvestability
 {
 	public static boolean hasIguanaTweaks;
@@ -23,6 +23,8 @@ public class ModWailaHarvestability
 	public void preInit(FMLPreInitializationEvent event)
 	{
 		Config.init(event.getSuggestedConfigurationFile());
+
+		FMLInterModComms.sendMessage("VersionChecker", "addVersionCheck", "http://www.ryanliptak.com/minecraft/versionchecker/squeek502/WailaHarvestability");
 	}
 
 	@SideOnly(Side.CLIENT)
@@ -44,7 +46,5 @@ public class ModWailaHarvestability
 		}
 
 		ToolHelper.init();
-
-		FMLInterModComms.sendRuntimeMessage(ModInfo.MODID, "VersionChecker", "addVersionCheck", "http://www.ryanliptak.com/minecraft/versionchecker/squeek502/WailaHarvestability");
 	}
 }
