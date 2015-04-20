@@ -18,10 +18,13 @@ public class OreHelper
 
 	public static boolean isItemAnOre(ItemStack itemStack)
 	{
-		// check the ore dictionary to see if it starts with "ore"
-		int oreID = -1;
-		if ((oreID = OreDictionary.getOreID(itemStack)) != -1 && OreDictionary.getOreName(oreID).startsWith("ore"))
-			return true;
+		// check the ore dictionary to see if any entry starts with "ore"
+		int[] oreIDs = OreDictionary.getOreIDs(itemStack);
+		for (int oreID : oreIDs)
+		{
+			if (OreDictionary.getOreName(oreID).startsWith("ore"))
+				return true;
+		}
 
 		// ore in the display name (but not part of another word)
 		if (itemStack.getDisplayName().matches(".*(^|\\s)([oO]re)($|\\s).*"))

@@ -3,9 +3,11 @@ package squeek.wailaharvestability.helpers;
 import java.util.HashMap;
 import java.util.Map;
 import net.minecraft.block.Block;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemTool;
+import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 
 public class BlockHelper
@@ -18,18 +20,18 @@ public class BlockHelper
 		testTools.put("axe", new ItemStack(Items.wooden_axe));
 	}
 
-	public static String getEffectiveToolOf(World world, int x, int y, int z, Block block, int metadata)
+	public static String getEffectiveToolOf(World world, BlockPos blockPos, Block block, IBlockState blockState)
 	{
-		String effectiveTool = block.getHarvestTool(metadata);
+		String effectiveTool = block.getHarvestTool(blockState);
 		if (effectiveTool == null)
 		{
-			float hardness = block.getBlockHardness(world, x, y, z);
+			float hardness = block.getBlockHardness(world, blockPos);
 			if (hardness > 0f)
 			{
 				for (Map.Entry<String, ItemStack> testToolEntry : testTools.entrySet())
 				{
 					ItemStack testTool = testToolEntry.getValue();
-					if (testTool != null && testTool.getItem() instanceof ItemTool && testTool.func_150997_a(block) >= ((ItemTool) testTool.getItem()).func_150913_i().getEfficiencyOnProperMaterial())
+					if (testTool != null && testTool.getItem() instanceof ItemTool && testTool.getStrVsBlock(block) >= ((ItemTool) testTool.getItem()).getToolMaterial().getEfficiencyOnProperMaterial())
 					{
 						effectiveTool = testToolEntry.getKey();
 						break;
@@ -40,8 +42,8 @@ public class BlockHelper
 		return effectiveTool;
 	}
 
-	public static boolean isBlockUnbreakable(Block block, World world, int x, int y, int z)
+	public static boolean isBlockUnbreakable(Block block, World world, BlockPos blockPos)
 	{
-		return block.getBlockHardness(world, x, y, z) == -1.0f;
+		return block.getBlockHardness(world, blockPos) == -1.0f;
 	}
 }

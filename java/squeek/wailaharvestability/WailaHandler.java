@@ -5,12 +5,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+import mcp.mobius.waila.api.ITaggedList.ITipList;
 import mcp.mobius.waila.api.IWailaConfigHandler;
 import mcp.mobius.waila.api.IWailaDataAccessor;
+import mcp.mobius.waila.api.IWailaDataAccessorServer;
 import mcp.mobius.waila.api.IWailaDataProvider;
 import mcp.mobius.waila.api.IWailaRegistrar;
-import mcp.mobius.waila.api.impl.ConfigHandler;
 import net.minecraft.block.Block;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
@@ -18,8 +20,10 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemShears;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumChatFormatting;
-import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.StatCollector;
 import net.minecraftforge.common.ForgeHooks;
 import net.minecraftforge.common.IShearable;
@@ -39,18 +43,12 @@ public class WailaHandler implements IWailaDataProvider
 	}
 
 	@Override
-	public List<String> getWailaHead(ItemStack itemStack, List<String> toolTip, IWailaDataAccessor accessor, IWailaConfigHandler config)
-	{
-		return toolTip;
-	}
-
-	@Override
-	public List<String> getWailaBody(ItemStack itemStack, List<String> toolTip, IWailaDataAccessor accessor, IWailaConfigHandler config)
+	public ITipList getWailaBody(ItemStack itemStack, ITipList toolTip, IWailaDataAccessor accessor, IWailaConfigHandler config)
 	{
 		Block block = accessor.getBlock();
-		int meta = accessor.getMetadata();
+		IBlockState blockState = accessor.getBlockState();
 
-		if (ProxyCreativeBlocks.isCreativeBlock(block, meta))
+		if (ProxyCreativeBlocks.isCreativeBlock(block, accessor.getMetadata()))
 			return toolTip;
 
 		EntityPlayer player = accessor.getPlayer();
@@ -59,14 +57,14 @@ public class WailaHandler implements IWailaDataProvider
 		if (itemStack.getItem() instanceof ItemBlock)
 		{
 			block = Block.getBlockFromItem(itemStack.getItem());
-			meta = itemStack.getItemDamage();
+			blockState = block.getStateFromMeta(itemStack.getItemDamage());
 		}
 
 		boolean minimalLayout = config.getConfig("harvestability.minimal", false);
-		
+
 		List<String> stringParts = new ArrayList<String>();
-		getHarvestability(stringParts, player, block, meta, accessor.getPosition(), config, minimalLayout);
-		
+		getHarvestability(stringParts, player, block, blockState, accessor.getPosition(), config, minimalLayout);
+
 		if (!stringParts.isEmpty())
 		{
 			if (minimalLayout)
@@ -74,11 +72,11 @@ public class WailaHandler implements IWailaDataProvider
 			else
 				toolTip.addAll(stringParts);
 		}
-		
+
 		return toolTip;
 	}
-	
-	public void getHarvestability(List<String> stringList, EntityPlayer player, Block block, int meta, MovingObjectPosition position, IWailaConfigHandler config, boolean minimalLayout)
+
+	public void getHarvestability(List<String> stringList, EntityPlayer player, Block block, IBlockState blockState, BlockPos position, IWailaConfigHandler config, boolean minimalLayout)
 	{
 		boolean isSneaking = player.isSneaking();
 		boolean showHarvestLevel = config.getConfig("harvestability.harvestlevel") && (!config.getConfig("harvestability.harvestlevel.sneakingonly") || isSneaking);
@@ -90,31 +88,26 @@ public class WailaHandler implements IWailaDataProvider
 
 		if (showHarvestLevel || showEffectiveTool || showCurrentlyHarvestable)
 		{
-			if (showOresOnly && !OreHelper.isBlockAnOre(block, meta))
+			if (showOresOnly && !OreHelper.isBlockAnOre(block, block.getMetaFromState(blockState)))
 			{
 				return;
 			}
 
-			if (BlockHelper.isBlockUnbreakable(block, player.worldObj, position.blockX, position.blockY, position.blockZ))
+			if (BlockHelper.isBlockUnbreakable(block, player.worldObj, position))
 			{
 				String unbreakableString = ColorHelper.getBooleanColor(false) + Config.NOT_CURRENTLY_HARVESTABLE_STRING + (!minimalLayout ? EnumChatFormatting.RESET + StatCollector.translateToLocal("wailaharvestability.harvestable") : "");
 				stringList.add(unbreakableString);
 				return;
 			}
 
-			// needed to stop array index out of bounds exceptions on mob spawners
-			// block.getHarvestLevel/getHarvestTool are only 16 elements big
-			if (meta >= 16)
-				meta = 0;
-
-			int harvestLevel = block.getHarvestLevel(meta);
-			String effectiveTool = BlockHelper.getEffectiveToolOf(player.worldObj, position.blockX, position.blockY, position.blockZ, block, meta);
+			int harvestLevel = block.getHarvestLevel(blockState);
+			String effectiveTool = BlockHelper.getEffectiveToolOf(player.worldObj, position, block, blockState);
 			if (effectiveTool != null && harvestLevel < 0)
 				harvestLevel = 0;
 			boolean blockHasEffectiveTools = harvestLevel >= 0 && effectiveTool != null;
 
-			String shearability = getShearabilityString(player, block, meta, position, config);
-			String silkTouchability = getSilkTouchabilityString(player, block, meta, position, config);
+			String shearability = getShearabilityString(player, block, blockState, position, config);
+			String silkTouchability = getSilkTouchabilityString(player, block, blockState, position, config);
 
 			if (toolRequiredOnly && block.getMaterial().isToolNotRequired() && !blockHasEffectiveTools && shearability.isEmpty() && silkTouchability.isEmpty())
 				return;
@@ -127,13 +120,12 @@ public class WailaHandler implements IWailaDataProvider
 			ItemStack itemHeld = player.getHeldItem();
 			if (itemHeld != null)
 			{
-				isHoldingTinkersTool = ToolHelper.hasToolTag(itemHeld);
-				canHarvest = ToolHelper.canToolHarvestBlock(itemHeld, block, meta) || (!isHoldingTinkersTool && block.canHarvestBlock(player, meta));
-				isAboveMinHarvestLevel = (showCurrentlyHarvestable || showHarvestLevel) && ToolHelper.canToolHarvestLevel(itemHeld, block, meta, harvestLevel);
-				isEffective = showEffectiveTool && ToolHelper.isToolEffectiveAgainst(itemHeld, block, meta, effectiveTool);
+				canHarvest = ToolHelper.canToolHarvestBlock(itemHeld, block, blockState) || (!isHoldingTinkersTool && block.canHarvestBlock(player.worldObj, position, player));
+				isAboveMinHarvestLevel = (showCurrentlyHarvestable || showHarvestLevel) && ToolHelper.canToolHarvestLevel(itemHeld, player.worldObj, position, harvestLevel);
+				isEffective = showEffectiveTool && ToolHelper.isToolEffectiveAgainst(itemHeld, player.worldObj, position, block, effectiveTool);
 			}
 
-			boolean isCurrentlyHarvestable = (canHarvest && isAboveMinHarvestLevel) || (!isHoldingTinkersTool && ForgeHooks.canHarvestBlock(block, player, meta));
+			boolean isCurrentlyHarvestable = (canHarvest && isAboveMinHarvestLevel) || (!isHoldingTinkersTool && ForgeHooks.canHarvestBlock(block, player, player.worldObj, position));
 
 			if (hideWhileHarvestable && isCurrentlyHarvestable)
 				return;
@@ -145,7 +137,7 @@ public class WailaHandler implements IWailaDataProvider
 				String separator = (!shearability.isEmpty() || !silkTouchability.isEmpty() ? " " : "");
 				stringList.add(currentlyHarvestable + separator + silkTouchability + (!silkTouchability.isEmpty() ? separator : "") + shearability);
 			}
-			if (harvestLevel != -1 && showEffectiveTool)
+			if (harvestLevel != -1 && showEffectiveTool && effectiveTool != null)
 			{
 				String effectiveToolString;
 				if (StatCollector.canTranslate("wailaharvestability.toolclass." + effectiveTool))
@@ -158,30 +150,30 @@ public class WailaHandler implements IWailaDataProvider
 				stringList.add((!minimalLayout ? StatCollector.translateToLocal("wailaharvestability.harvestlevel") : "") + ColorHelper.getBooleanColor(isAboveMinHarvestLevel && canHarvest) + StringHelper.stripFormatting(StringHelper.getHarvestLevelName(harvestLevel)));
 		}
 	}
-	
-	public String getShearabilityString(EntityPlayer player, Block block, int meta, MovingObjectPosition position, IWailaConfigHandler config)
+
+	public String getShearabilityString(EntityPlayer player, Block block, IBlockState blockState, BlockPos position, IWailaConfigHandler config)
 	{
 		boolean isSneaking = player.isSneaking();
 		boolean showShearability = config.getConfig("harvestability.shearability") && (!config.getConfig("harvestability.shearability.sneakingonly") || isSneaking);
-		
-		if (showShearability && (block instanceof IShearable || block == Blocks.deadbush || (block == Blocks.double_plant && block.getItemDropped(meta, new Random(), 0) == null)))
+
+		if (showShearability && (block instanceof IShearable || block == Blocks.deadbush || (block == Blocks.double_plant && block.getItemDropped(blockState, new Random(), 0) == null)))
 		{
 			ItemStack itemHeld = player.getHeldItem();
 			boolean isHoldingShears = itemHeld != null && itemHeld.getItem() instanceof ItemShears;
-			boolean isShearable = isHoldingShears && ((IShearable) block).isShearable(itemHeld, player.worldObj, position.blockX, position.blockY, position.blockZ);
+			boolean isShearable = isHoldingShears && ((IShearable) block).isShearable(itemHeld, player.worldObj, position);
 			return ColorHelper.getBooleanColor(isShearable, !isShearable && isHoldingShears) + Config.SHEARABILITY_STRING;
 		}
 		return "";
 	}
 
-	public String getSilkTouchabilityString(EntityPlayer player, Block block, int meta, MovingObjectPosition position, IWailaConfigHandler config)
+	public String getSilkTouchabilityString(EntityPlayer player, Block block, IBlockState blockState, BlockPos position, IWailaConfigHandler config)
 	{
 		boolean isSneaking = player.isSneaking();
 		boolean showSilkTouchability = config.getConfig("harvestability.silktouchability") && (!config.getConfig("harvestability.silktouchability.sneakingonly") || isSneaking);
-		
-		if (showSilkTouchability && block.canSilkHarvest(player.worldObj, player, position.blockX, position.blockY, position.blockZ, meta))
+
+		if (showSilkTouchability && block.canSilkHarvest(player.worldObj, position, blockState, player))
 		{
-			boolean silkTouchMatters = block.getItemDropped(meta, new Random(), 0) != Item.getItemFromBlock(block) || block.quantityDropped(new Random()) <= 0;
+			boolean silkTouchMatters = block.getItemDropped(blockState, new Random(), 0) != Item.getItemFromBlock(block) || block.quantityDropped(new Random()) <= 0;
 			if (silkTouchMatters)
 			{
 				boolean hasSilkTouch = EnchantmentHelper.getSilkTouchModifier(player);
@@ -189,12 +181,6 @@ public class WailaHandler implements IWailaDataProvider
 			}
 		}
 		return "";
-	}
-
-	@Override
-	public List<String> getWailaTail(ItemStack itemStack, List<String> toolTip, IWailaDataAccessor accessor, IWailaConfigHandler config)
-	{
-		return toolTip;
 	}
 
 	public static HashMap<String, Boolean> configOptions = new HashMap<String, Boolean>();
@@ -218,15 +204,30 @@ public class WailaHandler implements IWailaDataProvider
 
 	public static void callbackRegister(IWailaRegistrar registrar)
 	{
-		WailaHandler instance = new WailaHandler();
-
 		for (Map.Entry<String, Boolean> entry : configOptions.entrySet())
 		{
-			// hacky way to set default values to anything but true
-			ConfigHandler.instance().getConfig(entry.getKey(), entry.getValue());
-			registrar.addConfig("Harvestability", entry.getKey(), "option." + entry.getKey());
+			registrar.addConfig("Harvestability", entry.getKey(), entry.getValue());
 		}
 
+		WailaHandler instance = new WailaHandler();
 		registrar.registerBodyProvider(instance, Block.class);
+	}
+
+	@Override
+	public ITipList getWailaHead(ItemStack itemStack, ITipList currenttip, IWailaDataAccessor accessor, IWailaConfigHandler config)
+	{
+		return currenttip;
+	}
+
+	@Override
+	public ITipList getWailaTail(ItemStack itemStack, ITipList currenttip, IWailaDataAccessor accessor, IWailaConfigHandler config)
+	{
+		return currenttip;
+	}
+
+	@Override
+	public NBTTagCompound getNBTData(TileEntity te, NBTTagCompound tag, IWailaDataAccessorServer accessor)
+	{
+		return null;
 	}
 }

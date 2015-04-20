@@ -3,8 +3,6 @@ package squeek.wailaharvestability.helpers;
 import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.List;
-import squeek.wailaharvestability.ModWailaHarvestability;
-import squeek.wailaharvestability.proxy.ProxyIguanaTweaks;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.StatCollector;
 
@@ -40,9 +38,6 @@ public class StringHelper
 		}
 		else
 		{
-			if (ModWailaHarvestability.hasIguanaTweaks)
-				return ProxyIguanaTweaks.getHarvestLevelName(num);
-
 			String unlocalized = "gui.partcrafter.mining" + (num + 1);
 			String localized = StringHelper.getLocalizedString(unlocalized);
 			if (!unlocalized.equals(localized))
