@@ -1,0 +1,30 @@
+# Tools
+wailaharvestability.toolclass.pickaxe=Pico
+wailaharvestability.toolclass.shovel=Pala
+wailaharvestability.toolclass.axe=Hacha
+wailaharvestability.toolclass.chisel=Cincel
+wailaharvestability.toolclass.scoop=Espátula
+wailaharvestability.toolclass.crowbar=Palanca
+wailaharvestability.toolclass.sword=Espada
+
+# Tooltips
+wailaharvestability.effectivetool=Herramienta más eficaz
+wailaharvestability.harvestlevel=Nivel de dureza
+wailaharvestability.currentlyharvestable=Disponible para extraer
+wailaharvestability.harvestable=Dureza
+
+# Options
+option.harvestability.harvestlevel=Herramienta más eficaz         
+option.harvestability.effectivetool=Nivel de dureza
+option.harvestability.currentlyharvestable=Disponible para extraer
+option.harvestability.oresonly=Minerales sólo
+option.harvestability.harvestlevel.sneakingonly=Sólo Shift: Nivel de dureza
+option.harvestability.effectivetool.sneakingonly=Sólo Shift: Herramienta más eficaz
+option.harvestability.currentlyharvestable.sneakingonly=Sólo Shift: Disponible para extraer
+option.harvestability.minimal=Modo mínimo
+option.harvestability.unharvestableonly=No extraíble
+option.harvestability.toolrequiredonly=Sólo herramienta requerida
+option.harvestability.shearability=Habilidad de cortar
+option.harvestability.shearability.sneakingonly=Sólo Shift: Compartibilidad
+option.harvestability.silktouchability=Habilidad de toque de seda
+option.harvestability.silktouchability.sneakingonly=Sólo Shift: Habilidad de toque de seda
