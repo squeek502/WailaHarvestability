@@ -1,0 +1,30 @@
+# tools
+wailaharvestability.toolclass.pickaxe=Picareta
+wailaharvestability.toolclass.shovel=Pá
+wailaharvestability.toolclass.axe=Machado
+wailaharvestability.toolclass.chisel=Cinzel
+wailaharvestability.toolclass.scoop=Rede de Insetos
+wailaharvestability.toolclass.crowbar=Pé-de-Cabra
+wailaharvestability.toolclass.sword=Espada
+
+# tooltips
+wailaharvestability.effectivetool=Ferramenta Efetiva : 
+wailaharvestability.harvestlevel=Nível de Mineração : 
+wailaharvestability.currentlyharvestable= Atualmente Minerável
+wailaharvestability.harvestable= Minerável
+
+# options
+option.harvestability.harvestlevel=Nível de Mineração
+option.harvestability.effectivetool=Ferramenta efetiva
+option.harvestability.currentlyharvestable=Atualmente Minerável
+option.harvestability.oresonly=Minérios apenas
+option.harvestability.harvestlevel.sneakingonly=Agachar apenas: Nivel de Mineração
+option.harvestability.effectivetool.sneakingonly=Agachar apenas: Ferramenta efetiva
+option.harvestability.currentlyharvestable.sneakingonly=Agachar apenas: Minerável
+option.harvestability.minimal=Modo mínimo
+option.harvestability.unharvestableonly=Apenas não mineráveis
+option.harvestability.toolrequiredonly=Apenas ferramenta requirida
+option.harvestability.shearability=Habilidade de Tesoura
+option.harvestability.shearability.sneakingonly=Agachar apenas: Habilidade de Tesoura
+option.harvestability.silktouchability=Habilidade do Toque Suave
+option.harvestability.silktouchability.sneakingonly=Agachar apenas: Habilidade do Toque Suave
