@@ -145,7 +145,7 @@ public class WailaHandler implements IWailaDataProvider
 				String separator = (!shearability.isEmpty() || !silkTouchability.isEmpty() ? " " : "");
 				stringList.add(currentlyHarvestable + separator + silkTouchability + (!silkTouchability.isEmpty() ? separator : "") + shearability);
 			}
-			if (harvestLevel != -1 && showEffectiveTool)
+			if (harvestLevel != -1 && showEffectiveTool && effectiveTool != null)
 			{
 				String effectiveToolString;
 				if (StatCollector.canTranslate("wailaharvestability.toolclass." + effectiveTool))
@@ -181,7 +181,8 @@ public class WailaHandler implements IWailaDataProvider
 		
 		if (showSilkTouchability && block.canSilkHarvest(player.worldObj, player, position.blockX, position.blockY, position.blockZ, meta))
 		{
-			boolean silkTouchMatters = block.getItemDropped(meta, new Random(), 0) != Item.getItemFromBlock(block) || block.quantityDropped(new Random()) <= 0;
+			Item itemDropped = block.getItemDropped(meta, new Random(), 0);
+			boolean silkTouchMatters = (itemDropped instanceof ItemBlock && itemDropped != Item.getItemFromBlock(block)) || block.quantityDropped(new Random()) <= 0;
 			if (silkTouchMatters)
 			{
 				boolean hasSilkTouch = EnchantmentHelper.getSilkTouchModifier(player);
