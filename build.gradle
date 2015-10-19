@@ -26,11 +26,11 @@ archivesBaseName = project.projectDir.name + "-mc" + project.minecraft.version
 
 sourceSets.main{
     java {
-		srcDirs 'java', 'apis' //set the source folder as the /src subfolder
-	}
+        srcDirs 'java', 'apis' //set the source folder as the /src subfolder
+    }
     resources {
-		srcDirs 'resources' //set the resources folder as the /resources subfolder
-	}
+        srcDirs 'resources' //set the resources folder as the /resources subfolder
+    }
 }
 
 repositories {
@@ -46,47 +46,30 @@ dependencies {
     compile "mcp.mobius.waila:Waila:1.5.5_1.7.10"
 }
 
-// variable replacement in source files
-task processSourcesCustom(type:Copy){
-	from('java')
-	{
-		include '**/ModInfo.java'
-
-		expand 'version':project.version, 'mcversion':project.minecraft.version
-	}
-	into project.buildDir.getPath()+"/sources/java"
-}
-
-// remove waila api from the build
-task removeWailaAPI(type:Delete) {
-	delete += sourceSets.main.output.classesDir.getPath()+"/mcp"
-}
-
-// delete mcmod.info so that it gets a fresh version copied in every time
-task cleanModInfo(type: Delete) {
-	delete file(sourceSets.main.output.resourcesDir.getPath()+"/mcmod.info")
+// variable substitution in java files
+task processSourceMainJava(type:Copy) {
+    inputs.property "vars", project.version + project.minecraft.version
+    from('java')
+    {
+        include '**/ModInfo.java'
+        include '**/package-info.java'
+        expand 'version':project.version, 'mcversion':project.minecraft.version
+    }
+    into project.buildDir.getPath()+"/sources/java"
 }
 
 // correct task ordering
-processResources.dependsOn cleanModInfo
-compileJava.dependsOn processSourcesCustom
 afterEvaluate { project ->
-	processSourcesCustom.shouldRunAfter(sourceMainJava)
-	compileJava.finalizedBy(removeWailaAPI)
+    sourceMainJava.finalizedBy(processSourceMainJava)
 }
 
-processResources
-{
-    // replace stuff in mcmod.info, nothing else
+processResources {
+    inputs.property "vars", project.version + project.minecraft.version
     from(sourceSets.main.resources.srcDirs) {
-        include 'mcmod.info'
-                
-        // replace version and mcversion
+        include '**/*.info'
         expand 'version':project.version, 'mcversion':project.minecraft.version
     }
-        
-    // copy everything else, thats not the mcmod.info
     from(sourceSets.main.resources.srcDirs) {
-        exclude 'mcmod.info'
+        exclude '**/*.info'
     }
 }
