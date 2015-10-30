@@ -29,6 +29,7 @@ import squeek.wailaharvestability.helpers.OreHelper;
 import squeek.wailaharvestability.helpers.StringHelper;
 import squeek.wailaharvestability.helpers.ToolHelper;
 import squeek.wailaharvestability.proxy.ProxyCreativeBlocks;
+import squeek.wailaharvestability.proxy.ProxyGregTech;
 
 public class WailaHandler implements IWailaDataProvider
 {
@@ -56,17 +57,17 @@ public class WailaHandler implements IWailaDataProvider
 		EntityPlayer player = accessor.getPlayer();
 
 		// for disguised blocks
-		if (itemStack.getItem() instanceof ItemBlock)
+		if (!ProxyGregTech.isOreBlock(block) && itemStack.getItem() instanceof ItemBlock)
 		{
 			block = Block.getBlockFromItem(itemStack.getItem());
 			meta = itemStack.getItemDamage();
 		}
 
 		boolean minimalLayout = config.getConfig("harvestability.minimal", false);
-		
+
 		List<String> stringParts = new ArrayList<String>();
 		getHarvestability(stringParts, player, block, meta, accessor.getPosition(), config, minimalLayout);
-		
+
 		if (!stringParts.isEmpty())
 		{
 			if (minimalLayout)
@@ -74,10 +75,10 @@ public class WailaHandler implements IWailaDataProvider
 			else
 				toolTip.addAll(stringParts);
 		}
-		
+
 		return toolTip;
 	}
-	
+
 	public void getHarvestability(List<String> stringList, EntityPlayer player, Block block, int meta, MovingObjectPosition position, IWailaConfigHandler config, boolean minimalLayout)
 	{
 		boolean isSneaking = player.isSneaking();
@@ -158,12 +159,12 @@ public class WailaHandler implements IWailaDataProvider
 				stringList.add((!minimalLayout ? StatCollector.translateToLocal("wailaharvestability.harvestlevel") : "") + ColorHelper.getBooleanColor(isAboveMinHarvestLevel && canHarvest) + StringHelper.stripFormatting(StringHelper.getHarvestLevelName(harvestLevel)));
 		}
 	}
-	
+
 	public String getShearabilityString(EntityPlayer player, Block block, int meta, MovingObjectPosition position, IWailaConfigHandler config)
 	{
 		boolean isSneaking = player.isSneaking();
 		boolean showShearability = config.getConfig("harvestability.shearability") && (!config.getConfig("harvestability.shearability.sneakingonly") || isSneaking);
-		
+
 		if (showShearability && (block instanceof IShearable || block == Blocks.deadbush || (block == Blocks.double_plant && block.getItemDropped(meta, new Random(), 0) == null)))
 		{
 			ItemStack itemHeld = player.getHeldItem();
@@ -178,7 +179,7 @@ public class WailaHandler implements IWailaDataProvider
 	{
 		boolean isSneaking = player.isSneaking();
 		boolean showSilkTouchability = config.getConfig("harvestability.silktouchability") && (!config.getConfig("harvestability.silktouchability.sneakingonly") || isSneaking);
-		
+
 		if (showSilkTouchability && block.canSilkHarvest(player.worldObj, player, position.blockX, position.blockY, position.blockZ, meta))
 		{
 			Item itemDropped = block.getItemDropped(meta, new Random(), 0);
