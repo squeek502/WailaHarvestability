@@ -110,7 +110,7 @@ public class ToolHelper
 
 			return harvestTypes.contains(effectiveToolClass);
 		}
-		return ForgeHooks.isToolEffective(tool, block, metadata) || (toolHasAnyToolClass(tool) ? isToolOfClass(tool, effectiveToolClass) : tool.func_150997_a(block) > 1.5f); // func_150997_a = getStrVsBlock
+		return ForgeHooks.isToolEffective(tool, block, metadata) || (toolHasAnyToolClass(tool) ? isToolOfClass(tool, effectiveToolClass) : tool.getItem().getDigSpeed(tool, block, metadata) > 1.5f);
 	}
 
 	public static boolean canToolHarvestLevel(ItemStack tool, Block block, int metadata, int harvestLevel)
