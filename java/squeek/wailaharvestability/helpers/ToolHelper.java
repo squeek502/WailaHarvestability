@@ -27,7 +27,7 @@ public class ToolHelper
 
 	public static boolean isToolEffectiveAgainst(ItemStack tool, IBlockAccess blockAccess, BlockPos blockPos, Block block, String effectiveToolClass)
 	{
-		return ForgeHooks.isToolEffective(blockAccess, blockPos, tool) || (toolHasAnyToolClass(tool) ? isToolOfClass(tool, effectiveToolClass) : tool.getStrVsBlock(block) > 1.5f); // func_150997_a = getStrVsBlock
+		return ForgeHooks.isToolEffective(blockAccess, blockPos, tool) || (toolHasAnyToolClass(tool) ? isToolOfClass(tool, effectiveToolClass) : tool.getItem().getDigSpeed(tool, blockAccess.getBlockState(blockPos)) > 1.5f);
 	}
 
 	public static boolean canToolHarvestLevel(ItemStack tool, IBlockAccess blockAccess, BlockPos blockPos, int harvestLevel)
@@ -37,7 +37,7 @@ public class ToolHelper
 
 	public static boolean canToolHarvestBlock(ItemStack tool, Block block, IBlockState blockState)
 	{
-		return block.getMaterial().isToolNotRequired() || tool.canHarvestBlock(block); // func_150998_b = canHarvestBlock
+		return block.getMaterial().isToolNotRequired() || tool.canHarvestBlock(block);
 	}
 
 }

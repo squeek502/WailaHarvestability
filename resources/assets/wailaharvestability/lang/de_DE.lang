@@ -3,10 +3,13 @@ wailaharvestability.toolclass.pickaxe=Spitzhacke
 wailaharvestability.toolclass.shovel=Schaufel
 wailaharvestability.toolclass.axe=Axt
 wailaharvestability.toolclass.chisel=Meißel
+wailaharvestability.toolclass.scoop=Kescher
+wailaharvestability.toolclass.crowbar=Brecheisen
+wailaharvestability.toolclass.sword=Schwert
 
 # tooltips
-wailaharvestability.effectivetool=Effektives Werkzeug : 
-wailaharvestability.harvestlevel=Abbau-Level : 
+wailaharvestability.effectivetool=Effektives Werkzeug :
+wailaharvestability.harvestlevel=Abbau-Level :
 wailaharvestability.currentlyharvestable= Aktuell abbaubar
 wailaharvestability.harvestable= Abbaubar
 
@@ -21,3 +24,7 @@ option.harvestability.currentlyharvestable.sneakingonly=Nur schleichend: Abbauba
 option.harvestability.minimal=Minimalmodus
 option.harvestability.unharvestableonly=Nur nicht erntbares
 option.harvestability.toolrequiredonly=Nur, wenn Werkzeug benötigt
+option.harvestability.shearability=Scherbarkeit
+option.harvestability.shearability.sneakingonly=Nur schleichend: Scherbarkeit
+option.harvestability.silktouchability=Behutsambarkeit
+option.harvestability.silktouchability.sneakingonly=Nur schleichend: Behutsambarkeit

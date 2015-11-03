@@ -33,6 +33,7 @@ import squeek.wailaharvestability.helpers.OreHelper;
 import squeek.wailaharvestability.helpers.StringHelper;
 import squeek.wailaharvestability.helpers.ToolHelper;
 import squeek.wailaharvestability.proxy.ProxyCreativeBlocks;
+import squeek.wailaharvestability.proxy.ProxyGregTech;
 
 public class WailaHandler implements IWailaDataProvider
 {
@@ -54,7 +55,7 @@ public class WailaHandler implements IWailaDataProvider
 		EntityPlayer player = accessor.getPlayer();
 
 		// for disguised blocks
-		if (itemStack.getItem() instanceof ItemBlock)
+		if (!ProxyGregTech.isOreBlock(block) && itemStack.getItem() instanceof ItemBlock)
 		{
 			block = Block.getBlockFromItem(itemStack.getItem());
 			blockState = block.getStateFromMeta(itemStack.getItemDamage());
@@ -173,7 +174,8 @@ public class WailaHandler implements IWailaDataProvider
 
 		if (showSilkTouchability && block.canSilkHarvest(player.worldObj, position, blockState, player))
 		{
-			boolean silkTouchMatters = block.getItemDropped(blockState, new Random(), 0) != Item.getItemFromBlock(block) || block.quantityDropped(new Random()) <= 0;
+			Item itemDropped = block.getItemDropped(blockState, new Random(), 0);
+			boolean silkTouchMatters = (itemDropped instanceof ItemBlock && itemDropped != Item.getItemFromBlock(block)) || block.quantityDropped(new Random()) <= 0;
 			if (silkTouchMatters)
 			{
 				boolean hasSilkTouch = EnchantmentHelper.getSilkTouchModifier(player);
