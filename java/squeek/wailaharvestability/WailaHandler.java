@@ -96,7 +96,7 @@ public class WailaHandler implements IWailaDataProvider
 				return;
 			}
 
-			if (BlockHelper.isBlockUnbreakable(block, player.worldObj, position.blockX, position.blockY, position.blockZ))
+			if (!player.isCurrentToolAdventureModeExempt(position.blockX, position.blockY, position.blockZ) || BlockHelper.isBlockUnbreakable(block, player.worldObj, position.blockX, position.blockY, position.blockZ))
 			{
 				String unbreakableString = ColorHelper.getBooleanColor(false) + Config.NOT_CURRENTLY_HARVESTABLE_STRING + (!minimalLayout ? EnumChatFormatting.RESET + StatCollector.translateToLocal("wailaharvestability.harvestable") : "");
 				stringList.add(unbreakableString);
