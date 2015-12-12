@@ -83,6 +83,7 @@ public class WailaHandler implements IWailaDataProvider
 	{
 		boolean isSneaking = player.isSneaking();
 		boolean showHarvestLevel = config.getConfig("harvestability.harvestlevel") && (!config.getConfig("harvestability.harvestlevel.sneakingonly") || isSneaking);
+		boolean showHarvestLevelNum = config.getConfig("harvestability.harvestlevelnum") && (!config.getConfig("harvestability.harvestlevelnum.sneakingonly") || isSneaking);
 		boolean showEffectiveTool = config.getConfig("harvestability.effectivetool") && (!config.getConfig("harvestability.effectivetool.sneakingonly") || isSneaking);
 		boolean showCurrentlyHarvestable = config.getConfig("harvestability.currentlyharvestable") && (!config.getConfig("harvestability.currentlyharvestable.sneakingonly") || isSneaking);
 		boolean hideWhileHarvestable = config.getConfig("harvestability.unharvestableonly", false);
@@ -155,8 +156,22 @@ public class WailaHandler implements IWailaDataProvider
 					effectiveToolString = effectiveTool.substring(0, 1).toUpperCase() + effectiveTool.substring(1);
 				stringList.add((!minimalLayout ? StatCollector.translateToLocal("wailaharvestability.effectivetool") : "") + ColorHelper.getBooleanColor(isEffective && (!isHoldingTinkersTool || canHarvest), isHoldingTinkersTool && isEffective && !canHarvest) + effectiveToolString);
 			}
-			if (harvestLevel >= 1 && showHarvestLevel)
-				stringList.add((!minimalLayout ? StatCollector.translateToLocal("wailaharvestability.harvestlevel") : "") + ColorHelper.getBooleanColor(isAboveMinHarvestLevel && canHarvest) + StringHelper.stripFormatting(StringHelper.getHarvestLevelName(harvestLevel)));
+			if (harvestLevel >= 1 && (showHarvestLevel || showHarvestLevelNum))
+			{
+				String harvestLevelString = "";
+				String harvestLevelName = StringHelper.stripFormatting(StringHelper.getHarvestLevelName(harvestLevel));
+				String harvestLevelNum = String.valueOf(harvestLevel);
+
+				// only show harvest level number and name if they are different
+				showHarvestLevelNum = showHarvestLevelNum && (!showHarvestLevel || !harvestLevelName.equals(harvestLevelNum));
+
+				if (showHarvestLevel)
+					harvestLevelString = harvestLevelName + (showHarvestLevelNum ? String.format(" (%d)", harvestLevel) : "");
+				else if (showHarvestLevelNum)
+					harvestLevelString = harvestLevelNum;
+
+				stringList.add((!minimalLayout ? StatCollector.translateToLocal("wailaharvestability.harvestlevel") : "") + ColorHelper.getBooleanColor(isAboveMinHarvestLevel && canHarvest) + harvestLevelString);
+			}
 		}
 	}
 
@@ -203,9 +218,11 @@ public class WailaHandler implements IWailaDataProvider
 	static
 	{
 		configOptions.put("harvestability.harvestlevel", true);
+		configOptions.put("harvestability.harvestlevelnum", false);
 		configOptions.put("harvestability.effectivetool", true);
 		configOptions.put("harvestability.currentlyharvestable", true);
 		configOptions.put("harvestability.harvestlevel.sneakingonly", false);
+		configOptions.put("harvestability.harvestlevelnum.sneakingonly", false);
 		configOptions.put("harvestability.effectivetool.sneakingonly", false);
 		configOptions.put("harvestability.currentlyharvestable.sneakingonly", false);
 		configOptions.put("harvestability.oresonly", false);
