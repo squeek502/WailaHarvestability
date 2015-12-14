@@ -1,20 +1,14 @@
 package squeek.wailaharvestability;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
-import mcp.mobius.waila.api.ITaggedList.ITipList;
 import mcp.mobius.waila.api.IWailaConfigHandler;
 import mcp.mobius.waila.api.IWailaDataAccessor;
-import mcp.mobius.waila.api.IWailaDataAccessorServer;
 import mcp.mobius.waila.api.IWailaDataProvider;
 import mcp.mobius.waila.api.IWailaRegistrar;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
@@ -25,15 +19,14 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.StatCollector;
+import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeHooks;
 import net.minecraftforge.common.IShearable;
-import squeek.wailaharvestability.helpers.BlockHelper;
-import squeek.wailaharvestability.helpers.ColorHelper;
-import squeek.wailaharvestability.helpers.OreHelper;
-import squeek.wailaharvestability.helpers.StringHelper;
-import squeek.wailaharvestability.helpers.ToolHelper;
+import squeek.wailaharvestability.helpers.*;
 import squeek.wailaharvestability.proxy.ProxyCreativeBlocks;
 import squeek.wailaharvestability.proxy.ProxyGregTech;
+
+import java.util.*;
 
 public class WailaHandler implements IWailaDataProvider
 {
@@ -44,7 +37,7 @@ public class WailaHandler implements IWailaDataProvider
 	}
 
 	@Override
-	public ITipList getWailaBody(ItemStack itemStack, ITipList toolTip, IWailaDataAccessor accessor, IWailaConfigHandler config)
+	public List<String> getWailaBody(ItemStack itemStack, List<String> toolTip, IWailaDataAccessor accessor, IWailaConfigHandler config)
 	{
 		Block block = accessor.getBlock();
 		IBlockState blockState = accessor.getBlockState();
@@ -216,19 +209,19 @@ public class WailaHandler implements IWailaDataProvider
 	}
 
 	@Override
-	public ITipList getWailaHead(ItemStack itemStack, ITipList currenttip, IWailaDataAccessor accessor, IWailaConfigHandler config)
+	public List<String> getWailaHead(ItemStack itemStack, List<String> currenttip, IWailaDataAccessor accessor, IWailaConfigHandler config)
 	{
 		return currenttip;
 	}
 
 	@Override
-	public ITipList getWailaTail(ItemStack itemStack, ITipList currenttip, IWailaDataAccessor accessor, IWailaConfigHandler config)
+	public List<String> getWailaTail(ItemStack itemStack, List<String> currenttip, IWailaDataAccessor accessor, IWailaConfigHandler config)
 	{
 		return currenttip;
 	}
 
 	@Override
-	public NBTTagCompound getNBTData(TileEntity te, NBTTagCompound tag, IWailaDataAccessorServer accessor)
+	public NBTTagCompound getNBTData(EntityPlayerMP player, TileEntity te, NBTTagCompound tag, World world, BlockPos pos)
 	{
 		return null;
 	}

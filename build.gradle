@@ -11,15 +11,16 @@ buildscript {
 		}
 	}
 	dependencies {
-		classpath 'net.minecraftforge.gradle:ForgeGradle:1.2-SNAPSHOT'
+		classpath 'net.minecraftforge.gradle:ForgeGradle:2.0-SNAPSHOT'
 	}
 }
 
-apply plugin: 'forge'
+apply plugin: 'net.minecraftforge.gradle.forge'
 
 minecraft {
-	version = "1.8-11.14.1.1334"
+	version = "1.8-11.14.4.1563"
 	mappings = "snapshot_20141130"
+    runDir = "run"
 }
 
 repositories {
@@ -32,7 +33,7 @@ repositories {
 }
  
 dependencies {
-	compile "mcp.mobius.waila:Waila:1.6.0_B1_1.8.1"
+	deobfCompile "mcp.mobius.waila:Waila:1.6.0-B2_1.8"
 }
 
 group = project.projectDir.name.toLowerCase()
