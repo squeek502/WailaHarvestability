@@ -7,6 +7,7 @@ launcher/
 .gradle/
 *.zip
 *.jar
+run/
 
 # Misc mod files
 media/
@@ -21,6 +22,9 @@ libs/
 .project
 .settings
 .pydevproject
+*.launch
+.settings
+.metadata
 
 # MCP Files
 docs/
