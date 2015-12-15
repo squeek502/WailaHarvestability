@@ -20,7 +20,10 @@ apply plugin: 'net.minecraftforge.gradle.forge'
 minecraft {
 	version = "1.8-11.14.4.1563"
 	mappings = "snapshot_20141130"
-    runDir = "run"
+	runDir = "run"
+
+	replace "\${version}", project.version
+	replaceIn "ModInfo.java"
 }
 
 repositories {
@@ -46,23 +49,6 @@ sourceSets.main{
 	resources {
 		srcDirs 'resources'
 	}
-}
-
-// variable substitution in java files
-task processSourceMainJava(type:Copy) {
-	inputs.property "vars", project.version + project.minecraft.version
-	from('java')
-	{
-		include '**/ModInfo.java'
-		include '**/package-info.java'
-		expand 'version':project.version, 'mcversion':project.minecraft.version
-	}
-	into project.buildDir.getPath()+"/sources/"+SourceSet.MAIN_SOURCE_SET_NAME+"/java"
-}
-
-// correct task ordering
-afterEvaluate { project ->
-	sourceMainJava.finalizedBy(processSourceMainJava)
 }
 
 processResources
