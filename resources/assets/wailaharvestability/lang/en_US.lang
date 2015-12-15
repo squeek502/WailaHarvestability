@@ -28,3 +28,5 @@ option.harvestability.shearability=Shearability
 option.harvestability.shearability.sneakingonly=Sneak only: Shearability
 option.harvestability.silktouchability=Silk Touchability
 option.harvestability.silktouchability.sneakingonly=Sneak only: Silk Touchability
+option.harvestability.harvestlevelnum=Harvest level no.
+option.harvestability.harvestlevelnum.sneakingonly=Sneak only: Harvest level no.

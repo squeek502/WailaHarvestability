@@ -4,11 +4,15 @@ import java.util.HashMap;
 import java.util.Map;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.network.NetworkPlayerInfo;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemTool;
 import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
+import net.minecraft.world.WorldSettings.GameType;
 
 public class BlockHelper
 {
@@ -45,5 +49,21 @@ public class BlockHelper
 	public static boolean isBlockUnbreakable(Block block, World world, BlockPos blockPos)
 	{
 		return block.getBlockHardness(world, blockPos) == -1.0f;
+	}
+
+	public static boolean isAdventureModeAndBlockIsUnbreakable(EntityPlayer player, Block block)
+	{
+		NetworkPlayerInfo networkplayerinfo = Minecraft.getMinecraft().getNetHandler().getPlayerInfo(player.getGameProfile().getId());
+		GameType gameType = networkplayerinfo.getGameType();
+
+		if (!gameType.isAdventure())
+			return false;
+
+		if (player.isAllowEdit())
+			return false;
+
+		ItemStack heldItem = player.getCurrentEquippedItem();
+
+		return gameType == GameType.SPECTATOR || heldItem == null || !heldItem.canDestroy(block);
 	}
 }
