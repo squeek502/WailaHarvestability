@@ -66,4 +66,31 @@ public class BlockHelper
 
 		return gameType == GameType.SPECTATOR || heldItem == null || !heldItem.canDestroy(block);
 	}
+
+	/**
+	 * A copy+paste of ForgeHooks.canHarvestBlock, modified to be position-agnostic
+	 * See https://github.com/MinecraftForge/MinecraftForge/pull/2769
+	 */
+	public static boolean canHarvestBlock(Block block, EntityPlayer player, IBlockState state)
+	{
+		if (block.getMaterial().isToolNotRequired())
+		{
+			return true;
+		}
+
+		ItemStack stack = player.inventory.getCurrentItem();
+		String tool = block.getHarvestTool(state);
+		if (stack == null || tool == null)
+		{
+			return player.canHarvestBlock(block);
+		}
+
+		int toolLevel = stack.getItem().getHarvestLevel(stack, tool);
+		if (toolLevel < 0)
+		{
+			return player.canHarvestBlock(block);
+		}
+
+		return toolLevel >= block.getHarvestLevel(state);
+	}
 }

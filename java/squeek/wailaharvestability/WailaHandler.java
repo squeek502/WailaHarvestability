@@ -20,7 +20,6 @@ import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
-import net.minecraftforge.common.ForgeHooks;
 import net.minecraftforge.common.IShearable;
 import squeek.wailaharvestability.helpers.*;
 import squeek.wailaharvestability.proxy.ProxyCreativeBlocks;
@@ -115,12 +114,12 @@ public class WailaHandler implements IWailaDataProvider
 			ItemStack itemHeld = player.getHeldItem();
 			if (itemHeld != null)
 			{
-				canHarvest = ToolHelper.canToolHarvestBlock(itemHeld, block, blockState) || (!isHoldingTinkersTool && block.canHarvestBlock(player.worldObj, position, player));
+				canHarvest = ToolHelper.canToolHarvestBlock(itemHeld, block, blockState) || (!isHoldingTinkersTool && BlockHelper.canHarvestBlock(block, player, blockState));
 				isAboveMinHarvestLevel = (showCurrentlyHarvestable || showHarvestLevel) && ToolHelper.canToolHarvestLevel(itemHeld, player.worldObj, position, harvestLevel);
 				isEffective = showEffectiveTool && ToolHelper.isToolEffectiveAgainst(itemHeld, player.worldObj, position, block, effectiveTool);
 			}
 
-			boolean isCurrentlyHarvestable = (canHarvest && isAboveMinHarvestLevel) || (!isHoldingTinkersTool && ForgeHooks.canHarvestBlock(block, player, player.worldObj, position));
+			boolean isCurrentlyHarvestable = (canHarvest && isAboveMinHarvestLevel) || (!isHoldingTinkersTool && BlockHelper.canHarvestBlock(block, player, blockState));
 
 			if (hideWhileHarvestable && isCurrentlyHarvestable)
 				return;
