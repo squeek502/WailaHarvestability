@@ -10,7 +10,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemTool;
-import net.minecraft.util.BlockPos;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldSettings.GameType;
 
@@ -29,13 +29,13 @@ public class BlockHelper
 		String effectiveTool = block.getHarvestTool(blockState);
 		if (effectiveTool == null)
 		{
-			float hardness = block.getBlockHardness(world, blockPos);
+			float hardness = block.getBlockHardness(blockState, world, blockPos);
 			if (hardness > 0f)
 			{
 				for (Map.Entry<String, ItemStack> testToolEntry : testTools.entrySet())
 				{
 					ItemStack testTool = testToolEntry.getValue();
-					if (testTool != null && testTool.getItem() instanceof ItemTool && testTool.getStrVsBlock(block) >= ((ItemTool) testTool.getItem()).getToolMaterial().getEfficiencyOnProperMaterial())
+					if (testTool != null && testTool.getItem() instanceof ItemTool && testTool.getStrVsBlock(blockState) >= ((ItemTool) testTool.getItem()).getToolMaterial().getEfficiencyOnProperMaterial())
 					{
 						effectiveTool = testToolEntry.getKey();
 						break;
@@ -46,9 +46,9 @@ public class BlockHelper
 		return effectiveTool;
 	}
 
-	public static boolean isBlockUnbreakable(Block block, World world, BlockPos blockPos)
+	public static boolean isBlockUnbreakable(Block block, World world, BlockPos blockPos, IBlockState blockState)
 	{
-		return block.getBlockHardness(world, blockPos) == -1.0f;
+		return block.getBlockHardness(blockState, world, blockPos) == -1.0f;
 	}
 
 	public static boolean isAdventureModeAndBlockIsUnbreakable(EntityPlayer player, Block block)
@@ -62,7 +62,7 @@ public class BlockHelper
 		if (player.isAllowEdit())
 			return false;
 
-		ItemStack heldItem = player.getCurrentEquippedItem();
+		ItemStack heldItem = player.getHeldItemMainhand();
 
 		return gameType == GameType.SPECTATOR || heldItem == null || !heldItem.canDestroy(block);
 	}
@@ -73,7 +73,7 @@ public class BlockHelper
 	 */
 	public static boolean canHarvestBlock(Block block, EntityPlayer player, IBlockState state)
 	{
-		if (block.getMaterial().isToolNotRequired())
+		if (block.getMaterial(state).isToolNotRequired())
 		{
 			return true;
 		}
@@ -82,13 +82,13 @@ public class BlockHelper
 		String tool = block.getHarvestTool(state);
 		if (stack == null || tool == null)
 		{
-			return player.canHarvestBlock(block);
+			return player.canHarvestBlock(state);
 		}
 
 		int toolLevel = stack.getItem().getHarvestLevel(stack, tool);
 		if (toolLevel < 0)
 		{
-			return player.canHarvestBlock(block);
+			return player.canHarvestBlock(state);
 		}
 
 		return toolLevel >= block.getHarvestLevel(state);

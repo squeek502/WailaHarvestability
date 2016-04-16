@@ -13,6 +13,6 @@ public class ProxyGregTech
 
 	public static boolean isOreBlock(Block block)
 	{
-		return isModLoaded && GameRegistry.findUniqueIdentifierFor(block).toString().equals(oreBlockUniqueIdentifier);
+		return isModLoaded && block.getRegistryName().toString().equals(oreBlockUniqueIdentifier);
 	}
 }

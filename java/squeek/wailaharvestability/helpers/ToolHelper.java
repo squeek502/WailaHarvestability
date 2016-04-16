@@ -4,7 +4,7 @@ import java.util.Set;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.BlockPos;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraftforge.common.ForgeHooks;
 
@@ -27,7 +27,7 @@ public class ToolHelper
 
 	public static boolean isToolEffectiveAgainst(ItemStack tool, IBlockAccess blockAccess, BlockPos blockPos, Block block, String effectiveToolClass)
 	{
-		return ForgeHooks.isToolEffective(blockAccess, blockPos, tool) || (toolHasAnyToolClass(tool) ? isToolOfClass(tool, effectiveToolClass) : tool.getItem().getDigSpeed(tool, blockAccess.getBlockState(blockPos)) > 1.5f);
+		return ForgeHooks.isToolEffective(blockAccess, blockPos, tool) || (toolHasAnyToolClass(tool) ? isToolOfClass(tool, effectiveToolClass) : tool.getItem().getStrVsBlock(tool, blockAccess.getBlockState(blockPos)) > 1.5f);
 	}
 
 	public static boolean canToolHarvestLevel(ItemStack tool, IBlockAccess blockAccess, BlockPos blockPos, int harvestLevel)
@@ -37,7 +37,7 @@ public class ToolHelper
 
 	public static boolean canToolHarvestBlock(ItemStack tool, Block block, IBlockState blockState)
 	{
-		return block.getMaterial().isToolNotRequired() || tool.canHarvestBlock(block);
+		return block.getMaterial(blockState).isToolNotRequired() || tool.canHarvestBlock(blockState);
 	}
 
 }

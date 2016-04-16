@@ -2,8 +2,8 @@ package squeek.wailaharvestability.helpers;
 
 import java.lang.reflect.Method;
 import java.util.List;
-import net.minecraft.util.EnumChatFormatting;
-import net.minecraft.util.StatCollector;
+import net.minecraft.util.text.TextFormatting;
+import net.minecraft.util.text.translation.I18n;
 
 public class StringHelper
 {
@@ -37,8 +37,8 @@ public class StringHelper
 
 		String unlocalized = "wailaharvestability.harvestlevel" + (num + 1);
 
-		if (StatCollector.canTranslate(unlocalized))
-			return StatCollector.translateToLocal(unlocalized);
+		if (I18n.canTranslate(unlocalized))
+			return I18n.translateToLocal(unlocalized);
 
 		return String.valueOf(num);
 	}
@@ -57,6 +57,6 @@ public class StringHelper
 
 	public static String stripFormatting(String str)
 	{
-		return EnumChatFormatting.getTextWithoutFormattingCodes(str);
+		return TextFormatting.getTextWithoutFormattingCodes(str);
 	}
 }
