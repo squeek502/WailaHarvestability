@@ -1,8 +1,9 @@
 package squeek.wailaharvestability.proxy;
 
-import java.lang.reflect.Method;
 import net.minecraft.block.Block;
 import net.minecraftforge.fml.common.Loader;
+
+import java.lang.reflect.Method;
 
 public class ProxyCreativeBlocks
 {

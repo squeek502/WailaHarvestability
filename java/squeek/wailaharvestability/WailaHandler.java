@@ -6,6 +6,7 @@ import mcp.mobius.waila.api.IWailaDataProvider;
 import mcp.mobius.waila.api.IWailaRegistrar;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -19,7 +20,6 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextFormatting;
-import net.minecraft.util.text.translation.I18n;
 import net.minecraft.world.World;
 import net.minecraftforge.common.IShearable;
 import squeek.wailaharvestability.helpers.*;
@@ -90,7 +90,7 @@ public class WailaHandler implements IWailaDataProvider
 
 			if (BlockHelper.isAdventureModeAndBlockIsUnbreakable(player, block) || BlockHelper.isBlockUnbreakable(block, player.worldObj, position, blockState))
 			{
-				String unbreakableString = ColorHelper.getBooleanColor(false) + Config.NOT_CURRENTLY_HARVESTABLE_STRING + (!minimalLayout ? TextFormatting.RESET + I18n.translateToLocal("wailaharvestability.harvestable") : "");
+				String unbreakableString = ColorHelper.getBooleanColor(false) + Config.NOT_CURRENTLY_HARVESTABLE_STRING + (!minimalLayout ? TextFormatting.RESET + I18n.format("wailaharvestability.harvestable") : "");
 				stringList.add(unbreakableString);
 				return;
 			}
@@ -104,7 +104,7 @@ public class WailaHandler implements IWailaDataProvider
 			String shearability = getShearabilityString(player, block, blockState, position, config);
 			String silkTouchability = getSilkTouchabilityString(player, block, blockState, position, config);
 
-			if (toolRequiredOnly && block.getMaterial(blockState).isToolNotRequired() && !blockHasEffectiveTools && shearability.isEmpty() && silkTouchability.isEmpty())
+			if (toolRequiredOnly && blockState.getMaterial().isToolNotRequired() && !blockHasEffectiveTools && shearability.isEmpty() && silkTouchability.isEmpty())
 				return;
 
 			boolean canHarvest = false;
@@ -125,7 +125,7 @@ public class WailaHandler implements IWailaDataProvider
 			if (hideWhileHarvestable && isCurrentlyHarvestable)
 				return;
 
-			String currentlyHarvestable = showCurrentlyHarvestable ? ColorHelper.getBooleanColor(isCurrentlyHarvestable) + (isCurrentlyHarvestable ? Config.CURRENTLY_HARVESTABLE_STRING : Config.NOT_CURRENTLY_HARVESTABLE_STRING) + (!minimalLayout ? TextFormatting.RESET + I18n.translateToLocal("wailaharvestability.currentlyharvestable") : "") : "";
+			String currentlyHarvestable = showCurrentlyHarvestable ? ColorHelper.getBooleanColor(isCurrentlyHarvestable) + (isCurrentlyHarvestable ? Config.CURRENTLY_HARVESTABLE_STRING : Config.NOT_CURRENTLY_HARVESTABLE_STRING) + (!minimalLayout ? TextFormatting.RESET + I18n.format("wailaharvestability.currentlyharvestable") : "") : "";
 
 			if (!currentlyHarvestable.isEmpty() || !shearability.isEmpty() || !silkTouchability.isEmpty())
 			{
@@ -135,11 +135,11 @@ public class WailaHandler implements IWailaDataProvider
 			if (harvestLevel != -1 && showEffectiveTool && effectiveTool != null)
 			{
 				String effectiveToolString;
-				if (I18n.canTranslate("wailaharvestability.toolclass." + effectiveTool))
-					effectiveToolString = I18n.translateToLocal("wailaharvestability.toolclass." + effectiveTool);
+				if (I18n.hasKey("wailaharvestability.toolclass." + effectiveTool))
+					effectiveToolString = I18n.format("wailaharvestability.toolclass." + effectiveTool);
 				else
 					effectiveToolString = effectiveTool.substring(0, 1).toUpperCase() + effectiveTool.substring(1);
-				stringList.add((!minimalLayout ? I18n.translateToLocal("wailaharvestability.effectivetool") : "") + ColorHelper.getBooleanColor(isEffective && (!isHoldingTinkersTool || canHarvest), isHoldingTinkersTool && isEffective && !canHarvest) + effectiveToolString);
+				stringList.add((!minimalLayout ? I18n.format("wailaharvestability.effectivetool") : "") + ColorHelper.getBooleanColor(isEffective && (!isHoldingTinkersTool || canHarvest), isHoldingTinkersTool && isEffective && !canHarvest) + effectiveToolString);
 			}
 			if (harvestLevel >= 1 && (showHarvestLevel || showHarvestLevelNum))
 			{
@@ -155,7 +155,7 @@ public class WailaHandler implements IWailaDataProvider
 				else if (showHarvestLevelNum)
 					harvestLevelString = harvestLevelNum;
 
-				stringList.add((!minimalLayout ? I18n.translateToLocal("wailaharvestability.harvestlevel") : "") + ColorHelper.getBooleanColor(isAboveMinHarvestLevel && canHarvest) + harvestLevelString);
+				stringList.add((!minimalLayout ? I18n.format("wailaharvestability.harvestlevel") : "") + ColorHelper.getBooleanColor(isAboveMinHarvestLevel && canHarvest) + harvestLevelString);
 			}
 		}
 	}
@@ -165,7 +165,7 @@ public class WailaHandler implements IWailaDataProvider
 		boolean isSneaking = player.isSneaking();
 		boolean showShearability = config.getConfig("harvestability.shearability") && (!config.getConfig("harvestability.shearability.sneakingonly") || isSneaking);
 
-		if (showShearability && (block instanceof IShearable || block == Blocks.deadbush || (block == Blocks.double_plant && block.getItemDropped(blockState, new Random(), 0) == null)))
+		if (showShearability && (block instanceof IShearable || block == Blocks.DEADBUSH || (block == Blocks.DOUBLE_PLANT && block.getItemDropped(blockState, new Random(), 0) == null)))
 		{
 			ItemStack itemHeld = player.getHeldItemMainhand();
 			boolean isHoldingShears = itemHeld != null && itemHeld.getItem() instanceof ItemShears;
@@ -186,7 +186,7 @@ public class WailaHandler implements IWailaDataProvider
 			boolean silkTouchMatters = (itemDropped instanceof ItemBlock && itemDropped != Item.getItemFromBlock(block)) || block.quantityDropped(new Random()) <= 0;
 			if (silkTouchMatters)
 			{
-				boolean hasSilkTouch = EnchantmentHelper.getEnchantmentLevel(Enchantments.silkTouch, player.getHeldItemMainhand()) > 0;
+				boolean hasSilkTouch = EnchantmentHelper.getEnchantmentLevel(Enchantments.SILK_TOUCH, player.getHeldItemMainhand()) > 0;
 				return ColorHelper.getBooleanColor(hasSilkTouch) + Config.SILK_TOUCHABILITY_STRING;
 			}
 		}

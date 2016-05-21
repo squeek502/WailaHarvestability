@@ -2,7 +2,6 @@ package squeek.wailaharvestability.proxy;
 
 import net.minecraft.block.Block;
 import net.minecraftforge.fml.common.Loader;
-import net.minecraftforge.fml.common.registry.GameRegistry;
 
 public class ProxyGregTech
 {

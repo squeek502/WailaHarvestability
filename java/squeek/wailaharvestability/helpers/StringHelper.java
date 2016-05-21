@@ -1,9 +1,10 @@
 package squeek.wailaharvestability.helpers;
 
+import net.minecraft.client.resources.I18n;
+import net.minecraft.util.text.TextFormatting;
+
 import java.lang.reflect.Method;
 import java.util.List;
-import net.minecraft.util.text.TextFormatting;
-import net.minecraft.util.text.translation.I18n;
 
 public class StringHelper
 {
@@ -37,8 +38,8 @@ public class StringHelper
 
 		String unlocalized = "wailaharvestability.harvestlevel" + (num + 1);
 
-		if (I18n.canTranslate(unlocalized))
-			return I18n.translateToLocal(unlocalized);
+		if (I18n.hasKey(unlocalized))
+			return I18n.format(unlocalized);
 
 		return String.valueOf(num);
 	}
