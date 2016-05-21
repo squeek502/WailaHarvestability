@@ -11,6 +11,6 @@ public class MissingHarvestInfo
 
 	public static void vanilla()
 	{
-		Blocks.web.setHarvestLevel("sword", 0);
+		Blocks.WEB.setHarvestLevel("sword", 0);
 	}
 }

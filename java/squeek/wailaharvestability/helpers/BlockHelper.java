@@ -1,7 +1,5 @@
 package squeek.wailaharvestability.helpers;
 
-import java.util.HashMap;
-import java.util.Map;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
@@ -14,14 +12,17 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldSettings.GameType;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class BlockHelper
 {
 	private static final HashMap<String, ItemStack> testTools = new HashMap<String, ItemStack>();
 	static
 	{
-		testTools.put("pickaxe", new ItemStack(Items.wooden_pickaxe));
-		testTools.put("shovel", new ItemStack(Items.wooden_shovel));
-		testTools.put("axe", new ItemStack(Items.wooden_axe));
+		testTools.put("pickaxe", new ItemStack(Items.WOODEN_PICKAXE));
+		testTools.put("shovel", new ItemStack(Items.WOODEN_SHOVEL));
+		testTools.put("axe", new ItemStack(Items.WOODEN_AXE));
 	}
 
 	public static String getEffectiveToolOf(World world, BlockPos blockPos, Block block, IBlockState blockState)
@@ -29,7 +30,7 @@ public class BlockHelper
 		String effectiveTool = block.getHarvestTool(blockState);
 		if (effectiveTool == null)
 		{
-			float hardness = block.getBlockHardness(blockState, world, blockPos);
+			float hardness = blockState.getBlockHardness(world, blockPos);
 			if (hardness > 0f)
 			{
 				for (Map.Entry<String, ItemStack> testToolEntry : testTools.entrySet())
@@ -48,12 +49,12 @@ public class BlockHelper
 
 	public static boolean isBlockUnbreakable(Block block, World world, BlockPos blockPos, IBlockState blockState)
 	{
-		return block.getBlockHardness(blockState, world, blockPos) == -1.0f;
+		return blockState.getBlockHardness(world, blockPos) == -1.0f;
 	}
 
 	public static boolean isAdventureModeAndBlockIsUnbreakable(EntityPlayer player, Block block)
 	{
-		NetworkPlayerInfo networkplayerinfo = Minecraft.getMinecraft().getNetHandler().getPlayerInfo(player.getGameProfile().getId());
+		NetworkPlayerInfo networkplayerinfo = Minecraft.getMinecraft().getConnection().getPlayerInfo(player.getGameProfile().getId());
 		GameType gameType = networkplayerinfo.getGameType();
 
 		if (!gameType.isAdventure())
@@ -73,7 +74,7 @@ public class BlockHelper
 	 */
 	public static boolean canHarvestBlock(Block block, EntityPlayer player, IBlockState state)
 	{
-		if (block.getMaterial(state).isToolNotRequired())
+		if (state.getMaterial().isToolNotRequired())
 		{
 			return true;
 		}
