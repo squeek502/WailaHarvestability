@@ -165,7 +165,7 @@ public class WailaHandler implements IWailaDataProvider
 		boolean isSneaking = player.isSneaking();
 		boolean showShearability = config.getConfig("harvestability.shearability") && (!config.getConfig("harvestability.shearability.sneakingonly") || isSneaking);
 
-		if (showShearability && (block instanceof IShearable || block == Blocks.deadbush || (block == Blocks.double_plant && block.getItemDropped(blockState, new Random(), 0) == null)))
+		if (showShearability && (block instanceof IShearable || block == Blocks.DEADBUSH || (block == Blocks.DOUBLE_PLANT && block.getItemDropped(blockState, new Random(), 0) == null)))
 		{
 			ItemStack itemHeld = player.getHeldItemMainhand();
 			boolean isHoldingShears = itemHeld != null && itemHeld.getItem() instanceof ItemShears;
@@ -186,7 +186,7 @@ public class WailaHandler implements IWailaDataProvider
 			boolean silkTouchMatters = (itemDropped instanceof ItemBlock && itemDropped != Item.getItemFromBlock(block)) || block.quantityDropped(new Random()) <= 0;
 			if (silkTouchMatters)
 			{
-				boolean hasSilkTouch = EnchantmentHelper.getEnchantmentLevel(Enchantments.silkTouch, player.getHeldItemMainhand()) > 0;
+				boolean hasSilkTouch = EnchantmentHelper.getEnchantmentLevel(Enchantments.SILK_TOUCH, player.getHeldItemMainhand()) > 0;
 				return ColorHelper.getBooleanColor(hasSilkTouch) + Config.SILK_TOUCHABILITY_STRING;
 			}
 		}
