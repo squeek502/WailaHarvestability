@@ -2,10 +2,12 @@ package squeek.wailaharvestability;
 
 import java.io.File;
 import net.minecraftforge.common.config.Configuration;
+import net.minecraftforge.fml.client.event.ConfigChangedEvent;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public class Config
 {
-	private static final String CATEGORY_MAIN = "Main";
+	public static final String CATEGORY_MAIN = "Main";
 
 	public static String MINIMAL_SEPARATOR_STRING;
 	private static final String MINIMAL_SEPARATOR_STRING_NAME = "minimal.mode.separator";
@@ -27,14 +29,19 @@ public class Config
 	private static final String SILK_TOUCHABILITY_STRING_NAME = "silk.touchability.string";
 	private static final String SILK_TOUCHABILITY_STRING_DEFAULT = "\u2712";
 
-	private static Configuration config;
+	public static Configuration config;
 
 	public static void init(File file)
 	{
-		config = new Configuration(file);
+		if (config == null)
+		{
+			config = new Configuration(file);
+			load();
+		}
+	}
 
-		load();
-
+	private static void load()
+	{
 		MINIMAL_SEPARATOR_STRING = config.get(CATEGORY_MAIN, MINIMAL_SEPARATOR_STRING_NAME, MINIMAL_SEPARATOR_STRING_DEFAULT).getString();
 		CURRENTLY_HARVESTABLE_STRING = config.get(CATEGORY_MAIN, CURRENTLY_HARVESTABLE_STRING_NAME, CURRENTLY_HARVESTABLE_STRING_DEFAULT).getString();
 		NOT_CURRENTLY_HARVESTABLE_STRING = config.get(CATEGORY_MAIN, NOT_CURRENTLY_HARVESTABLE_STRING_NAME, NOT_CURRENTLY_HARVESTABLE_STRING_DEFAULT).getString();
@@ -46,11 +53,16 @@ public class Config
 
 	public static void save()
 	{
-		config.save();
+		if (config.hasChanged())
+		{
+			config.save();
+		}
 	}
 
-	public static void load()
-	{
-		config.load();
-	}
+    @SubscribeEvent
+    public void onConfigurationChangedEvent(ConfigChangedEvent.OnConfigChangedEvent event) {
+        if (event.getModID().equalsIgnoreCase(ModInfo.MODID)) {
+            load();
+        }
+    }
 }
