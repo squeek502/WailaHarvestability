@@ -1,9 +1,10 @@
 package squeek.wailaharvestability;
 
-import java.io.File;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.fml.client.event.ConfigChangedEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+
+import java.io.File;
 
 public class Config
 {
@@ -29,6 +30,9 @@ public class Config
 	private static final String SILK_TOUCHABILITY_STRING_NAME = "silk.touchability.string";
 	private static final String SILK_TOUCHABILITY_STRING_DEFAULT = "\u2712";
 
+	public static boolean HARVEST_LEVEL_TOOLTIP;
+	private static final String HARVEST_LEVEL_TOOLTIP_NAME = "harvest.level.tooltip";
+
 	public static Configuration config;
 
 	public static void init(File file)
@@ -47,6 +51,7 @@ public class Config
 		NOT_CURRENTLY_HARVESTABLE_STRING = config.get(CATEGORY_MAIN, NOT_CURRENTLY_HARVESTABLE_STRING_NAME, NOT_CURRENTLY_HARVESTABLE_STRING_DEFAULT).getString();
 		SHEARABILITY_STRING = config.get(CATEGORY_MAIN, SHEARABILITY_STRING_NAME, SHEARABILITY_STRING_DEFAULT).getString();
 		SILK_TOUCHABILITY_STRING = config.get(CATEGORY_MAIN, SILK_TOUCHABILITY_STRING_NAME, SILK_TOUCHABILITY_STRING_DEFAULT).getString();
+		HARVEST_LEVEL_TOOLTIP = config.get(CATEGORY_MAIN, HARVEST_LEVEL_TOOLTIP_NAME, false).getBoolean();
 
 		save();
 	}

@@ -6,6 +6,7 @@ import mcp.mobius.waila.api.IWailaDataProvider;
 import mcp.mobius.waila.api.IWailaRegistrar;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -19,7 +20,6 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextFormatting;
-import net.minecraft.util.text.translation.I18n;
 import net.minecraft.world.World;
 import net.minecraftforge.common.IShearable;
 import squeek.wailaharvestability.helpers.*;
@@ -90,7 +90,7 @@ public class WailaHandler implements IWailaDataProvider
 
 			if (BlockHelper.isAdventureModeAndBlockIsUnbreakable(player, block) || BlockHelper.isBlockUnbreakable(block, player.worldObj, position, blockState))
 			{
-				String unbreakableString = ColorHelper.getBooleanColor(false) + Config.NOT_CURRENTLY_HARVESTABLE_STRING + (!minimalLayout ? TextFormatting.RESET + I18n.translateToLocal("wailaharvestability.harvestable") : "");
+				String unbreakableString = ColorHelper.getBooleanColor(false) + Config.NOT_CURRENTLY_HARVESTABLE_STRING + (!minimalLayout ? TextFormatting.RESET + I18n.format("wailaharvestability.harvestable") : "");
 				stringList.add(unbreakableString);
 				return;
 			}
@@ -125,7 +125,7 @@ public class WailaHandler implements IWailaDataProvider
 			if (hideWhileHarvestable && isCurrentlyHarvestable)
 				return;
 
-			String currentlyHarvestable = showCurrentlyHarvestable ? ColorHelper.getBooleanColor(isCurrentlyHarvestable) + (isCurrentlyHarvestable ? Config.CURRENTLY_HARVESTABLE_STRING : Config.NOT_CURRENTLY_HARVESTABLE_STRING) + (!minimalLayout ? TextFormatting.RESET + I18n.translateToLocal("wailaharvestability.currentlyharvestable") : "") : "";
+			String currentlyHarvestable = showCurrentlyHarvestable ? ColorHelper.getBooleanColor(isCurrentlyHarvestable) + (isCurrentlyHarvestable ? Config.CURRENTLY_HARVESTABLE_STRING : Config.NOT_CURRENTLY_HARVESTABLE_STRING) + (!minimalLayout ? TextFormatting.RESET + I18n.format("wailaharvestability.currentlyharvestable") : "") : "";
 
 			if (!currentlyHarvestable.isEmpty() || !shearability.isEmpty() || !silkTouchability.isEmpty())
 			{
@@ -135,11 +135,11 @@ public class WailaHandler implements IWailaDataProvider
 			if (harvestLevel != -1 && showEffectiveTool && effectiveTool != null)
 			{
 				String effectiveToolString;
-				if (I18n.canTranslate("wailaharvestability.toolclass." + effectiveTool))
-					effectiveToolString = I18n.translateToLocal("wailaharvestability.toolclass." + effectiveTool);
+				if (I18n.hasKey("wailaharvestability.toolclass." + effectiveTool))
+					effectiveToolString = I18n.format("wailaharvestability.toolclass." + effectiveTool);
 				else
 					effectiveToolString = effectiveTool.substring(0, 1).toUpperCase() + effectiveTool.substring(1);
-				stringList.add((!minimalLayout ? I18n.translateToLocal("wailaharvestability.effectivetool") : "") + ColorHelper.getBooleanColor(isEffective && (!isHoldingTinkersTool || canHarvest), isHoldingTinkersTool && isEffective && !canHarvest) + effectiveToolString);
+				stringList.add((!minimalLayout ? I18n.hasKey("wailaharvestability.effectivetool") : "") + ColorHelper.getBooleanColor(isEffective && (!isHoldingTinkersTool || canHarvest), isHoldingTinkersTool && isEffective && !canHarvest) + effectiveToolString);
 			}
 			if (harvestLevel >= 1 && (showHarvestLevel || showHarvestLevelNum))
 			{
@@ -155,7 +155,7 @@ public class WailaHandler implements IWailaDataProvider
 				else if (showHarvestLevelNum)
 					harvestLevelString = harvestLevelNum;
 
-				stringList.add((!minimalLayout ? I18n.translateToLocal("wailaharvestability.harvestlevel") : "") + ColorHelper.getBooleanColor(isAboveMinHarvestLevel && canHarvest) + harvestLevelString);
+				stringList.add((!minimalLayout ? I18n.format("wailaharvestability.harvestlevel") : "") + ColorHelper.getBooleanColor(isAboveMinHarvestLevel && canHarvest) + harvestLevelString);
 			}
 		}
 	}

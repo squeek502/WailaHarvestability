@@ -33,5 +33,6 @@ public class ModWailaHarvestability
 	@EventHandler
 	public void postInit(FMLPostInitializationEvent event)
 	{
+		MinecraftForge.EVENT_BUS.register(new TooltipHandler());
 	}
 }
