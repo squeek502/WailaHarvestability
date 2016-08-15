@@ -10,20 +10,12 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class TooltipHandler {
-
     @SubscribeEvent
     @SideOnly(Side.CLIENT)
     public void tooltipEvent(ItemTooltipEvent event) {
         Item item = event.getItemStack().getItem();
         if (item instanceof ItemTool && Config.HARVEST_LEVEL_TOOLTIP) {
-            event.getToolTip().add(I18n.format("wailaharvestability.harvestlevel") + getHarvastName(((ItemTool) item).getToolMaterial().getHarvestLevel()));
+            event.getToolTip().add(I18n.format("wailaharvestability.harvestlevel") + ((ItemTool) item).getToolMaterial().getHarvestLevel());
         }
-    }
-
-    private String getHarvastName(int level) {
-        if(I18n.hasKey("wailaharvestability.harvestlevel." + level)) {
-            return I18n.format("wailaharvestability.harvestlevel." + level);
-        }
-        return Integer.toString(level);
     }
 }
