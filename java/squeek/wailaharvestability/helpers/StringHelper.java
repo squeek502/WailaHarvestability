@@ -15,7 +15,7 @@ public class StringHelper
 	{
 		try
 		{
-			HarvestLevels = Class.forName("slimeknights.tconstruct.library.utils");
+			HarvestLevels = Class.forName("slimeknights.tconstruct.library.utils.HarvestLevels");
 			getHarvestLevelName = HarvestLevels.getDeclaredMethod("getHarvestLevelName", int.class);
 		}
 		catch (Exception e)
