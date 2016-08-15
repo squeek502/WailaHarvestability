@@ -17,12 +17,12 @@ wailaharvestability.harvestlevel.1=Stone
 wailaharvestability.harvestlevel.2=Iron
 wailaharvestability.harvestlevel.3=Diamond
 # tinkers construct
-wailaharvestability.harvestlevel.4=Cobalt
+wailaharvestability.harvestlevel.4.tconstruct=Cobalt
 # tinkers alloying addon
-wailaharvestability.harvestlevel.5=Titanite
-wailaharvestability.harvestlevel.6=Meteorite
-wailaharvestability.harvestlevel.7=Vibranium
-wailaharvestability.harvestlevel.8=Adamantite
+wailaharvestability.harvestlevel.5.taiga=Titanite
+wailaharvestability.harvestlevel.6.taiga=Meteorite
+wailaharvestability.harvestlevel.7.taiga=Vibranium
+wailaharvestability.harvestlevel.8.taiga=Adamantite
 
 # options
 option.harvestability.harvestlevel=Harvest level
