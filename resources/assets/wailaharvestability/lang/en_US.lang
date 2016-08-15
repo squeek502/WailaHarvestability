@@ -30,3 +30,9 @@ option.harvestability.silktouchability=Silk Touchability
 option.harvestability.silktouchability.sneakingonly=Sneak only: Silk Touchability
 option.harvestability.harvestlevelnum=Harvest level no.
 option.harvestability.harvestlevelnum.sneakingonly=Sneak only: Harvest level no.
+
+# harvestlevels
+wailaharvestability.harvestlevel0=Wood
+wailaharvestability.harvestlevel1=Stone
+wailaharvestability.harvestlevel2=Iron
+wailaharvestability.harvestlevel3=Diamond
