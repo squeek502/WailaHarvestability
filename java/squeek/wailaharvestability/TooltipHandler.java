@@ -16,7 +16,9 @@ public class TooltipHandler {
     public void tooltipEvent(ItemTooltipEvent event) {
         Item item = event.getItemStack().getItem();
         if (item instanceof ItemTool && Config.HARVEST_LEVEL_TOOLTIP) {
-            event.getToolTip().add(I18n.format("wailaharvestability.harvestlevel") + StringHelper.getHarvestLevelName(((ItemTool) item).getToolMaterial().getHarvestLevel()));
+            int harvestLevel = ((ItemTool) item).getToolMaterial().getHarvestLevel();
+            String harvestName = StringHelper.getHarvestLevelName(harvestLevel);
+            event.getToolTip().add(I18n.format("wailaharvestability.harvestlevel") + harvestName);
         }
     }
 }
