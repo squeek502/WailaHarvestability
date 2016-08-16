@@ -104,7 +104,7 @@ public class WailaHandler implements IWailaDataProvider
 			String shearability = getShearabilityString(player, block, blockState, position, config);
 			String silkTouchability = getSilkTouchabilityString(player, block, blockState, position, config);
 
-			if (toolRequiredOnly && block.getMaterial(blockState).isToolNotRequired() && !blockHasEffectiveTools && shearability.isEmpty() && silkTouchability.isEmpty())
+			if (toolRequiredOnly && blockState.getMaterial().isToolNotRequired() && !blockHasEffectiveTools && shearability.isEmpty() && silkTouchability.isEmpty())
 				return;
 
 			boolean canHarvest = false;
@@ -139,7 +139,7 @@ public class WailaHandler implements IWailaDataProvider
 					effectiveToolString = I18n.format("wailaharvestability.toolclass." + effectiveTool);
 				else
 					effectiveToolString = effectiveTool.substring(0, 1).toUpperCase() + effectiveTool.substring(1);
-				stringList.add((!minimalLayout ? I18n.hasKey("wailaharvestability.effectivetool") : "") + ColorHelper.getBooleanColor(isEffective && (!isHoldingTinkersTool || canHarvest), isHoldingTinkersTool && isEffective && !canHarvest) + effectiveToolString);
+				stringList.add((!minimalLayout ? I18n.format("wailaharvestability.effectivetool") : "") + ColorHelper.getBooleanColor(isEffective && (!isHoldingTinkersTool || canHarvest), isHoldingTinkersTool && isEffective && !canHarvest) + effectiveToolString);
 			}
 			if (harvestLevel >= 1 && (showHarvestLevel || showHarvestLevelNum))
 			{
