@@ -115,9 +115,9 @@ public class WailaHandler implements IWailaDataProvider
 			ItemStack itemHeld = player.getHeldItemMainhand();
 			if (itemHeld != null)
 			{
-				canHarvest = ToolHelper.canToolHarvestBlock(itemHeld, block, blockState) || (!isHoldingTinkersTool && BlockHelper.canHarvestBlock(block, player, blockState));
-				isAboveMinHarvestLevel = (showCurrentlyHarvestable || showHarvestLevel) && ToolHelper.canToolHarvestLevel(itemHeld, player.worldObj, position, harvestLevel);
-				isEffective = showEffectiveTool && ToolHelper.isToolEffectiveAgainst(itemHeld, player.worldObj, position, block, effectiveTool);
+				canHarvest = ToolHelper.canToolHarvestBlock(itemHeld, blockState) || (!isHoldingTinkersTool && BlockHelper.canHarvestBlock(block, player, blockState));
+				isAboveMinHarvestLevel = (showCurrentlyHarvestable || showHarvestLevel) && ToolHelper.canToolHarvestLevel(itemHeld, player.worldObj, position, player, harvestLevel);
+				isEffective = showEffectiveTool && ToolHelper.isToolEffectiveAgainst(itemHeld, player.worldObj, position, effectiveTool);
 			}
 
 			boolean isCurrentlyHarvestable = (canHarvest && isAboveMinHarvestLevel) || (!isHoldingTinkersTool && BlockHelper.canHarvestBlock(block, player, blockState));
