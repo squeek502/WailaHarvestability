@@ -9,7 +9,7 @@ import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import squeek.wailaharvestability.setup.MissingHarvestInfo;
 
-@Mod(modid = ModInfo.MODID, version = ModInfo.VERSION, acceptedMinecraftVersions="[1.10,1.11)", dependencies = "after:TConstruct;after:ExtraTiC;after:TSteelworks;after:Mariculture", clientSideOnly = true, guiFactory = ModInfo.GUI_FACTORY_CLASS)
+@Mod(modid = ModInfo.MODID, version = ModInfo.VERSION, name = ModInfo.NAME, acceptedMinecraftVersions="[1.11,1.12)", dependencies = "after:tconstruct;", clientSideOnly = true, guiFactory = ModInfo.GUI_FACTORY_CLASS)
 public class ModWailaHarvestability
 {
 	public static boolean hasIguanaTweaks;
@@ -27,7 +27,7 @@ public class ModWailaHarvestability
 	public void init(FMLInitializationEvent event)
 	{
 		MissingHarvestInfo.init();
-		FMLInterModComms.sendMessage("Waila", "register", "squeek.wailaharvestability.WailaHandler.callbackRegister");
+		FMLInterModComms.sendMessage("waila", "register", "squeek.wailaharvestability.WailaHandler.callbackRegister");
 	}
 
 	@EventHandler

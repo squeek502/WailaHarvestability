@@ -3,11 +3,13 @@ package squeek.wailaharvestability.helpers;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.network.NetHandlerPlayClient;
 import net.minecraft.client.network.NetworkPlayerInfo;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemTool;
+import net.minecraft.network.INetHandler;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.GameType;
 import net.minecraft.world.World;
@@ -54,7 +56,11 @@ public class BlockHelper
 
 	public static boolean isAdventureModeAndBlockIsUnbreakable(EntityPlayer player, Block block)
 	{
-		NetworkPlayerInfo networkplayerinfo = Minecraft.getMinecraft().getConnection().getPlayerInfo(player.getGameProfile().getId());
+		NetHandlerPlayClient netHandler = Minecraft.getMinecraft().getConnection();
+		if (netHandler == null)
+			return false;
+
+		NetworkPlayerInfo networkplayerinfo = netHandler.getPlayerInfo(player.getGameProfile().getId());
 		GameType gameType = networkplayerinfo.getGameType();
 
 		if (!gameType.isAdventure())
@@ -65,7 +71,7 @@ public class BlockHelper
 
 		ItemStack heldItem = player.getHeldItemMainhand();
 
-		return gameType == GameType.SPECTATOR || heldItem == null || !heldItem.canDestroy(block);
+		return gameType == GameType.SPECTATOR || heldItem.isEmpty() || !heldItem.canDestroy(block);
 	}
 
 	/**
@@ -81,12 +87,12 @@ public class BlockHelper
 
 		ItemStack stack = player.inventory.getCurrentItem();
 		String tool = block.getHarvestTool(state);
-		if (stack == null || tool == null)
+		if (stack.isEmpty() || tool == null)
 		{
 			return player.canHarvestBlock(state);
 		}
 
-		int toolLevel = stack.getItem().getHarvestLevel(stack, tool);
+		int toolLevel = stack.getItem().getHarvestLevel(stack, tool, player, state);
 		if (toolLevel < 0)
 		{
 			return player.canHarvestBlock(state);

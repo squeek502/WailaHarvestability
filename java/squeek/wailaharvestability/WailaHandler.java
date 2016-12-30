@@ -12,6 +12,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Enchantments;
+import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemShears;
@@ -88,7 +89,7 @@ public class WailaHandler implements IWailaDataProvider
 				return;
 			}
 
-			if (BlockHelper.isAdventureModeAndBlockIsUnbreakable(player, block) || BlockHelper.isBlockUnbreakable(block, player.worldObj, position, blockState))
+			if (BlockHelper.isAdventureModeAndBlockIsUnbreakable(player, block) || BlockHelper.isBlockUnbreakable(block, player.world, position, blockState))
 			{
 				String unbreakableString = ColorHelper.getBooleanColor(false) + Config.NOT_CURRENTLY_HARVESTABLE_STRING + (!minimalLayout ? TextFormatting.RESET + I18n.format("wailaharvestability.harvestable") : "");
 				stringList.add(unbreakableString);
@@ -96,7 +97,7 @@ public class WailaHandler implements IWailaDataProvider
 			}
 
 			int harvestLevel = block.getHarvestLevel(blockState);
-			String effectiveTool = BlockHelper.getEffectiveToolOf(player.worldObj, position, block, blockState);
+			String effectiveTool = BlockHelper.getEffectiveToolOf(player.world, position, block, blockState);
 			if (effectiveTool != null && harvestLevel < 0)
 				harvestLevel = 0;
 			boolean blockHasEffectiveTools = harvestLevel >= 0 && effectiveTool != null;
@@ -116,8 +117,8 @@ public class WailaHandler implements IWailaDataProvider
 			if (itemHeld != null)
 			{
 				canHarvest = ToolHelper.canToolHarvestBlock(itemHeld, block, blockState) || (!isHoldingTinkersTool && BlockHelper.canHarvestBlock(block, player, blockState));
-				isAboveMinHarvestLevel = (showCurrentlyHarvestable || showHarvestLevel) && ToolHelper.canToolHarvestLevel(itemHeld, player.worldObj, position, harvestLevel);
-				isEffective = showEffectiveTool && ToolHelper.isToolEffectiveAgainst(itemHeld, player.worldObj, position, block, effectiveTool);
+				isAboveMinHarvestLevel = (showCurrentlyHarvestable || showHarvestLevel) && ToolHelper.canToolHarvestLevel(itemHeld, player.world, position, harvestLevel);
+				isEffective = showEffectiveTool && ToolHelper.isToolEffectiveAgainst(itemHeld, player.world, position, block, effectiveTool);
 			}
 
 			boolean isCurrentlyHarvestable = (canHarvest && isAboveMinHarvestLevel) || (!isHoldingTinkersTool && BlockHelper.canHarvestBlock(block, player, blockState));
@@ -165,11 +166,11 @@ public class WailaHandler implements IWailaDataProvider
 		boolean isSneaking = player.isSneaking();
 		boolean showShearability = config.getConfig("harvestability.shearability") && (!config.getConfig("harvestability.shearability.sneakingonly") || isSneaking);
 
-		if (showShearability && (block instanceof IShearable || block == Blocks.DEADBUSH || (block == Blocks.DOUBLE_PLANT && block.getItemDropped(blockState, new Random(), 0) == null)))
+		if (showShearability && block instanceof IShearable)
 		{
 			ItemStack itemHeld = player.getHeldItemMainhand();
-			boolean isHoldingShears = itemHeld != null && itemHeld.getItem() instanceof ItemShears;
-			boolean isShearable = isHoldingShears && ((IShearable) block).isShearable(itemHeld, player.worldObj, position);
+			boolean isHoldingShears = !itemHeld.isEmpty() && itemHeld.getItem() instanceof ItemShears;
+			boolean isShearable = isHoldingShears && ((IShearable) block).isShearable(itemHeld, player.world, position);
 			return ColorHelper.getBooleanColor(isShearable, !isShearable && isHoldingShears) + Config.SHEARABILITY_STRING;
 		}
 		return "";
@@ -180,7 +181,7 @@ public class WailaHandler implements IWailaDataProvider
 		boolean isSneaking = player.isSneaking();
 		boolean showSilkTouchability = config.getConfig("harvestability.silktouchability") && (!config.getConfig("harvestability.silktouchability.sneakingonly") || isSneaking);
 
-		if (showSilkTouchability && block.canSilkHarvest(player.worldObj, position, blockState, player))
+		if (showSilkTouchability && block.canSilkHarvest(player.world, position, blockState, player))
 		{
 			Item itemDropped = block.getItemDropped(blockState, new Random(), 0);
 			boolean silkTouchMatters = (itemDropped instanceof ItemBlock && itemDropped != Item.getItemFromBlock(block)) || block.quantityDropped(new Random()) <= 0;

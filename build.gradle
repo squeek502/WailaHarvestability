@@ -14,22 +14,20 @@ buildscript {
 apply plugin: 'net.minecraftforge.gradle.forge'
 
 minecraft {
-	version = "1.10.2-12.18.1.2056"
-	mappings = "snapshot_20160518"
+	version = "1.11-13.19.0.2152"
+	mappings = "snapshot_20161118"
 	runDir = "run"
 
 	replace "\${version}", project.version
 	replaceIn "ModInfo.java"
 }
 
-repositories {
-	maven {
-		url "http://mobiusstrip.eu/maven"
-	}
+repositories {  
+	maven {url "http://tehnut.info/maven"}
 }
- 
+
 dependencies {
-	deobfCompile "mcp.mobius.waila:Waila:1.7.0-B3_1.9.4"
+	deobfCompile "mcp.mobius.waila:Hwyla:1.8.5-B19_1.11"
 }
 
 group = project.projectDir.name.toLowerCase()
