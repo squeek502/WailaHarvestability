@@ -28,3 +28,5 @@ option.harvestability.shearability=Scherbarkeit
 option.harvestability.shearability.sneakingonly=Nur schleichend: Scherbarkeit
 option.harvestability.silktouchability=Behutsambarkeit
 option.harvestability.silktouchability.sneakingonly=Nur schleichend: Behutsambarkeit
+option.harvestability.harvestlevelnum=Erntegrad Nr.
+option.harvestability.harvestlevelnum.sneakingonly=Nur schleichend: Erntegrad Nr.
