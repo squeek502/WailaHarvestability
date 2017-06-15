@@ -58,7 +58,7 @@ public class WailaHandler implements IWailaDataProvider
 
 		boolean minimalLayout = config.getConfig("harvestability.minimal", false);
 
-		List<String> stringParts = new ArrayList<String>();
+		List<String> stringParts = new ArrayList<>();
 		getHarvestability(stringParts, player, block, blockState, accessor.getPosition(), config, minimalLayout);
 
 		if (!stringParts.isEmpty())
@@ -195,7 +195,7 @@ public class WailaHandler implements IWailaDataProvider
 		return "";
 	}
 
-	public static HashMap<String, Boolean> configOptions = new HashMap<String, Boolean>();
+	public static HashMap<String, Boolean> configOptions = new HashMap<>();
 	static
 	{
 		configOptions.put("harvestability.harvestlevel", true);
