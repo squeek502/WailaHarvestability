@@ -9,14 +9,14 @@ import java.util.List;
 public class StringHelper
 {
 
-	public static Class<?> HarvestLevels = null;
+	public static Class<?> harvestLevels = null;
 	public static Method getHarvestLevelName = null;
 	static
 	{
 		try
 		{
-			HarvestLevels = Class.forName("slimeknights.tconstruct.library.utils.HarvestLevels");
-			getHarvestLevelName = HarvestLevels.getDeclaredMethod("getHarvestLevelName", int.class);
+			harvestLevels = Class.forName("slimeknights.tconstruct.library.utils.HarvestLevels");
+			getHarvestLevelName = harvestLevels.getDeclaredMethod("getHarvestLevelName", int.class);
 		}
 		catch (Exception e)
 		{

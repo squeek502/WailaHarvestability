@@ -1,6 +1,6 @@
 [
 {
-  "modid": "WailaHarvestability",
+  "modid": "wailaharvestability",
   "name": "Waila Harvestability",
   "description": "An add-on for Waila that adds information about the harvestability of what you are looking at",
   "version": "${version}",

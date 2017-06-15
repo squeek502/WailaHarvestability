@@ -1,12 +1,15 @@
 package squeek.wailaharvestability.helpers;
 
-import java.util.Set;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.ItemTool;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraftforge.common.ForgeHooks;
+
+import java.util.Set;
 
 public class ToolHelper
 {
@@ -40,4 +43,9 @@ public class ToolHelper
 		return block.getMaterial(blockState).isToolNotRequired() || tool.canHarvestBlock(blockState);
 	}
 
+	public static int getToolHarvestLevel(ItemTool tool, ItemStack toolStack)
+	{
+		String toolClass = ToolHelper.getToolClassesOf(toolStack).iterator().next();
+		return tool.getHarvestLevel(toolStack, toolClass, null, null);
+	}
 }

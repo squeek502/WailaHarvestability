@@ -2,17 +2,16 @@ package squeek.wailaharvestability.proxy;
 
 import net.minecraft.block.Block;
 import net.minecraftforge.fml.common.Loader;
-import net.minecraftforge.fml.common.registry.GameRegistry;
 
 public class ProxyGregTech
 {
-	public static final String modID = "gregtech";
-	public static final String oreBlockID = "gt.blockores";
-	public static final String oreBlockUniqueIdentifier = modID + ":" + oreBlockID;
-	public static boolean isModLoaded = Loader.isModLoaded(modID);
+	public static final String MOD_ID = "gregtech";
+	public static final String ORE_BLOCK_ID = "gt.blockores";
+	public static final String ORE_BLOCK_UNIQUE_IDENTIFIER = MOD_ID + ":" + ORE_BLOCK_ID;
+	public static boolean isModLoaded = Loader.isModLoaded(MOD_ID);
 
 	public static boolean isOreBlock(Block block)
 	{
-		return isModLoaded && block.getRegistryName().toString().equals(oreBlockUniqueIdentifier);
+		return isModLoaded && String.valueOf(block.getRegistryName()).equals(ORE_BLOCK_UNIQUE_IDENTIFIER);
 	}
 }

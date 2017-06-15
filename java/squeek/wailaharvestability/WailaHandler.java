@@ -10,9 +10,7 @@ import net.minecraft.client.resources.I18n;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.init.Blocks;
 import net.minecraft.init.Enchantments;
-import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemShears;
@@ -27,17 +25,20 @@ import squeek.wailaharvestability.helpers.*;
 import squeek.wailaharvestability.proxy.ProxyCreativeBlocks;
 import squeek.wailaharvestability.proxy.ProxyGregTech;
 
+import javax.annotation.Nonnull;
 import java.util.*;
 
 public class WailaHandler implements IWailaDataProvider
 {
 	@Override
+	@Nonnull
 	public ItemStack getWailaStack(IWailaDataAccessor accessor, IWailaConfigHandler config)
 	{
-		return null;
+		return ItemStack.EMPTY;
 	}
 
 	@Override
+	@Nonnull
 	public List<String> getWailaBody(ItemStack itemStack, List<String> toolTip, IWailaDataAccessor accessor, IWailaConfigHandler config)
 	{
 		Block block = accessor.getBlock();
@@ -227,20 +228,23 @@ public class WailaHandler implements IWailaDataProvider
 	}
 
 	@Override
+	@Nonnull
 	public List<String> getWailaHead(ItemStack itemStack, List<String> currenttip, IWailaDataAccessor accessor, IWailaConfigHandler config)
 	{
 		return currenttip;
 	}
 
 	@Override
+	@Nonnull
 	public List<String> getWailaTail(ItemStack itemStack, List<String> currenttip, IWailaDataAccessor accessor, IWailaConfigHandler config)
 	{
 		return currenttip;
 	}
 
 	@Override
+	@Nonnull
 	public NBTTagCompound getNBTData(EntityPlayerMP player, TileEntity te, NBTTagCompound tag, World world, BlockPos pos)
 	{
-		return null;
+		return tag;
 	}
 }

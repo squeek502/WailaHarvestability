@@ -7,15 +7,15 @@ buildscript {
 		}
 	}
 	dependencies {
-		classpath 'net.minecraftforge.gradle:ForgeGradle:2.2-SNAPSHOT'
+		classpath 'net.minecraftforge.gradle:ForgeGradle:2.3-SNAPSHOT'
 	}
 }
 
 apply plugin: 'net.minecraftforge.gradle.forge'
 
 minecraft {
-	version = "1.11-13.19.0.2152"
-	mappings = "snapshot_20161118"
+	version = "14.21.0.2327"
+	mappings = "snapshot_20170615"
 	runDir = "run"
 
 	replace "\${version}", project.version
@@ -27,7 +27,7 @@ repositories {
 }
 
 dependencies {
-	deobfCompile "mcp.mobius.waila:Hwyla:1.8.5-B19_1.11"
+	deobfCompile "mcp.mobius.waila:Hwyla:1.8.18-B32_1.12"
 }
 
 group = project.projectDir.name.toLowerCase()

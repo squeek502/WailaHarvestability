@@ -1,28 +1,22 @@
 package squeek.wailaharvestability.gui.config;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
-import net.minecraftforge.fml.client.IModGuiFactory;
+import net.minecraftforge.common.config.ConfigElement;
+import net.minecraftforge.fml.client.DefaultGuiFactory;
+import net.minecraftforge.fml.client.config.GuiConfig;
+import squeek.wailaharvestability.Config;
+import squeek.wailaharvestability.ModInfo;
 
-import java.util.Set;
-
-public class GuiFactory implements IModGuiFactory {
-    @Override
-    public void initialize(Minecraft minecraftInstance) {
+public class GuiFactory extends DefaultGuiFactory
+{
+    public GuiFactory()
+    {
+        super(ModInfo.MODID, GuiConfig.getAbridgedConfigPath(Config.config.toString()));
     }
 
     @Override
-    public Class<? extends GuiScreen> mainConfigGuiClass() {
-        return GuiWailaHarvestabilityConfig.class;
-    }
-
-    @Override
-    public Set<RuntimeOptionCategoryElement> runtimeGuiCategories() {
-        return null;
-    }
-
-    @Override
-    public RuntimeOptionGuiHandler getHandlerFor(RuntimeOptionCategoryElement element) {
-        return null;
+    public GuiScreen createConfigGui(GuiScreen parentScreen)
+    {
+        return new GuiConfig(parentScreen, new ConfigElement(Config.config.getCategory(Config.CATEGORY_MAIN)).getChildElements(), modid, false, false, title);
     }
 }
