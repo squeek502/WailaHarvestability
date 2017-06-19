@@ -38,7 +38,7 @@ public class BlockHelper
 				for (Map.Entry<String, ItemStack> testToolEntry : testTools.entrySet())
 				{
 					ItemStack testTool = testToolEntry.getValue();
-					if (testTool != null && testTool.getItem() instanceof ItemTool && testTool.getStrVsBlock(blockState) >= Item.ToolMaterial.valueOf(((ItemTool) testTool.getItem()).getToolMaterialName()).getEfficiencyOnProperMaterial())
+					if (testTool != null && testTool.getItem() instanceof ItemTool && testTool.getStrVsBlock(blockState) >= Item.ToolMaterial.WOOD.getEfficiencyOnProperMaterial())
 					{
 						effectiveTool = testToolEntry.getKey();
 						break;
