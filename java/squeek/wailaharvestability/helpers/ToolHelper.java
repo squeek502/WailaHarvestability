@@ -47,7 +47,11 @@ public class ToolHelper
 
 	public static int getToolHarvestLevel(ItemTool tool, ItemStack toolStack)
 	{
-		String toolClass = ToolHelper.getToolClassesOf(toolStack).iterator().next();
+		Set<String> toolClasses = ToolHelper.getToolClassesOf(toolStack);
+		if (toolClasses.isEmpty())
+			return 0;
+
+		String toolClass = toolClasses.iterator().next();
 		return tool.getHarvestLevel(toolStack, toolClass, null, null);
 	}
 }
