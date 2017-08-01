@@ -28,5 +28,5 @@ option.harvestability.shearability=가위 사용 여부 표시
 option.harvestability.shearability.sneakingonly=웅크릴 때 가위 사용 여부 표시
 option.harvestability.silktouchability=섬세한 손길 사용 여부
 option.harvestability.silktouchability.sneakingonly=웅크릴 때 섬세한 손길 사용 여부 표시
-option.harvestability.harvestlevelnum=회수 레벨 숫자 표시
-option.harvestability.harvestlevelnum.sneakingonly=웅크릴 때 회수 레벨 숫자 표시
+option.harvestability.harvestlevelnum=회수 레벨을 숫자로 표시
+option.harvestability.harvestlevelnum.sneakingonly=웅크릴 때 회수 레벨을 숫자로 표시
