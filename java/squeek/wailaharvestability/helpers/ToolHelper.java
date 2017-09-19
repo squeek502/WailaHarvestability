@@ -8,6 +8,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraftforge.common.ForgeHooks;
 
+import javax.annotation.Nonnull;
 import java.util.Set;
 
 public class ToolHelper
@@ -32,12 +33,14 @@ public class ToolHelper
 		return ForgeHooks.isToolEffective(blockAccess, blockPos, tool) || (toolHasAnyToolClass(tool) ? isToolOfClass(tool, effectiveToolClass) : tool.getItem().getStrVsBlock(tool, blockAccess.getBlockState(blockPos)) > 1.5f);
 	}
 
-	public static boolean canToolHarvestLevel(ItemStack tool, IBlockAccess blockAccess, BlockPos blockPos, EntityPlayer player, int harvestLevel)
+	public static boolean canToolHarvestLevel(@Nonnull ItemStack tool, IBlockAccess blockAccess, BlockPos blockPos, EntityPlayer player, int harvestLevel)
 	{
 		IBlockState state = blockAccess.getBlockState(blockPos);
 		state = state.getBlock().getActualState(state, blockAccess, blockPos);
 
-		return tool != null && tool.getItem().getHarvestLevel(tool, state.getBlock().getHarvestTool(state), player, state) >= harvestLevel;
+		String harvestTool = state.getBlock().getHarvestTool(state);
+
+		return !tool.isEmpty() && harvestTool != null && tool.getItem().getHarvestLevel(tool, harvestTool, player, state) >= harvestLevel;
 	}
 
 	public static boolean canToolHarvestBlock(ItemStack tool, IBlockState blockState)
