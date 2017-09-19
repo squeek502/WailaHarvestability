@@ -13,22 +13,22 @@ import java.util.Set;
 
 public class ToolHelper
 {
-	public static Set<String> getToolClassesOf(ItemStack tool)
+	public static Set<String> getToolClassesOf(@Nonnull ItemStack tool)
 	{
 		return tool.getItem().getToolClasses(tool);
 	}
 
-	public static boolean isToolOfClass(ItemStack tool, String toolClass)
+	public static boolean isToolOfClass(@Nonnull ItemStack tool, String toolClass)
 	{
 		return getToolClassesOf(tool).contains(toolClass);
 	}
 
-	public static boolean toolHasAnyToolClass(ItemStack tool)
+	public static boolean toolHasAnyToolClass(@Nonnull ItemStack tool)
 	{
 		return !getToolClassesOf(tool).isEmpty();
 	}
 
-	public static boolean isToolEffectiveAgainst(ItemStack tool, IBlockAccess blockAccess, BlockPos blockPos, String effectiveToolClass)
+	public static boolean isToolEffectiveAgainst(@Nonnull ItemStack tool, IBlockAccess blockAccess, BlockPos blockPos, String effectiveToolClass)
 	{
 		return ForgeHooks.isToolEffective(blockAccess, blockPos, tool) || (toolHasAnyToolClass(tool) ? isToolOfClass(tool, effectiveToolClass) : tool.getItem().getStrVsBlock(tool, blockAccess.getBlockState(blockPos)) > 1.5f);
 	}
@@ -43,12 +43,12 @@ public class ToolHelper
 		return !tool.isEmpty() && harvestTool != null && tool.getItem().getHarvestLevel(tool, harvestTool, player, state) >= harvestLevel;
 	}
 
-	public static boolean canToolHarvestBlock(ItemStack tool, IBlockState blockState)
+	public static boolean canToolHarvestBlock(@Nonnull ItemStack tool, IBlockState blockState)
 	{
 		return blockState.getMaterial().isToolNotRequired() || tool.canHarvestBlock(blockState);
 	}
 
-	public static int getToolHarvestLevel(ItemTool tool, ItemStack toolStack)
+	public static int getToolHarvestLevel(ItemTool tool, @Nonnull ItemStack toolStack)
 	{
 		Set<String> toolClasses = ToolHelper.getToolClassesOf(toolStack);
 		if (toolClasses.isEmpty())

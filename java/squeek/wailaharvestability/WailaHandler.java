@@ -115,7 +115,7 @@ public class WailaHandler implements IWailaDataProvider
 			boolean isHoldingTinkersTool = false;
 
 			ItemStack itemHeld = player.getHeldItemMainhand();
-			if (itemHeld != null)
+			if (!itemHeld.isEmpty())
 			{
 				canHarvest = ToolHelper.canToolHarvestBlock(itemHeld, blockState) || (!isHoldingTinkersTool && BlockHelper.canHarvestBlock(block, player, blockState));
 				isAboveMinHarvestLevel = (showCurrentlyHarvestable || showHarvestLevel) && ToolHelper.canToolHarvestLevel(itemHeld, player.world, position, player, harvestLevel);
