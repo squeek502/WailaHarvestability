@@ -1,60 +1,59 @@
 package squeek.wailaharvestability.helpers;
 
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.block.BlockState;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.ItemTool;
+import net.minecraft.item.ToolItem;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IBlockAccess;
+import net.minecraft.world.IWorldReader;
 import net.minecraftforge.common.ForgeHooks;
+import net.minecraftforge.common.ToolType;
 
 import javax.annotation.Nonnull;
 import java.util.Set;
 
 public class ToolHelper
 {
-	public static Set<String> getToolClassesOf(@Nonnull ItemStack tool)
+	public static Set<ToolType> getToolTypesOf(@Nonnull ItemStack tool)
 	{
-		return tool.getItem().getToolClasses(tool);
+		return tool.getItem().getToolTypes(tool);
 	}
 
-	public static boolean isToolOfClass(@Nonnull ItemStack tool, String toolClass)
+	public static boolean isToolOfClass(@Nonnull ItemStack tool, ToolType toolType)
 	{
-		return getToolClassesOf(tool).contains(toolClass);
+		return getToolTypesOf(tool).contains(toolType);
 	}
 
 	public static boolean toolHasAnyToolClass(@Nonnull ItemStack tool)
 	{
-		return !getToolClassesOf(tool).isEmpty();
+		return !getToolTypesOf(tool).isEmpty();
 	}
 
-	public static boolean isToolEffectiveAgainst(@Nonnull ItemStack tool, IBlockAccess blockAccess, BlockPos blockPos, String effectiveToolClass)
+	public static boolean isToolEffectiveAgainst(@Nonnull ItemStack tool, IWorldReader worldReader, BlockPos blockPos, ToolType effectiveToolType)
 	{
-		return ForgeHooks.isToolEffective(blockAccess, blockPos, tool) || (toolHasAnyToolClass(tool) ? isToolOfClass(tool, effectiveToolClass) : tool.getItem().getStrVsBlock(tool, blockAccess.getBlockState(blockPos)) > 1.5f);
+		return ForgeHooks.isToolEffective(worldReader, blockPos, tool) || (toolHasAnyToolClass(tool) ? isToolOfClass(tool, effectiveToolType) : tool.getItem().getDestroySpeed(tool, worldReader.getBlockState(blockPos)) > 1.5f);
 	}
 
-	public static boolean canToolHarvestLevel(@Nonnull ItemStack tool, IBlockAccess blockAccess, BlockPos blockPos, EntityPlayer player, int harvestLevel)
+	public static boolean canToolHarvestLevel(@Nonnull ItemStack tool, IWorldReader worldReader, BlockPos blockPos, PlayerEntity player, int harvestLevel)
 	{
-		IBlockState state = blockAccess.getBlockState(blockPos);
-		state = state.getBlock().getActualState(state, blockAccess, blockPos);
-
-		String harvestTool = state.getBlock().getHarvestTool(state);
+		BlockState state = worldReader.getBlockState(blockPos);
+		ToolType harvestTool = state.getBlock().getHarvestTool(state);
 
 		return !tool.isEmpty() && harvestTool != null && tool.getItem().getHarvestLevel(tool, harvestTool, player, state) >= harvestLevel;
 	}
 
-	public static boolean canToolHarvestBlock(@Nonnull ItemStack tool, IBlockState blockState)
+	public static boolean canToolHarvestBlock(@Nonnull ItemStack tool, BlockState blockState)
 	{
 		return blockState.getMaterial().isToolNotRequired() || tool.canHarvestBlock(blockState);
 	}
 
-	public static int getToolHarvestLevel(ItemTool tool, @Nonnull ItemStack toolStack)
+	public static int getToolHarvestLevel(ToolItem tool, @Nonnull ItemStack toolStack)
 	{
-		Set<String> toolClasses = ToolHelper.getToolClassesOf(toolStack);
+		Set<ToolType> toolClasses = ToolHelper.getToolTypesOf(toolStack);
 		if (toolClasses.isEmpty())
 			return 0;
 
-		String toolClass = toolClasses.iterator().next();
+		ToolType toolClass = toolClasses.iterator().next();
 		return tool.getHarvestLevel(toolStack, toolClass, null, null);
 	}
 }

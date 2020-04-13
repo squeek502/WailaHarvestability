@@ -1,4 +1,4 @@
-package squeek.wailaharvestability.gui.config;
+/*package squeek.wailaharvestability.gui.config;
 
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraftforge.common.config.ConfigElement;
@@ -7,7 +7,7 @@ import net.minecraftforge.fml.client.config.GuiConfig;
 import squeek.wailaharvestability.Config;
 import squeek.wailaharvestability.ModInfo;
 
-public class GuiFactory extends DefaultGuiFactory
+public class GuiFactory extends DefaultGuiFactory //TODO, Currently not implemented in Forge.
 {
     public GuiFactory()
     {
@@ -19,4 +19,4 @@ public class GuiFactory extends DefaultGuiFactory
     {
         return new GuiConfig(parentScreen, new ConfigElement(Config.config.getCategory(Config.CATEGORY_MAIN)).getChildElements(), modid, false, false, title);
     }
-}
+}*/

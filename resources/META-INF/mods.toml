@@ -1,0 +1,27 @@
+modLoader="javafml"
+loaderVersion="[28,)"
+
+[[mods]]
+    modId="wailaharvestability"
+    version="${file.jarVersion}"
+    displayName="Waila Harvestability"
+    displayURL="https://www.curseforge.com/minecraft/mc-mods/waila-harvestability"
+    issueTrackerURL="https://github.com/squeek502/WailaHarvestability/issues"
+    authors="squeek"
+    credits=""
+    description='''
+    An add-on for Waila that adds information about the harvestability of what you are looking at
+    '''
+
+[[dependencies.wailaharvestability]]
+    modId="forge"
+    mandatory=true
+    versionRange="[28.1,)"
+    ordering="AFTER"
+    side="BOTH"
+
+[[dependencies.wailaharvestability]]
+    modId="tconstruct"
+    mandatory=false
+    ordering="AFTER"
+    side="BOTH"

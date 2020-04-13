@@ -1,55 +1,74 @@
 buildscript {
-	repositories {
-		mavenCentral()
-		maven {
-			name = "forge"
-			url = "http://files.minecraftforge.net/maven"
-		}
-	}
-	dependencies {
-		classpath 'net.minecraftforge.gradle:ForgeGradle:2.3-SNAPSHOT'
-	}
+    repositories {
+        maven { url = 'https://files.minecraftforge.net/maven' }
+        jcenter()
+        mavenCentral()
+    }
+    dependencies {
+        classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '3.+', changing: true
+    }
 }
+apply plugin: 'net.minecraftforge.gradle'
+apply plugin: 'eclipse'
 
-apply plugin: 'net.minecraftforge.gradle.forge'
+sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = '1.8'
+
+repositories {
+  maven {
+    name = "Hwyla"
+    url = "https://tehnut.info/maven"
+  }
+}
 
 minecraft {
-	version = "14.21.0.2327"
-	mappings = "snapshot_20170615"
-	runDir = "run"
+    mappings channel: mappings_channel, version: mappings_version
 
-	replace "\${version}", project.version
-	replaceIn "ModInfo.java"
-}
-
-repositories {  
-	maven {url "http://tehnut.info/maven"}
-}
-
-dependencies {
-	deobfCompile "mcp.mobius.waila:Hwyla:1.8.18-B32_1.12"
+    runs {
+        client {
+            workingDirectory project.file('run')
+            mods {
+                wailaharvestability {
+                    source sourceSets.main
+                }
+            }
+        }
+        server {
+            workingDirectory project.file('run')
+            mods {
+                wailaharvestability {
+                    source sourceSets.main
+                }
+            }
+        }
+        data {
+            workingDirectory project.file('run')
+            args '--mod', 'wailaharvestability', '--all', '--output', file("src/generated/resources/"), '--existing', file("src/main/resources/")
+            mods {
+                wailaharvestability {
+                    source sourceSets.main
+                }
+            }
+        }
+    }
 }
 
 group = project.projectDir.name.toLowerCase()
-archivesBaseName = project.projectDir.name + "-mc" + project.minecraft.version
+def modId = project.projectDir.name
+archivesBaseName = modId + "-mc" + "${minecraft_version}"
 
-sourceSets.main{
-	java {
-		srcDirs 'java', 'apis'
-	}
-	resources {
-		srcDirs 'resources'
-	}
+sourceSets.main.java.srcDirs += 'java'
+sourceSets.main.java.srcDirs += 'apis'
+sourceSets.main.resources.srcDirs += 'resources'
+
+dependencies {
+    minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
+    compile fg.deobf("mcp.mobius.waila:Hwyla:${hwyla_version}_${minecraft_version}")
 }
 
-processResources
-{
-	inputs.property "vars", project.version + project.minecraft.version
-	from(sourceSets.main.resources.srcDirs) {
-		include '**/*.info'
-		expand 'version':project.version, 'mcversion':project.minecraft.version
-	}
-	from(sourceSets.main.resources.srcDirs) {
-		exclude '**/*.info'
-	}
+jar {
+    manifest {
+        attributes([
+            "Implementation-Version": "${version}"
+        ])
+    }
 }

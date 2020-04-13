@@ -1,7 +1,7 @@
 package squeek.wailaharvestability.proxy;
 
 import net.minecraft.block.Block;
-import net.minecraftforge.fml.common.Loader;
+import net.minecraftforge.fml.ModList;
 
 import java.lang.reflect.Method;
 
@@ -12,12 +12,12 @@ public class ProxyCreativeBlocks
 
 	static
 	{
-		if (Loader.isModLoaded("CreativeBlocks"))
+		if (ModList.get().isLoaded("creativeblocks"))
 		{
 			try
 			{
 				CreativeBlocks = Class.forName("squeek.creativeblocks.CreativeBlocks");
-				isCreativeBlock = CreativeBlocks.getDeclaredMethod("isCreativeBlock", Block.class, int.class);
+				isCreativeBlock = CreativeBlocks.getDeclaredMethod("isCreativeBlock", Block.class);
 			}
 			catch (Exception e)
 			{
@@ -26,15 +26,15 @@ public class ProxyCreativeBlocks
 		}
 	}
 
-	public static boolean isCreativeBlock(Block block, int meta)
+	public static boolean isCreativeBlock(Block block)
 	{
 		if (isCreativeBlock != null)
 		{
 			try
 			{
-				return (Boolean) isCreativeBlock.invoke(null, block, meta);
+				return (Boolean) isCreativeBlock.invoke(null, block);
 			}
-			catch (Exception e)
+			catch (Exception ignored)
 			{
 			}
 		}

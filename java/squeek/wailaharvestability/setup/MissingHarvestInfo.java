@@ -1,9 +1,11 @@
 package squeek.wailaharvestability.setup;
 
-import net.minecraft.init.Blocks;
+import net.minecraftforge.common.ToolType;
 
 public class MissingHarvestInfo
 {
+	public static final ToolType SWORD = ToolType.get("sword");
+
 	public static void init()
 	{
 		vanilla();
@@ -11,6 +13,10 @@ public class MissingHarvestInfo
 
 	public static void vanilla()
 	{
-		Blocks.WEB.setHarvestLevel("sword", 0);
+		/*ForgeHooks.setBlockToolSetter((block, tool, level) -> { //TODO
+			Blocks.COBWEB.harvestTool = tool;
+			Blocks.COBWEB.harvestLevel = level;
+		});
+		Blocks.COBWEB.setHarvestLevel("sword", 0);*/
 	}
 }

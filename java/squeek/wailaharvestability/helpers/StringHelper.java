@@ -1,6 +1,8 @@
 package squeek.wailaharvestability.helpers;
 
 import net.minecraft.client.resources.I18n;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TextFormatting;
 
 import java.lang.reflect.Method;
@@ -44,16 +46,16 @@ public class StringHelper
 		return String.valueOf(num);
 	}
 
-	public static String concatenateStringList(List<String> strings, String separator)
+	public static ITextComponent concatenateStringList(List<ITextComponent> textComponents, String separator)
 	{
 		StringBuilder sb = new StringBuilder();
 		String sep = "";
-		for (String s : strings)
+		for (ITextComponent s : textComponents)
 		{
-			sb.append(sep).append(s);
+			sb.append(sep).append(s.getString());
 			sep = separator;
 		}
-		return sb.toString();
+		return new StringTextComponent(sb.toString());
 	}
 
 	public static String stripFormatting(String str)

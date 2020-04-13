@@ -1,0 +1,32 @@
+{
+  "_comment": "tools",
+  "wailaharvestability.toolclass.pickaxe": "Pioche",
+  "wailaharvestability.toolclass.shovel": "Pelle",
+  "wailaharvestability.toolclass.axe": "Hache",
+  "wailaharvestability.toolclass.chisel": "Burin",
+  "wailaharvestability.toolclass.scoop": "Epuisette",
+  "wailaharvestability.toolclass.crowbar": "Pied-de-biche",
+  "wailaharvestability.toolclass.sword": "Épée",
+
+  "_comment": "tooltips",
+  "wailaharvestability.effectivetool": "Outil efficace :",
+  "wailaharvestability.harvestlevel": "Niveau de récolte :",
+  "wailaharvestability.currentlyharvestable": "actuellement récoltable",
+  "wailaharvestability.harvestable": "récoltable",
+
+  "_comment": "options",
+  "option.harvestability.harvestlevel": "Niveau de récolte",
+  "option.harvestability.effectivetool": "Outil efficace",
+  "option.harvestability.currentlyharvestable": "Actuellement récoltable",
+  "option.harvestability.oresonly": "Minerai seulement",
+  "option.harvestability.harvestlevel.sneakingonly": "Accroupi : Niveau de récolte",
+  "option.harvestability.effectivetool.sneakingonly": "Accroupi: Outil efficace",
+  "option.harvestability.currentlyharvestable.sneakingonly": "Accroupi: Récoltable",
+  "option.harvestability.minimal": "Mode minimal",
+  "option.harvestability.unharvestableonly": "Non récoltable seulement",
+  "option.harvestability.toolrequiredonly": "Outil demandé seulement",
+  "option.harvestability.shearability": "Tondable",
+  "option.harvestability.shearability.sneakingonly": "Accroupi: Tondable",
+  "option.harvestability.silktouchability": "Touchabilité douce",
+  "option.harvestability.silktouchability.sneakingonly": "Accroupi: Touchabilité douce"
+}

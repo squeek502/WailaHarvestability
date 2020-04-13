@@ -1,22 +1,25 @@
 package squeek.wailaharvestability.helpers;
 
 import net.minecraft.client.Minecraft;
-import org.lwjgl.input.Keyboard;
+import net.minecraft.client.util.InputMappings;
+import org.lwjgl.glfw.GLFW;
 
 public class KeyHelper
 {
 	public static boolean isCtrlKeyDown()
 	{
 		// prioritize CONTROL, but allow OPTION as well on Mac (note: GuiScreen's isCtrlKeyDown only checks for the OPTION key on Mac)
-		boolean isCtrlKeyDown = Keyboard.isKeyDown(Keyboard.KEY_LCONTROL) || Keyboard.isKeyDown(Keyboard.KEY_RCONTROL);
+		long handle = Minecraft.getInstance().mainWindow.getHandle();
+		boolean isCtrlKeyDown = InputMappings.isKeyDown(handle, GLFW.GLFW_KEY_LEFT_CONTROL) || InputMappings.isKeyDown(handle, GLFW.GLFW_KEY_RIGHT_CONTROL);
 		if (!isCtrlKeyDown && Minecraft.IS_RUNNING_ON_MAC)
-			isCtrlKeyDown = Keyboard.isKeyDown(Keyboard.KEY_LMETA) || Keyboard.isKeyDown(Keyboard.KEY_RMETA);
+			isCtrlKeyDown = InputMappings.isKeyDown(handle, GLFW.GLFW_KEY_LEFT_ALT) || InputMappings.isKeyDown(handle, GLFW.GLFW_KEY_RIGHT_ALT);
 
 		return isCtrlKeyDown;
 	}
 
 	public static boolean isShiftKeyDown()
 	{
-		return Keyboard.isKeyDown(Keyboard.KEY_LSHIFT) || Keyboard.isKeyDown(Keyboard.KEY_RSHIFT);
+		long handle = Minecraft.getInstance().mainWindow.getHandle();
+		return InputMappings.isKeyDown(handle, GLFW.GLFW_KEY_LEFT_SHIFT) || InputMappings.isKeyDown(handle, GLFW.GLFW_KEY_RIGHT_SHIFT);
 	}
 }
