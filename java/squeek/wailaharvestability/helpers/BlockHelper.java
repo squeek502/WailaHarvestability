@@ -1,6 +1,5 @@
 package squeek.wailaharvestability.helpers;
 
-import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.network.play.ClientPlayNetHandler;
@@ -9,7 +8,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemTier;
 import net.minecraft.item.Items;
-import net.minecraft.item.ToolItem;
+import net.minecraft.item.TieredItem;
 import net.minecraft.util.CachedBlockInfo;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.GameType;
@@ -21,12 +20,15 @@ import java.util.Map;
 
 public class BlockHelper
 {
+	public static final ToolType SWORD = ToolType.get("sword");
+
 	private static final HashMap<ToolType, ItemStack> testTools = new HashMap<>();
 	static
 	{
 		testTools.put(ToolType.PICKAXE, new ItemStack(Items.WOODEN_PICKAXE));
 		testTools.put(ToolType.SHOVEL, new ItemStack(Items.WOODEN_SHOVEL));
 		testTools.put(ToolType.AXE, new ItemStack(Items.WOODEN_AXE));
+		testTools.put(SWORD, new ItemStack(Items.WOODEN_SWORD));
 	}
 
 	public static ToolType getEffectiveToolOf(World world, BlockPos blockPos, BlockState state)
@@ -35,12 +37,12 @@ public class BlockHelper
 		if (effectiveTool == null)
 		{
 			float hardness = state.getBlockHardness(world, blockPos);
-			if (hardness > 0f)
+			if (hardness > 0.0F)
 			{
 				for (Map.Entry<ToolType, ItemStack> testToolEntry : testTools.entrySet())
 				{
 					ItemStack testTool = testToolEntry.getValue();
-					if (testTool != null && testTool.getItem() instanceof ToolItem && testTool.getDestroySpeed(state) >= ItemTier.WOOD.getEfficiency())
+					if (testTool != null && !testTool.isEmpty() && testTool.getItem() instanceof TieredItem && testTool.getDestroySpeed(state) >= ItemTier.WOOD.getEfficiency())
 					{
 						effectiveTool = testToolEntry.getKey();
 						break;
@@ -53,7 +55,7 @@ public class BlockHelper
 
 	public static boolean isBlockUnbreakable(World world, BlockPos blockPos, BlockState state)
 	{
-		return state.getBlockHardness(world, blockPos) == -1.0f;
+		return state.getBlockHardness(world, blockPos) == -1.0F;
 	}
 
 	public static boolean isAdventureModeAndBlockIsUnbreakable(PlayerEntity player, BlockPos pos)
@@ -81,15 +83,15 @@ public class BlockHelper
 	 * A copy+paste of ForgeHooks.canHarvestBlock, modified to be position-agnostic
 	 * See https://github.com/MinecraftForge/MinecraftForge/pull/2769
 	 */
-	public static boolean canHarvestBlock(Block block, PlayerEntity player, BlockState state)
+	public static boolean canHarvestBlock(BlockState state, PlayerEntity player)
 	{
 		if (state.getMaterial().isToolNotRequired())
 		{
 			return true;
 		}
 
-		ItemStack stack = player.inventory.getCurrentItem();
-		ToolType tool = block.getHarvestTool(state);
+		ItemStack stack = player.getHeldItemMainhand();
+		ToolType tool = state.getHarvestTool();
 		if (stack.isEmpty() || tool == null)
 		{
 			return player.canHarvestBlock(state);
@@ -101,6 +103,6 @@ public class BlockHelper
 			return player.canHarvestBlock(state);
 		}
 
-		return toolLevel >= block.getHarvestLevel(state);
+		return toolLevel >= state.getHarvestLevel();
 	}
 }
