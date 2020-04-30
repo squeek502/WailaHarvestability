@@ -5,11 +5,8 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.DoublePlantBlock;
 import net.minecraft.client.resources.I18n;
-import net.minecraft.enchantment.EnchantmentHelper;
-import net.minecraft.enchantment.Enchantments;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.BlockItem;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ShearsItem;
 import net.minecraft.util.ResourceLocation;
@@ -18,8 +15,6 @@ import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.TranslationTextComponent;
-import net.minecraft.world.World;
-import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.IShearable;
 import net.minecraftforge.common.ToolType;
 import squeek.wailaharvestability.helpers.*;
@@ -100,9 +95,9 @@ public class WailaHandler implements IComponentProvider, IWailaPlugin
 			boolean blockHasEffectiveTools = harvestLevel >= 0 && effectiveTool != null;
 
 			String shearability = getShearabilityString(player, state, pos, config);
-			String silkTouchability = getSilkTouchabilityString(player, state, pos, config);
+			//String silkTouchability = getSilkTouchabilityString(player, state, pos, config);
 
-			if (toolRequiredOnly && state.getMaterial().isToolNotRequired() && !blockHasEffectiveTools && shearability.isEmpty() && silkTouchability.isEmpty())
+			if (toolRequiredOnly && state.getMaterial().isToolNotRequired() && !blockHasEffectiveTools && shearability.isEmpty() /*&& silkTouchability.isEmpty()*/)
 				return;
 
 			boolean canHarvest = false;
@@ -125,10 +120,10 @@ public class WailaHandler implements IComponentProvider, IWailaPlugin
 
 			String currentlyHarvestable = showCurrentlyHarvestable ? ColorHelper.getBooleanColor(isCurrentlyHarvestable) + (isCurrentlyHarvestable ? Config.MAIN.currentlyHarvestableString.get() : Config.MAIN.notCurrentlyHarvestableString.get()) + " " + (!minimalLayout ? TextFormatting.RESET + I18n.format("wailaharvestability.currentlyharvestable") : "") : "";
 
-			if (!currentlyHarvestable.isEmpty() || !shearability.isEmpty() || !silkTouchability.isEmpty())
+			if (!currentlyHarvestable.isEmpty() || !shearability.isEmpty() /*|| !silkTouchability.isEmpty()*/)
 			{
-				String separator = (!shearability.isEmpty() || !silkTouchability.isEmpty() ? " " : "");
-				stringList.add(new StringTextComponent(currentlyHarvestable + separator + silkTouchability + (!silkTouchability.isEmpty() ? separator : "") + shearability));
+				String separator = (!shearability.isEmpty() /*|| !silkTouchability.isEmpty()*/ ? " " : "");
+				stringList.add(new StringTextComponent(currentlyHarvestable + separator /*+ silkTouchability + (!silkTouchability.isEmpty() ? separator : "")*/ + shearability));
 			}
 			if (harvestLevel != -1 && showEffectiveTool && effectiveTool != null)
 			{
@@ -179,28 +174,23 @@ public class WailaHandler implements IComponentProvider, IWailaPlugin
 		return "";
 	}
 
-	public String getSilkTouchabilityString(PlayerEntity player, BlockState state, BlockPos pos, IPluginConfig config)
+	/*public String getSilkTouchabilityString(PlayerEntity player, BlockState state, BlockPos pos, IPluginConfig config)
 	{
 		boolean isSneaking = player.isSneaking();
 		boolean showSilkTouchability = config.get(new ResourceLocation("harvestability", "silktouchability")) && (!config.get(new ResourceLocation("harvestability", "silktouchability.sneakingonly")) || isSneaking);
 
-		if (showSilkTouchability /*&& block.canSilkHarvest(player.world, pos, state, player)*/) //TODO
+		if (showSilkTouchability && block.canSilkHarvest(player.world, position, blockState, player))
 		{
-			World world = player.world;
-			if (world instanceof ServerWorld)
+			Item itemDropped = block.getItemDropped(blockState, new Random(), 0);
+			boolean silkTouchMatters = (itemDropped instanceof ItemBlock && itemDropped != Item.getItemFromBlock(block)) || block.quantityDropped(new Random()) <= 0;
+			if (silkTouchMatters)
 			{
-				List<ItemStack> drops = Block.func_220070_a(state, (ServerWorld) world, pos, null);
-				Item itemDropped = drops.get(0).getItem(); //TODO Test
-				boolean silkTouchMatters = (itemDropped instanceof BlockItem && itemDropped != state.getBlock().asItem()) || drops.size() <= 0; //TODO Test
-				if (silkTouchMatters)
-				{
-					boolean hasSilkTouch = EnchantmentHelper.getEnchantmentLevel(Enchantments.SILK_TOUCH, player.getHeldItemMainhand()) > 0;
-					return ColorHelper.getBooleanColor(hasSilkTouch) + Config.MAIN.silkTouchabilityString;
-				}
+				boolean hasSilkTouch = EnchantmentHelper.getEnchantmentLevel(Enchantments.SILK_TOUCH, player.getHeldItemMainhand()) > 0;
+				return ColorHelper.getBooleanColor(hasSilkTouch) + Config.SILK_TOUCHABILITY_STRING;
 			}
 		}
 		return "";
-	}
+	}*/
 
 	public static HashMap<ResourceLocation, Boolean> configOptions = new HashMap<>();
 	static
@@ -219,8 +209,8 @@ public class WailaHandler implements IComponentProvider, IWailaPlugin
 		configOptions.put(new ResourceLocation("harvestability", "toolrequiredonly"), true);
 		configOptions.put(new ResourceLocation("harvestability", "shearability"), true);
 		configOptions.put(new ResourceLocation("harvestability", "shearability.sneakingonly"), false);
-		configOptions.put(new ResourceLocation("harvestability", "silktouchability"), true);
-		configOptions.put(new ResourceLocation("harvestability", "silktouchability.sneakingonly"), false);
+		//configOptions.put(new ResourceLocation("harvestability", "silktouchability"), true);
+		//configOptions.put(new ResourceLocation("harvestability", "silktouchability.sneakingonly"), false);
 	}
 
 	@Override
