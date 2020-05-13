@@ -4,6 +4,7 @@ import mcp.mobius.waila.api.*;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.DoublePlantBlock;
+import net.minecraft.block.SilverfishBlock;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
@@ -32,6 +33,15 @@ public class WailaHandler implements IComponentProvider, IWailaPlugin
 		BlockState state = accessor.getBlockState();
 		ItemStack stack = accessor.getStack();
 		PlayerEntity player = accessor.getPlayer();
+
+		// Disguised (silverfish) blocks have their mimickedBlock given as the stack when Waila's
+		// 'hide diguised blocks' option is enabled, so we should get the BlockState from that instead
+		if (accessor.getBlock() instanceof SilverfishBlock)
+		{
+			Block stackBlock = Block.getBlockFromItem(stack.getItem());
+			if (stackBlock != accessor.getBlock())
+				state = stackBlock.getDefaultState();
+		}
 
 		boolean minimalLayout = config.get(new ResourceLocation("harvestability", "minimal"), false);
 
