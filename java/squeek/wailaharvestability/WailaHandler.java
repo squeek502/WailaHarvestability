@@ -6,7 +6,6 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.DoublePlantBlock;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.BlockItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ShearsItem;
 import net.minecraft.util.ResourceLocation;
@@ -18,8 +17,6 @@ import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.common.IShearable;
 import net.minecraftforge.common.ToolType;
 import squeek.wailaharvestability.helpers.*;
-import squeek.wailaharvestability.proxy.ProxyCreativeBlocks;
-import squeek.wailaharvestability.proxy.ProxyGregTech;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -35,14 +32,6 @@ public class WailaHandler implements IComponentProvider, IWailaPlugin
 		BlockState state = accessor.getBlockState();
 		ItemStack stack = accessor.getStack();
 		PlayerEntity player = accessor.getPlayer();
-
-		if (ProxyCreativeBlocks.isCreativeBlock(state.getBlock())) return;
-
-		// for disguised blocks
-		if (!ProxyGregTech.isOreBlock(state.getBlock()) && stack.getItem() instanceof BlockItem)
-		{
-			state = Block.getBlockFromItem(stack.getItem()).getDefaultState();
-		}
 
 		boolean minimalLayout = config.get(new ResourceLocation("harvestability", "minimal"), false);
 
@@ -95,9 +84,8 @@ public class WailaHandler implements IComponentProvider, IWailaPlugin
 			boolean blockHasEffectiveTools = harvestLevel >= 0 && effectiveTool != null;
 
 			String shearability = getShearabilityString(player, state, pos, config);
-			//String silkTouchability = getSilkTouchabilityString(player, state, pos, config);
 
-			if (toolRequiredOnly && state.getMaterial().isToolNotRequired() && !blockHasEffectiveTools && shearability.isEmpty() /*&& silkTouchability.isEmpty()*/)
+			if (toolRequiredOnly && state.getMaterial().isToolNotRequired() && !blockHasEffectiveTools && shearability.isEmpty())
 				return;
 
 			boolean canHarvest = false;
@@ -120,10 +108,10 @@ public class WailaHandler implements IComponentProvider, IWailaPlugin
 
 			String currentlyHarvestable = showCurrentlyHarvestable ? ColorHelper.getBooleanColor(isCurrentlyHarvestable) + (isCurrentlyHarvestable ? Config.MAIN.currentlyHarvestableString.get() : Config.MAIN.notCurrentlyHarvestableString.get()) + " " + (!minimalLayout ? TextFormatting.RESET + I18n.format("wailaharvestability.currentlyharvestable") : "") : "";
 
-			if (!currentlyHarvestable.isEmpty() || !shearability.isEmpty() /*|| !silkTouchability.isEmpty()*/)
+			if (!currentlyHarvestable.isEmpty() || !shearability.isEmpty())
 			{
-				String separator = (!shearability.isEmpty() /*|| !silkTouchability.isEmpty()*/ ? " " : "");
-				stringList.add(new StringTextComponent(currentlyHarvestable + separator /*+ silkTouchability + (!silkTouchability.isEmpty() ? separator : "")*/ + shearability));
+				String separator = (!shearability.isEmpty() ? " " : "");
+				stringList.add(new StringTextComponent(currentlyHarvestable + separator + shearability));
 			}
 			if (harvestLevel != -1 && showEffectiveTool && effectiveTool != null)
 			{
@@ -174,24 +162,6 @@ public class WailaHandler implements IComponentProvider, IWailaPlugin
 		return "";
 	}
 
-	/*public String getSilkTouchabilityString(PlayerEntity player, BlockState state, BlockPos pos, IPluginConfig config)
-	{
-		boolean isSneaking = player.isSneaking();
-		boolean showSilkTouchability = config.get(new ResourceLocation("harvestability", "silktouchability")) && (!config.get(new ResourceLocation("harvestability", "silktouchability.sneakingonly")) || isSneaking);
-
-		if (showSilkTouchability && block.canSilkHarvest(player.world, position, blockState, player))
-		{
-			Item itemDropped = block.getItemDropped(blockState, new Random(), 0);
-			boolean silkTouchMatters = (itemDropped instanceof ItemBlock && itemDropped != Item.getItemFromBlock(block)) || block.quantityDropped(new Random()) <= 0;
-			if (silkTouchMatters)
-			{
-				boolean hasSilkTouch = EnchantmentHelper.getEnchantmentLevel(Enchantments.SILK_TOUCH, player.getHeldItemMainhand()) > 0;
-				return ColorHelper.getBooleanColor(hasSilkTouch) + Config.SILK_TOUCHABILITY_STRING;
-			}
-		}
-		return "";
-	}*/
-
 	public static HashMap<ResourceLocation, Boolean> configOptions = new HashMap<>();
 	static
 	{
@@ -209,8 +179,6 @@ public class WailaHandler implements IComponentProvider, IWailaPlugin
 		configOptions.put(new ResourceLocation("harvestability", "toolrequiredonly"), true);
 		configOptions.put(new ResourceLocation("harvestability", "shearability"), true);
 		configOptions.put(new ResourceLocation("harvestability", "shearability.sneakingonly"), false);
-		//configOptions.put(new ResourceLocation("harvestability", "silktouchability"), true);
-		//configOptions.put(new ResourceLocation("harvestability", "silktouchability.sneakingonly"), false);
 	}
 
 	@Override

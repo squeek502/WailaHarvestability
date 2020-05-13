@@ -30,9 +30,4 @@ public class ModWailaHarvestability
 	{
 
 	}
-
-	/*public void preInit(FMLPreInitializationEvent event) //TODO
-	{
-		FMLInterModComms.sendMessage("VersionChecker", "addVersionCheck", "http://www.ryanliptak.com/minecraft/versionchecker/squeek502/WailaHarvestability");
-	}*/
 }
