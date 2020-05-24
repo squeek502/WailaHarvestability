@@ -27,10 +27,6 @@ public class Config
 		private static final String SHEARABILITY_STRING_NAME = "shearability string";
 		private static final String SHEARABILITY_STRING_DEFAULT = "\u2702";
 
-		public ForgeConfigSpec.ConfigValue<String> silkTouchabilityString;
-		private static final String SILK_TOUCHABILITY_STRING_NAME = "silk touchability string";
-		private static final String SILK_TOUCHABILITY_STRING_DEFAULT = "\u2712";
-
 		public ForgeConfigSpec.BooleanValue harvestLevelTooltip;
 		private static final String HARVEST_LEVEL_TOOLTIP_NAME = "harvest level tooltip";
 
@@ -41,7 +37,6 @@ public class Config
 			currentlyHarvestableString = builder.define(CURRENTLY_HARVESTABLE_STRING_NAME, CURRENTLY_HARVESTABLE_STRING_DEFAULT);
 			notCurrentlyHarvestableString = builder.define(NOT_CURRENTLY_HARVESTABLE_STRING_NAME, NOT_CURRENTLY_HARVESTABLE_STRING_DEFAULT);
 			shearabilityString = builder.define(SHEARABILITY_STRING_NAME, SHEARABILITY_STRING_DEFAULT);
-			//silkTouchabilityString = builder.define(SILK_TOUCHABILITY_STRING_NAME, SILK_TOUCHABILITY_STRING_DEFAULT);
 			harvestLevelTooltip = builder.define(HARVEST_LEVEL_TOOLTIP_NAME, false);
 			builder.pop();
 		}
