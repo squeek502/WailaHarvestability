@@ -15,7 +15,7 @@ import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.TranslationTextComponent;
-import net.minecraftforge.common.IShearable;
+import net.minecraftforge.common.IForgeShearable;
 import net.minecraftforge.common.ToolType;
 import squeek.wailaharvestability.helpers.*;
 
@@ -81,7 +81,7 @@ public class WailaHandler implements IComponentProvider, IWailaPlugin
 
 			if (BlockHelper.isAdventureModeAndBlockIsUnbreakable(player, pos) || BlockHelper.isBlockUnbreakable(player.world, pos, state))
 			{
-				ITextComponent unbreakableString = new StringTextComponent(ColorHelper.getBooleanColor(false)).appendText(Config.MAIN.notCurrentlyHarvestableString.get()).appendText(" ").appendSibling(!minimalLayout ? new TranslationTextComponent("wailaharvestability.harvestable").applyTextStyle(TextFormatting.RESET) : new StringTextComponent(""));
+				ITextComponent unbreakableString = new StringTextComponent(ColorHelper.getBooleanColor(false)).func_240702_b_(Config.MAIN.notCurrentlyHarvestableString.get()).func_240702_b_(" ").func_230529_a_(!minimalLayout ? new TranslationTextComponent("wailaharvestability.harvestable").func_240699_a_(TextFormatting.RESET) : new StringTextComponent(""));
 				stringList.add(unbreakableString);
 				return;
 			}
@@ -95,7 +95,7 @@ public class WailaHandler implements IComponentProvider, IWailaPlugin
 
 			String shearability = getShearabilityString(player, state, pos, config);
 
-			if (toolRequiredOnly && state.getMaterial().isToolNotRequired() && !blockHasEffectiveTools && shearability.isEmpty())
+			if (toolRequiredOnly && state.func_235783_q_() && !blockHasEffectiveTools && shearability.isEmpty())
 				return;
 
 			boolean canHarvest = false;
@@ -134,7 +134,7 @@ public class WailaHandler implements IComponentProvider, IWailaPlugin
 					String effectiveToolName = effectiveTool.getName();
 					effectiveToolString = effectiveToolName.substring(0, 1).toUpperCase() + effectiveToolName.substring(1);
 				}
-				stringList.add(new TranslationTextComponent(!minimalLayout ? "wailaharvestability.effectivetool" : "").appendText(" ").appendText(ColorHelper.getBooleanColor(isEffective && (!isHoldingTinkersTool || canHarvest), isHoldingTinkersTool && isEffective && !canHarvest) + effectiveToolString));
+				stringList.add(new TranslationTextComponent(!minimalLayout ? "wailaharvestability.effectivetool" : "").func_240702_b_(" ").func_240702_b_(ColorHelper.getBooleanColor(isEffective && (!isHoldingTinkersTool || canHarvest), isHoldingTinkersTool && isEffective && !canHarvest) + effectiveToolString));
 			}
 			if (harvestLevel >= 1 && (showHarvestLevel || showHarvestLevelNum))
 			{
@@ -150,7 +150,7 @@ public class WailaHandler implements IComponentProvider, IWailaPlugin
 				else if (showHarvestLevelNum)
 					harvestLevelString = harvestLevelNum;
 
-				stringList.add(new TranslationTextComponent(!minimalLayout ? "wailaharvestability.harvestlevel" : "").appendText(" ").appendText(ColorHelper.getBooleanColor(isAboveMinHarvestLevel && canHarvest) + harvestLevelString));
+				stringList.add(new TranslationTextComponent(!minimalLayout ? "wailaharvestability.harvestlevel" : "").func_240702_b_(" ").func_240702_b_(ColorHelper.getBooleanColor(isAboveMinHarvestLevel && canHarvest) + harvestLevelString));
 			}
 		}
 	}
@@ -161,12 +161,12 @@ public class WailaHandler implements IComponentProvider, IWailaPlugin
 		boolean showShearability = config.get(new ResourceLocation("harvestability", "shearability")) && (!config.get(new ResourceLocation("harvestability", "shearability.sneakingonly")) || isSneaking);
 
 		boolean isDoublePlant = state.getBlock() instanceof DoublePlantBlock; //Special case for DoublePlantBlock, as it does not implement IShearable currently
-		boolean canBeSheared = state.getBlock() instanceof IShearable || isDoublePlant;
+		boolean canBeSheared = state.getBlock() instanceof IForgeShearable || isDoublePlant;
 		if (showShearability && canBeSheared)
 		{
 			ItemStack heldStack = player.getHeldItemMainhand();
 			boolean isHoldingShears = !heldStack.isEmpty() && heldStack.getItem() instanceof ShearsItem;
-			boolean isShearable = isHoldingShears && (isDoublePlant || ((IShearable) state.getBlock()).isShearable(heldStack, player.world, pos));
+			boolean isShearable = isHoldingShears && (isDoublePlant || ((IForgeShearable) state.getBlock()).isShearable(heldStack, player.world, pos));
 			return ColorHelper.getBooleanColor(isShearable, !isShearable && isHoldingShears) + Config.MAIN.shearabilityString.get();
 		}
 		return "";

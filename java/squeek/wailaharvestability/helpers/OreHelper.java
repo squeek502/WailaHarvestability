@@ -18,7 +18,7 @@ public class OreHelper
 		}
 
 		// ore in the display name (but not part of another word)
-		if (stack.getDisplayName().getFormattedText().matches(".*(^|\\s)([oO]re)($|\\s).*"))
+		if (stack.getDisplayName().getString().matches(".*(^|\\s)([oO]re)($|\\s).*"))
 			return true;
 
 		// ore as the start of the unlocalized name

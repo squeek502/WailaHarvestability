@@ -1,5 +1,6 @@
 modLoader="javafml"
-loaderVersion="[30,)"
+loaderVersion="[32,)"
+license="The Unlicense"
 
 [[mods]]
     modId="wailaharvestability"
@@ -14,9 +15,16 @@ loaderVersion="[30,)"
     '''
 
 [[dependencies.wailaharvestability]]
+    modId="waila"
+    mandatory=true
+    versionRange="[1.10,)"
+    ordering="AFTER"
+    side="BOTH"
+
+[[dependencies.wailaharvestability]]
     modId="forge"
     mandatory=true
-    versionRange="[30,)"
+    versionRange="[32.0.91,)"
     ordering="AFTER"
     side="BOTH"
 

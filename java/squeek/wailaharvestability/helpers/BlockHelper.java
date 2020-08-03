@@ -85,7 +85,7 @@ public class BlockHelper
 	 */
 	public static boolean canHarvestBlock(BlockState state, PlayerEntity player)
 	{
-		if (state.getMaterial().isToolNotRequired())
+		if (state.func_235783_q_())
 		{
 			return true;
 		}
@@ -94,13 +94,13 @@ public class BlockHelper
 		ToolType tool = state.getHarvestTool();
 		if (stack.isEmpty() || tool == null)
 		{
-			return player.canHarvestBlock(state);
+			return player.func_234569_d_(state);
 		}
 
 		int toolLevel = stack.getItem().getHarvestLevel(stack, tool, player, state);
 		if (toolLevel < 0)
 		{
-			return player.canHarvestBlock(state);
+			return player.func_234569_d_(state);
 		}
 
 		return toolLevel >= state.getHarvestLevel();
