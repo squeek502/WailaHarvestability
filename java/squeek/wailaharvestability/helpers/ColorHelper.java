@@ -4,7 +4,7 @@ import net.minecraft.util.text.TextFormatting;
 
 public class ColorHelper
 {
-	private static final TextFormatting colorRange[] = {
+	private static final TextFormatting[] colorRange = {
 		TextFormatting.DARK_RED,
 		TextFormatting.RED,
 		TextFormatting.GOLD,
@@ -14,7 +14,7 @@ public class ColorHelper
 		TextFormatting.AQUA
 	};
 
-	private static final TextFormatting booleanColorRange[] = {
+	private static final TextFormatting[] booleanColorRange = {
 		TextFormatting.DARK_RED,
 		TextFormatting.RED,
 		TextFormatting.DARK_GREEN,

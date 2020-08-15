@@ -21,7 +21,7 @@ public class TooltipHandler
         {
             int harvestLevel = ToolHelper.getToolHarvestLevel(((ToolItem) item), event.getItemStack());
             String harvestName = StringHelper.getHarvestLevelName(harvestLevel);
-            event.getToolTip().add(new TranslationTextComponent("wailaharvestability.harvestlevel").func_240702_b_(harvestName));
+            event.getToolTip().add(new TranslationTextComponent("wailaharvestability.harvestlevel").appendString(harvestName));
         }
     }
 }

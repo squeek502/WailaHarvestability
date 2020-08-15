@@ -85,7 +85,7 @@ public class BlockHelper
 	 */
 	public static boolean canHarvestBlock(BlockState state, PlayerEntity player)
 	{
-		if (state.func_235783_q_())
+		if (!state.getRequiresTool())
 		{
 			return true;
 		}

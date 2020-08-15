@@ -62,7 +62,7 @@ sourceSets.main.resources.srcDirs += 'resources'
 
 dependencies {
     minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
-    compile fg.deobf("mcp.mobius.waila:Hwyla:${hwyla_version}_${minecraft_version}")
+    compile fg.deobf("mcp.mobius.waila:Hwyla:${hwyla_version}_1.16.1")
 }
 
 jar {
