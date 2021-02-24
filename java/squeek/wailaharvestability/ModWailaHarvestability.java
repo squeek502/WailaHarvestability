@@ -23,7 +23,7 @@ public class ModWailaHarvestability
 		modBus.addListener(this::setupClient);
 		modBus.addListener(this::setupCommon);
 		ModLoadingContext.get().registerExtensionPoint(ExtensionPoint.DISPLAYTEST, () -> Pair.of(() -> FMLNetworkConstants.IGNORESERVERONLY, (a, b) -> true));
-	    ModLoadingContext.get().registerConfig(ModConfig.Type.CLIENT, Config.spec);
+		ModLoadingContext.get().registerConfig(ModConfig.Type.CLIENT, Config.spec);
 	}
 
 	private void setupClient(FMLClientSetupEvent event)
