@@ -31,5 +31,6 @@ license="The Unlicense"
 [[dependencies.wailaharvestability]]
     modId="tconstruct"
     mandatory=false
+    versionRange="[3.0.2.73,)"
     ordering="AFTER"
     side="BOTH"
